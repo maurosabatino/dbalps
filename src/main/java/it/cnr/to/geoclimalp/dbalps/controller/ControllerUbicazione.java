@@ -18,14 +18,14 @@ public class ControllerUbicazione {
     LocazioneIdrologica locIdro = new LocazioneIdrologica();
     if (!(request.getParameter("longitudine") == null)) {
       if (!(request.getParameter("longitudine").equals(""))) {
-        Double x = Double.parseDouble(request.getParameter("longitudine"));
-        coord.setX(x);
+        Double y = Double.parseDouble(request.getParameter("longitudine"));
+        coord.setY(y);
       }
     }
     if (!(request.getParameter("latitudine") == null)) {
       if (!(request.getParameter("latitudine").equals(""))) {
-        Double y = Double.parseDouble(request.getParameter("latitudine"));
-        coord.setY(y);
+        Double x = Double.parseDouble(request.getParameter("latitudine"));
+        coord.setX(x);
       }
     }
     u.setCoordinate(coord);
