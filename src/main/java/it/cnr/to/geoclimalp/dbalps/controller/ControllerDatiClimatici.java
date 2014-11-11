@@ -69,16 +69,6 @@ public class ControllerDatiClimatici {
 		Calendar cal=new GregorianCalendar();
 		cal.setTime(t);
 		anno=cal.get(Calendar.YEAR);
-		/*System.out.println("anno:"+anno);
-		Connection conn = DriverManager.getConnection(url,user,pwd);
-		Statement st = conn.createStatement();
-		ArrayList<Double> tem= new ArrayList<Double>();
-		ResultSet rs=st.executeQuery("select count(distinct date_part('year',data) ) from temperatura_avg where date_part('year',data)<"+anno+" and idstazionemetereologica="+id+"" );
-		while(rs.next()) anno=rs.getInt("count");
-		System.out.println("anno meno 1="+anno);
-		anno=anno+1;
-		rs.close();
-		st.close();*/
 		return anno;
 	}
 	
