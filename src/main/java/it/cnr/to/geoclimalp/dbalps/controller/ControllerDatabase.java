@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PushbackReader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,17 +15,12 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.servlet.http.Part;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.postgresql.copy.CopyManager;
-import org.postgresql.jdbc2.EscapedFunctions;
 
 import it.cnr.to.geoclimalp.dbalps.bean.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
@@ -713,26 +706,15 @@ public class ControllerDatabase {
 			}else{
 				st.executeUpdate("delete from caratteristiche_processo where idprocesso = "+p.getIdProcesso()+"" );
 			}
-		
+                        
+                        			st.close();
+                                                conn.close();
+                       
 			if(p.getUbicazione()!=null){
-                            Ubicazione u = p.getUbicazione();
-                            String ubicazionesql = "update ubicazione set esposizione=?,affidabilita=?,quota=?,idcomune=?,idsottobacino=? where idubicazione=? ";
-                            ps = conn.prepareStatement(ubicazionesql);
-                            ps.setString(1, u.getEsposizione());
-                            ps.setString(2, u.getAttendibilita());
-                            ps.setDouble(3, u.getQuota());
-                           
-                            if(u.getLocAmm().getIdComune()==0) ps.setNull(4, Types.INTEGER);
-                            else ps.setInt(4, u.getLocAmm().getIdComune());
-                            if(u.getLocIdro().getIdSottobacino()==0) ps.setNull(5, Types.INTEGER);
-                            else ps.setInt(5, u.getLocIdro().getIdSottobacino());
-                            ps.setInt(6, u.getIdUbicazione());
-                            System.out.println("query update ubicazione; "+ps.toString());
-                            ps.executeUpdate();
+                            modificaUbicazione(p.getUbicazione());
 			}
 
-			st.close();
-			conn.close();
+			
 			
 		}
 		public static void eliminaProcesso(int idProcesso,int idUbicazione) throws SQLException{
@@ -1146,7 +1128,7 @@ public class ControllerDatabase {
 		st.close();
 		conn.close();
 	}
-
+//modificato
 	public static ArrayList<StazioneMetereologica> prendiTutteStazioniMetereologiche() throws SQLException{
 		ArrayList<StazioneMetereologica> al = new ArrayList<StazioneMetereologica>();
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
@@ -1172,8 +1154,8 @@ public class ControllerDatabase {
 			s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
 			s.setNote(rs.getString("note"));
 		//	s.setOraria(rs.getBoolean("oraria"));
-			s.setDataInizio(rs.getDate("datainizio"));
-			s.setDataFine(rs.getDate("datafine"));
+			s.setDataInizio(rs.getString("datainizio"));
+			s.setDataFine(rs.getString("datafine"));
 			s.setNome(rs.getString("nome"));
 			coord.setX(rs.getDouble("x"));
 			coord.setY(rs.getDouble("y"));
@@ -1227,15 +1209,16 @@ public class ControllerDatabase {
 		Coordinate coord = new Coordinate();
 		LocazioneAmministrativa locAmm = new LocazioneAmministrativa();
 		LocazioneIdrologica locIdro = new LocazioneIdrologica();
+                
 		while(rs.next()){
 			s.setIdStazioneMetereologica(idStazioneMetereologica);
 			s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
 			s.setNote(rs.getString("note"));
 			//System.out.println("note "+rs.getString("note"));
 			//s.setOraria(rs.getBoolean("oraria"));
-			if(rs.getDate("datainizio")!=null)	s.setDataInizio(rs.getDate("datainizio"));
-			else System.out.println("data nulla="+rs.getDate("datainizio"));
-			if(rs.getDate("datafine")!=null)	s.setDataFine(rs.getDate("datafine"));
+			if(rs.getString("datainizio")!=null)	s.setDataInizio(rs.getString("datainizio"));
+			
+			if(rs.getString("datafine")!=null)	s.setDataFine(rs.getString("datafine"));
 			s.setNome(rs.getString("nome"));
 			coord.setX(rs.getDouble("x"));
 			coord.setY(rs.getDouble("y"));
@@ -1316,72 +1299,29 @@ public class ControllerDatabase {
 		Statement st = conn.createStatement();
 		StringBuilder sb = new StringBuilder();
 		StringBuilder su = new StringBuilder();
-		sb.append("update stazione_metereologica set ");
-		if(!(s.getNome()==null || s.getNome().equals(""))){
-			sb.append("nome = '"+s.getNome()+"',");
-		}
-		if(!(s.getAggregazioneGiornaliera()==null || s.getAggregazioneGiornaliera().equals(""))){
-			sb.append("aggregazionegiornaliera = '"+s.getAggregazioneGiornaliera()+"',");
-		}
-		//ResultSet rs = st.executeQuery("SELECT idente FROM stazione_metereologica where idstazionemetereologica="+s.getIdStazioneMetereologica()+"");
-	/*	while(rs.next()){
-			ente = (rs.getInt("idente"));
-		}*/
-		if(!(enteVecchio.equals(s.getEnte().getEnte())) && !(enteVecchio.equals("null")) ) sb.append("note = 'stazione passata da "+enteVecchio+"a "+s.ente.getEnte()+". "+s.getNote()+" ',"); 
-		else   sb.append("note = '"+s.getNote()+"' ,");
-		if(!(s.getDataInizio()==null)){
-			sb.append("datainizio= '"+s.getDataInizio()+"' ,");
-		}
-		if(!(s.getDataFine()==null)){
-			sb.append("dataFine= '"+s.getDataFine()+"' ,");
-		}
-	
-		
-		if(!(s.sito.getIdSitoStazioneMetereologica()==0)){
-			sb.append("idsitostazione="+s.sito.getIdSitoStazioneMetereologica()+",");
-		}
-		if(!(s.ente.getIdEnte()==0)){
-			sb.append("idente ="+s.ente.getIdEnte()+",");   //?
-		}
-		
-		if(!(s.getIdUtente()==0)){
-			sb.append("idutentecreatore="+s.getIdUtente());
-		}
-		
-		sb.append("where idStazioneMetereologica="+idStazione);
-		System.out.println("query: "+sb.toString());
-		st.executeUpdate(""+sb.toString());
+                String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?"
+                                + "where idStazioneMetereologica= ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                
+                ps.setString(1,s.getNome());
+                ps.setString(2,s.getAggregazioneGiornaliera());		
+		if(!(enteVecchio.equals(s.getEnte().getEnte())) && !(enteVecchio.equals("null")) ) ps.setString(3," stazione passata da "+enteVecchio+"a "+s.ente.getEnte()+". "+s.getNote()+" "); 
+		else   ps.setString(3,""+s.getNote()+"");
+		ps.setString(4,s.getDataInizio());
+                ps.setString(5,s.getDataFine());
+                if( s.sito.getIdSitoStazioneMetereologica()!=0)
+                ps.setInt(6, s.sito.getIdSitoStazioneMetereologica());
+                else  ps.setNull(6, Types.INTEGER);
+                if( s.ente.getIdEnte()!=0)
+                ps.setInt(7,s.ente.getIdEnte());
+                else ps.setNull(7, Types.INTEGER);
+		ps.setInt(8, s.getIdUtente());
+                System.out.println("id stazione"+s.getIdStazioneMetereologica());
+                ps.setInt(9,s.getIdStazioneMetereologica());
+		System.out.println("query: "+ps.toString());
+		ps.executeUpdate();
 
-		/*
-		 * modifica dell'ubicazione
-		 */
-		if(s.getUbicazione()!=null){
-			su.append("update ubicazione set ");
-			if(!(s.getUbicazione().getEsposizione()==null || s.getUbicazione().getEsposizione().equals(""))){
-				su.append("esposizione = '"+s.getUbicazione().getEsposizione()+"',");
-			}
-			if(!(s.getUbicazione().getAttendibilita()==null || s.getUbicazione().getAttendibilita().equals(""))){
-				su.append("affidabilita = '"+s.getUbicazione().getAttendibilita()+"'");
-			}
-			if(!(s.getUbicazione().getQuota()==null || s.getUbicazione().getQuota()==0)){
-				su.append("quota = "+s.getUbicazione().getQuota()+",");
-			}
-			if(!(s.getUbicazione().getCoordinate().getX()==null || s.getUbicazione().getCoordinate().getX()==0)){
-
-			if(!(s.getUbicazione().getCoordinate().getY()==null || s.getUbicazione().getCoordinate().getY()==0))
-
-				su.append("coordinate = 'POINT("+s.getUbicazione().getCoordinate().getX()+" "+s.getUbicazione().getCoordinate().getY()+")',");
-			}
-			if(s.getUbicazione().getLocAmm()!=null){
-				su.append("idcomune ="+s.getUbicazione().getLocAmm().getIdComune()+",");
-			}
-			if(s.getUbicazione().getLocIdro()!=null){
-				su.append("idsottobacino =1");
-			}
-			su.append(" where idubicazione="+s.getUbicazione().getIdUbicazione());
-			System.out.println(su.toString());
-			st.executeUpdate(""+su.toString());
-		}
+		
 		
 		
 		/*
@@ -1395,8 +1335,15 @@ public class ControllerDatabase {
 				}catch(SQLException e){System.out.println("sensore esistente");}
 			}			
 		}
-		st.close();
+                st.close();
 		conn.close();
+                /*
+		 * modifica dell'ubicazione
+		 */
+		if(s.getUbicazione()!=null){
+			modificaUbicazione(s.getUbicazione());
+		}
+		
 	}
 	
 	public static void salvaSensoriStazione(StazioneMetereologica s) throws SQLException{
@@ -1600,8 +1547,8 @@ public class ControllerDatabase {
 			sm.setIdStazioneMetereologica(rs.getInt("idStazioneMetereologica"));
 			sm.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
 			sm.setNote(rs.getString("note"));
-			sm.setDataInizio(rs.getDate("datainizio"));
-			sm.setDataFine(rs.getDate("datafine"));
+			sm.setDataInizio(rs.getString("datainizio"));
+			sm.setDataFine(rs.getString("datafine"));
 			sm.setNome(rs.getString("nome"));
 			coord.setX(rs.getDouble("x"));
 			coord.setY(rs.getDouble("y"));
@@ -1810,6 +1757,31 @@ public class ControllerDatabase {
 		conn.close();		
 		return u;
 	}
+        
+        public static void modificaUbicazione(Ubicazione u)throws SQLException{
+                          Connection conn = DriverManager.getConnection(url,usr,pwd);
+			Statement st = conn.createStatement();
+                       
+
+                            String ubicazionesql = "update ubicazione set esposizione=?,affidabilita=?,quota=?,idcomune=?,idsottobacino=? where idubicazione=? ";
+                          PreparedStatement ps = conn.prepareStatement(ubicazionesql);
+                            ps = conn.prepareStatement(ubicazionesql);
+                            ps.setString(1, u.getEsposizione());
+                            ps.setString(2, u.getAttendibilita());
+                            ps.setDouble(3, u.getQuota());
+                           
+                            if(u.getLocAmm().getIdComune()==0) ps.setNull(4, Types.INTEGER);
+                            else ps.setInt(4, u.getLocAmm().getIdComune());
+                            if(u.getLocIdro().getIdSottobacino()==0) ps.setNull(5, Types.INTEGER);
+                            else ps.setInt(5, u.getLocIdro().getIdSottobacino());
+                            ps.setInt(6, u.getIdUbicazione());
+                            System.out.println("query update ubicazione; "+ps.toString());
+                            ps.executeUpdate();
+                            System.out.println("update ubicazione set coordinate="+u.getCoordinate().toDB()+" WHERE idUbicazione="+u.getIdUbicazione()+" ");
+			st.executeUpdate("update ubicazione set coordinate="+u.getCoordinate().toDB()+" WHERE idUbicazione="+u.getIdUbicazione()+" ");
+                        st.close();
+			conn.close();
+        }
 	
 	public static Ubicazione prendiUbicazione(int idUbicazione) throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);

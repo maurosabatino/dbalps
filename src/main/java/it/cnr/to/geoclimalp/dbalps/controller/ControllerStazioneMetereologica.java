@@ -3,7 +3,6 @@ package it.cnr.to.geoclimalp.dbalps.controller;
 
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -12,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
+import static java.lang.Integer.parseInt;
 
-
+// modificato
 public class ControllerStazioneMetereologica {
 	
 	public static StazioneMetereologica creaStazioneMetereologica(HttpServletRequest request) throws ParseException{
@@ -25,12 +25,12 @@ public class ControllerStazioneMetereologica {
 		s.setNote(request.getParameter("note"));
 		if(!(request.getParameter("datainizio").equals(""))){
 			String dataInizio = request.getParameter("datainizio");
-			s.setDataInizio(Timestamp.valueOf(""+dataInizio+" "+ora+""));
+			s.setDataInizio(dataInizio);
 		}else s.setDataInizio(null);
 		
 		if(!(request.getParameter("datafine").equals(""))){ 
 			String fine=request.getParameter("datafine");
-			s.setDataFine(Timestamp.valueOf(""+fine+" "+ora+""));
+			s.setDataFine(fine);
 		}else s.setDataFine(null);
 		
 		
@@ -40,7 +40,7 @@ public class ControllerStazioneMetereologica {
 	public static StazioneMetereologica nuovaStazioneMetereologica(HttpServletRequest request,String loc,Ubicazione u,Utente part) throws SQLException, ParseException{
 		StazioneMetereologica s= creaStazioneMetereologica(request);
 		s.setUbicazione(u);
-
+                
 		
 		if(!(request.getParameter("idsitostazione").equals(""))){
 		SitoStazioneMetereologica sito=creaSitoStazione(request,loc);

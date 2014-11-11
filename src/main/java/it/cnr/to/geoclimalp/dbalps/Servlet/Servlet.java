@@ -48,6 +48,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
 
 
 import it.cnr.to.geoclimalp.dbalps.controller.*;
+import static java.lang.Integer.parseInt;
 
 
 
@@ -338,6 +339,7 @@ public class Servlet extends HttpServlet {
 			Utente part = (Utente)session.getAttribute("partecipante");
 
 			StazioneMetereologica s=ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc,u,part);
+                        s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
 			String enteVecchio=request.getParameter("enteVecchio");
 			int idStazione=Integer.parseInt(request.getParameter("idStazione"));
 			System.out.println("id5= "+s.getUbicazione().getIdUbicazione());
@@ -655,9 +657,9 @@ public class Servlet extends HttpServlet {
 				content += HTMLUtente.visualizzaUtente(utente);
 				c.setContent(content);
 				request.setAttribute("HTMLc",c);
-				forward(request,response,"/utente.jsp");
+				forward(request,response,"/index.jsp");
 			}else{
-				String content ="<h2>spiacente, il login non � corretto</h2>";
+				String content ="<h2>spiacente, il login non  è corretto</h2>";
 				HTMLContent c = new HTMLContent();
 				c.setContent(content);
 				request.setAttribute("HTMLc",c);

@@ -1,14 +1,7 @@
 package it.cnr.to.geoclimalp.dbalps.bean.stazione;
 
-import java.sql.Connection;
-import java.util.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
 
 public class StazioneMetereologica {
@@ -20,8 +13,8 @@ public class StazioneMetereologica {
 	public String nome;
 	public String aggregazioneGiornaliera;
 	public String note;
-	public Date dataInizio;
-	public Date dataFine;
+	public String dataInizio;
+	public String dataFine;
 	public boolean oraria;
 	public int idUtente;
 	
@@ -104,17 +97,17 @@ public class StazioneMetereologica {
 		return out;
 	}
 	
-	public Date getDataInizio(){
+	public String getDataInizio(){
 		return dataInizio;
 	}
-	public void setDataInizio(Date data){
+	public void setDataInizio(String data){
 		this.dataInizio=data;
 	}
 	
-	public Date getDataFine(){
+	public String getDataFine(){
 		return dataFine;
 	}
-	public void setDataFine(Date data){
+	public void setDataFine(String data){
 		this.dataFine=data;
 	}
 	

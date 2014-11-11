@@ -1,10 +1,11 @@
 package it.cnr.to.geoclimalp.dbalps.html;
 
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
 import it.cnr.to.geoclimalp.dbalps.controller.*;
 
@@ -137,8 +138,8 @@ public class HTMLStazioneMetereologica {
 		
 		sb.append("<br>");
 		
-			sb.append(	"			<input type=\"hidden\" name=\"operazione\" value=\"inserisciStazione\">" );
-			sb.append(	"			<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+			sb.append("<input type=\"hidden\" name=\"operazione\" value=\"inserisciStazione\">" );
+			sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
 			sb.append("</div>");
 			sb.append(	"		</form>");}
 		else {
@@ -147,23 +148,13 @@ public class HTMLStazioneMetereologica {
 		return sb.toString();
 	}
 	
-	
+	//modificato
 	public static String modificaStazioneMetereologica(StazioneMetereologica s,String path,Utente part) throws SQLException {
 		StringBuilder sb = new StringBuilder();
 		String loc ="IT";
 		Calendar inizio = new GregorianCalendar();
-		System.out.println("data inizio2"+s.getDataInizio());
 		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))) {
-		if(s.getDataInizio()!=null) {
-			inizio.setTime(s.getDataInizio());
-			inizio.add(Calendar.MONTH, 1);
-		}
 		
-		Calendar fine = new GregorianCalendar();
-		if(s.getDataFine()!=null) {
-			fine.setTime(s.getDataFine());
-			fine.add(Calendar.MONTH, 1);
-		}
 		
 		sb.append(HTMLScript.scriptData("datainizio"));
 		sb.append(HTMLScript.scriptData("datafine"));
@@ -196,8 +187,8 @@ public class HTMLStazioneMetereologica {
 		if(s.getEnte().getEnte()!=null) temp=s.getEnte().getEnte();
 		else temp="";
 		System.out.println("Ente: "+temp);
-		sb.append("<div class=\"col-xs-9 col-md-9\"><label for=\"ente\"> Ente:<input type=\"text\" id=\"ente\" value="+temp+"  name=\"ente\"  class=\"form-control\" placeholder=\"ente\"></div> ");
-		sb.append("<input  type=\"hidden\" id=\"idEnte\" name=\"idEnte\" value="+s.getEnte().getIdEnte()+"/>");
+		sb.append("<div class=\"col-xs-9 col-md-9\"><label for=\"ente\"> Ente:<input type=\"text\" id=\"ente\" value=\""+temp+"\"  name=\"ente\"  class=\"form-control\" placeholder=\"ente\"></div> ");
+		sb.append("<input  type=\"hidden\" id=\"idEnte\" name=\"idEnte\" value="+s.getEnte().getIdEnte()+">");
 		if(s.getSito().getCaratteristiche_IT()!=null) temp=s.getSito().getCaratteristiche_IT();
 		else temp="";
 		sb.append("</div> </div>");
@@ -205,16 +196,28 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sull'ubicazione</h4>");
 		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"sottobacino\">Sottobacino</label><input type=\"text\" id=\"sottobacino\" name=\"sottobacino\" class=\"form-control\" value=\""+s.getUbicazione().getLocIdro().getSottobacino()+"\"/></div>");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"bacino\">Bacino</label><input readonly=\"readonly\" type=\"text\"id=\"bacino\" name=\"bacino\" class=\"form-control\" value=\""+s.getUbicazione().getLocIdro().getBacino()+"\"/></div> ");
+                if(s.getUbicazione().getLocIdro().getSottobacino()!=null) temp=s.getUbicazione().getLocIdro().getSottobacino();
+		else temp="";
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"sottobacino\">Sottobacino</label><input type=\"text\" id=\"sottobacino\" name=\"sottobacino\" class=\"form-control\" value=\""+temp+"\"/></div>");
+		 if(s.getUbicazione().getLocIdro().getBacino()!=null) temp=s.getUbicazione().getLocIdro().getBacino();
+		else temp="";
+                sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"bacino\">Bacino</label><input readonly=\"readonly\" type=\"text\"id=\"bacino\" name=\"bacino\" class=\"form-control\" value=\""+temp+"\"/></div> ");
 		sb.append("<input type=\"hidden\" id=\"idSottobacino\" name=\"idSottobacino\"  value=\""+s.getUbicazione().getLocIdro().getIdSottobacino()+"\"/>");
 		sb.append("</div>");
 		sb.append("<br><div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"comune\">Comune</label><input type=\"text\" id=\"comune\" name=\"comune\" class=\"form-control\" value=\""+s.getUbicazione().getLocAmm().getComune()+"\"/></div>");
+                if(s.getUbicazione().getLocAmm().getComune()!=null) temp=s.getUbicazione().getLocAmm().getComune();
+		else temp="";
+		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"comune\">Comune</label><input type=\"text\" id=\"comune\" name=\"comune\" class=\"form-control\" value=\""+temp+"\"/></div>");
 		sb.append("<input  type=\"hidden\" id=\"idcomune\" name=\"idcomune\" value=\""+s.getUbicazione().getLocAmm().getIdComune()+"\"/>");
-		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"provincia\">Provincia</label><input readonly=\"readonly\" type=\"text\" id=\"provincia\" name=\"provincia\" class=\"form-control\" value=\""+s.getUbicazione().getLocAmm().getProvincia()+"\"/></div>");
-		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"regione\">Regione</label><input readonly=\"readonly\" type=\"text\" id=\"regione\" name=\"regione\" class=\"form-control\" value=\""+s.getUbicazione().getLocAmm().getRegione()+"\" /> </div>");
-		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"nazione\">Nazione</label><input readonly=\"readonly\" type=\"text\" id=\"nazione\" name=\"nazione\"class=\"form-control\" value=\""+s.getUbicazione().getLocAmm().getNazione()+"\" /></div>");
+		if(s.getUbicazione().getLocAmm().getProvincia()!=null) temp=s.getUbicazione().getLocAmm().getProvincia();
+		else temp="";
+                sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"provincia\">Provincia</label><input readonly=\"readonly\" type=\"text\" id=\"provincia\" name=\"provincia\" class=\"form-control\" value=\""+temp+"\"/></div>");
+		if(s.getUbicazione().getLocAmm().getRegione()!=null) temp=s.getUbicazione().getLocAmm().getRegione();
+		else temp="";
+                sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"regione\">Regione</label><input readonly=\"readonly\" type=\"text\" id=\"regione\" name=\"regione\" class=\"form-control\" value=\""+temp+"\" /> </div>");
+		if(s.getUbicazione().getLocAmm().getNazione()!=null) temp=s.getUbicazione().getLocAmm().getNazione();
+		else temp="";
+                sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"nazione\">Nazione</label><input readonly=\"readonly\" type=\"text\" id=\"nazione\" name=\"nazione\"class=\"form-control\" value=\""+temp+"\" /></div>");
 		sb.append("</div>");
 		sb.append("<div id=\"controls\">");
 		sb.append("<br><div class=\"row\">");
@@ -223,7 +226,9 @@ public class HTMLStazioneMetereologica {
 		sb.append("</div>");
 		sb.append("</div>");
 		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"caratteristiche_"+loc+"\"> Caratteristiche Sito <input type=\"text\" id=\"caratteristiche_"+loc+"\" name=\"caratteristicaSito_"+loc+"\" class=\"form-control\" value=\""+s.getSito().getCaratteristiche_IT()+" \" /></div>");
+                if(s.getSito().getCaratteristiche_IT()!=null) temp=s.getSito().getCaratteristiche_IT();
+		else temp="";
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"caratteristiche_"+loc+"\"> Caratteristiche Sito <input type=\"text\" id=\"caratteristiche_"+loc+"\" name=\"caratteristicaSito_"+loc+"\" class=\"form-control\" value=\""+temp+" \" /></div>");
 		sb.append("<input type=\"hidden\" id=\"idsitostazione\" name=\"idsitostazione\"  value=\""+s.getSito().getIdSitoStazioneMetereologica()+"\"/>");
 		sb.append("</div>");
 		sb.append("</div>");
@@ -264,17 +269,17 @@ public class HTMLStazioneMetereologica {
 
 				
 				if(s.getDataInizio()!=null) {
-					sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datainizio\">Data inizio</label> <input type=\"text\" id=\"datainizio\" name=\"datainizio\" class=\"form-control\" placeholder=\"datainizio\"value=\""+inizio.get(Calendar.YEAR)+"-"+inizio.get(Calendar.MONTH)+"-"+inizio.get(Calendar.DAY_OF_MONTH)+"\"></div>");
+					sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datainizio\">Data inizio</label> <input type=\"text\" id=\"datainizio\" name=\"datainizio\" class=\"form-control\" placeholder=\"datainizio\"value=\""+s.getDataInizio()+"\"></div>");
 				}
 				else sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datainizio\">Data inizio</label> <input type=\"text\" id=\"datainizio\" name=\"datainizio\" class=\"form-control\" placeholder=\"datainizio\"></div>");
 
 
-				sb.append(		"			<input type=\"hidden\"  name=\"enteVecchio\" value=\""+s.getEnte().getEnte()+"\">" );
-				sb.append(		"			<input type=\"hidden\" name=\"idStazione\" value=\""+s.getIdStazioneMetereologica()+"\">");
+				sb.append(		"<input type=\"hidden\"  name=\"enteVecchio\" value=\""+s.getEnte().getEnte()+"\">" );
+				sb.append(		"<input type=\"hidden\" name=\"idStazione\" value=\""+s.getIdStazioneMetereologica()+"\">");
 				
 		     
 				if(s.getDataFine()!=null) {
-					sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datafine\">Data fine</label> <input type=\"text\" id=\"datafine\" name=\"datafine\" class=\"form-control\" placeholder=\"datafine\"value=\""+fine.get(Calendar.YEAR)+"-"+fine.get(Calendar.MONTH)+"-"+fine.get(Calendar.DAY_OF_MONTH)+"\"></div>");
+					sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datafine\">Data fine</label> <input type=\"text\" id=\"datafine\" name=\"datafine\" class=\"form-control\" placeholder=\"datafine\"value=\""+s.getDataFine()+"\"></div>");
 				}
 				else sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datafine\">Data fine</label> <input type=\"text\" id=\"datafine\" name=\"datafine\" class=\"form-control\" placeholder=\"datafine\"></div>");
 
@@ -283,6 +288,7 @@ public class HTMLStazioneMetereologica {
 				sb.append("<br>");
 				
 				sb.append("	<input type=\"hidden\" name=\"operazione\" value=\"inserisciStazioneModificata\">" );
+                                sb.append("	<input type=\"hidden\" name=\"idstazionemetereologica\" value=\""+s.getIdStazioneMetereologica()+"\">" );
 				sb.append("	<input type=\"submit\" name =\"submit\" value=\"OK\">" );
 				sb.append("	</form>");
 		}else {

@@ -45,7 +45,7 @@ public class HTMLScript {
 		sb.append("var myOptions = {");
 		sb.append("zoom: 6,");
 		sb.append("center: latlng,");
-		sb.append("mapTypeId: google.maps.MapTypeId.SATELLITE");
+		sb.append("mapTypeId: google.maps.MapTypeId.HYBRID");
 		sb.append("};");
 		sb.append(" map = new google.maps.Map(document.getElementById(\"map_canvas\"),  myOptions);");
 		sb.append(" }"); 

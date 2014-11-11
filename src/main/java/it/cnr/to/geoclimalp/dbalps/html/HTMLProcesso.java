@@ -155,10 +155,9 @@ public class HTMLProcesso {
                 sb.append("<label for=\"attendibilita\">"+locale.getWord("attendibilita")+"</label> ");
                 sb.append("<select class=\"form-control\" name=\"attendibilita\" id=\"attendibilita\">");
                 sb.append("<option value=\"\"></option>");
-                sb.append("<option value=\""+locale.getWord("certa")+"\">"+locale.getWord("certa")+"</option>");
-                sb.append("<option value=\""+locale.getWord("probabile")+"\">"+locale.getWord("probabile")+"</option>");
-                sb.append("<option value=\""+locale.getWord("incerta")+"\">"+locale.getWord("incerta")+"</option>");
-                sb.append("<option value=\""+locale.getWord("mincerta")+"\">"+locale.getWord("mincerta")+"</option>");
+                sb.append("<option value=\""+locale.getWord("puntuale")+"\">"+locale.getWord("puntuale")+"</option>");
+                sb.append("<option value=\""+locale.getWord("areale")+"\">"+locale.getWord("areale")+"</option>");
+                sb.append("<option value=\""+locale.getWord("indicativa")+"\">"+locale.getWord("indicativa")+"</option>");
                 sb.append("</select>");
                 sb.append("</div>");
                 sb.append("</div>");
@@ -189,13 +188,13 @@ public class HTMLProcesso {
 				sb.append("</p>");
 				sb.append("<br><div class=\"row\">");
 				sb.append("<div class=\"col-xs-6 col-md-6\">");
-				sb.append("<label for=\"gradoDanno\">"+locale.getWord("gradoDanno")+"</label> ");
-				 sb.append("<select class=\"form-control\" name=\"gradoDanno\" id=\"gradoDanno\">");
-	                sb.append("<option value=\"\"></option>");
-	                sb.append("<option value=\""+locale.getWord("danneggiato")+"\">"+locale.getWord("danneggiato")+"</option>");
-	                sb.append("<option value=\""+locale.getWord("distrutto")+"\">"+locale.getWord("distrutto")+"</option>");
-	                sb.append("<option value=\""+locale.getWord("minacciato")+"\">"+locale.getWord("minacciato")+"</option>");
-	                sb.append("</select>");
+					sb.append("<label for=\"gradoDanno\">"+locale.getWord("gradoDanno")+"</label> ");
+			 sb.append("<select class=\"form-control\" name=\"gradoDanno\" id=\"gradoDanno\">");
+                sb.append("<option value=\"\"></option>");
+                 sb.append("<option value=\""+locale.getWord("danneggiato")+"\">"+locale.getWord("danneggiato")+"</option>");
+                 sb.append("<option value=\""+locale.getWord("distrutto")+"\">"+locale.getWord("distrutto")+"</option>");
+                 sb.append("<option value=\""+locale.getWord("minacciato")+"\">"+locale.getWord("minacciato")+"</option>");
+                sb.append("</select>");
 	                sb.append("</div>");
 	                sb.append("</div>");
 				sb.append("</div> </div>");
@@ -780,11 +779,7 @@ public class HTMLProcesso {
 		sb.append(HTMLScript.scriptAutcompleteLitologia(ControllerJson.getJsonLitologia(path, loc), loc));
 		sb.append(HTMLScript.scriptAutocompleteSitoProcesso(ControllerJson.getJsonSitoProcesso(path, loc), loc));
 		sb.append(HTMLScript.dialogMaps());
-		
-		
-		
-
-		
+	
 
 			sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\" role=\"form\">");
 
@@ -824,13 +819,13 @@ public class HTMLProcesso {
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"superficie\">Superficie</label><input type=\"text\" name=\"superficie\" id=\"superficie\" class=\"form-control\" value=\""+p.getAttributiProcesso().getSuperficie()+" \"></div>");
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"larghezza\">Larghezza</label><input type=\"text\" name=\"larghezza\" id=\"larghezza\" class=\"form-control\" value=\""+p.getAttributiProcesso().getLarghezza()+" \"></div>");
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"altezza\">Altezza</label><input type=\"text\" name=\"altezza\" id=\"altezza\" class=\"form-control\" value=\""+p.getAttributiProcesso().getAltezza()+" \"></div>");
-			sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"volumeSpecifico\">Volume Specifico</label><input type=\"text\" name=volumespecifico id=\"volumeSpecifico\"class=\"form-control\" value=\""+p.getAttributiProcesso().getVolume_specifico()+" \" ></div>");
+			sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"volumeSpecifico\">Volume Specifico</label><input type=\"text\" name=volumespecifico id=\"volumeSpecifico\"class=\"form-control\" value=\""+p.getAttributiProcesso().getVolume_specifico()+"\" ></div>");
 			if(p.getAttributiProcesso().getClasseVolume().getIntervallo()==null) p.getAttributiProcesso().getClasseVolume().setIntervallo("");
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"intervallo\">Classe Volume</label><input type=\"text\" id=\"intervallo\" name=intervallo class=\"form-control\" value=\""+p.getAttributiProcesso().getClasseVolume().getIntervallo()+"\"></div>");
-			sb.append("<input type=\"hidden\" id=\"idclasseVolume\" name=\"idclasseVolume\" value=\""+p.getAttributiProcesso().getClasseVolume().getIdClasseVolume()+" \" />");
+			sb.append("<input type=\"hidden\" id=\"idclasseVolume\" name=\"idclasseVolume\" value=\""+p.getAttributiProcesso().getClasseVolume().getIdClasseVolume()+"\" />");
 			sb.append("</div>");
 			sb.append("<br><div class =\"row\">");
-			sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"caratteristicaSito_"+loc+ "\">Caratteristica del sito</label><input type=\"text\" id=\"caratteristicaSito_"+ loc+ "\" name=\"caratteristicaSito_"+ loc+ "\" class=\"form-control\"value=\""+p.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_IT()+" \"/></div>");
+			sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"caratteristicaSito_"+loc+ "\">Caratteristica del sito</label><input type=\"text\" id=\"caratteristicaSito_"+ loc+ "\" name=\"caratteristicaSito_"+ loc+ "\" class=\"form-control\"value=\""+p.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_IT()+"\"/></div>");
 			sb.append("<input type=\"hidden\" id=\"idsito\" name=\"idsito\" value=\""+p.getAttributiProcesso().getSitoProcesso().getIdSito()+"\"/>");
 			sb.append("</div>");
 			sb.append("<br><div class=\"wrapper\">");
