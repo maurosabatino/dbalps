@@ -23,9 +23,6 @@ public class ControllerDatiClimatici {
 	
 	/*           GENERICI         */
 	public static double arrotonda(double n){
-		/*	double d2 = (int)(n*10);
-			d2=Math.round(d2);
-			 d2 /= 10;*/
 			double d2 = (int)(n*10000);	
 			d2 /= 100;	
 			d2=Math.round(d2);
