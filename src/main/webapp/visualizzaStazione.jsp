@@ -26,7 +26,7 @@
         <script src="js/globalize.culture.de-DE.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/SeparateDate.js"></script>
-        <script src="js/personalLibrary.js"></script>
+        <!--<script src="js/personalLibrary.js"></script>-->
         <script src="js/bootstrapValidator.min.js"></script>
         <script src="js/jquery.stickyfooter.min.js"></script>
 
@@ -98,7 +98,7 @@
                                 <div class="col-md-5 col-md-pull-6"><strong>Latitudine</strong> </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.coordinate.x}</p> </div>
+                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.coordinate.y}</p> </div>
                                 <div class="col-md-5 col-md-pull-6"><strong>Longitudine</strong> </div>
                             </div>
                             <div class="row">
@@ -108,8 +108,51 @@
                         </div>
 
                     </div>
+                    <div class="col-md-7"> 
+                        <div class="google-maps">
+                            <div id="map-canvas" class="map-canvas" ></div>
+                        </div>
+
+                    </div>                
                 </div>
-            </div>
-        </div>
+            </div><!--main-->
+        </div> <!--fine-->
+
+        <style>
+            .google-maps {
+                position: relative;
+                padding-bottom: 133%; // This is the aspect ratio
+                height: 0;
+                overflow: hidden;
+            }
+            .google-maps > .map-canvas {
+                position: absolute;
+                top: 5%;
+                left: 0;
+                width: 100% !important;
+                height: 100% !important;
+            }
+        </style>    
+        <script>
+            $(document).ready(function () {
+                var map;
+                function initialize() {
+                    var mapOptions = {
+                        zoom: 11,
+                        center: new google.maps.LatLng(${ubicazione.coordinate.x}, ${ubicazione.coordinate.y}),
+                        panControl: false,
+                        zoomControl: false,
+                        mapTypeControl: false,
+                        scaleControl: false,
+                        streetViewControl: false,
+                        overviewMapControl: false
+                    };
+                    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+                    map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                }
+                ;
+                google.maps.event.addDomListener(window, 'load', initialize);
+            });
+        </script>
     </body>
 </html>
