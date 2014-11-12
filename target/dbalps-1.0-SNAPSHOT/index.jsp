@@ -5,7 +5,7 @@
   <head>
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="prove/newLayoutCss.css">
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css">
 
     <!--JAVASCRIPT-->
@@ -30,16 +30,15 @@
   <body>
     <div class="container">
     <jsp:include page="header.jsp"></jsp:include>
-    <div class ="content">
+    
       
     <jsp:include page="barraLaterale.jsp"></jsp:include>
-    <div class="main">
+    
       
-    </div>
-    </div>
+    
     
     <jsp:include page="footer.jsp"></jsp:include>
-    </div>
+    
     
   
 </body>
