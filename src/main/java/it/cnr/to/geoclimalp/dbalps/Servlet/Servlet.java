@@ -275,11 +275,12 @@ public class Servlet extends HttpServlet {
 		else if(operazione.equals("mostraStazioneMetereologica")){
 
 			int idStazioneMetereologica=Integer.parseInt(request.getParameter("idStazioneMetereologica"));
-			String content=HTMLStazioneMetereologica.mostraStazioneMetereologica(idStazioneMetereologica,locale);
-			HTMLContent c=new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc", c);
-			forward(request,response,"/stazione.jsp");
+			
+			StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica, locale);
+                        Ubicazione ubicazione = stazione.getUbicazione();
+                        
+			request.setAttribute("stazione", stazione);
+			forward(request,response,"/visualizzaStazione.jsp");
 		}
 		else if(operazione.equals("mostraTutteStazioniMetereologiche")){
 			Utente part =(Utente)session.getAttribute("partecipante");

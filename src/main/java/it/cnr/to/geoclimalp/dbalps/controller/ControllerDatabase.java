@@ -1585,13 +1585,15 @@ public class ControllerDatabase {
 		return al;
 	}
 	
-	public static ArrayList<Sensori> prendiSensori(int idStazione,ControllerLingua loc) throws SQLException{
+	public static ArrayList<Sensori> prendiSensori(int idStazione,ControllerLingua locale) throws SQLException{
 		ArrayList<Sensori> sensori=new ArrayList<Sensori>();
-		
+                String loc="";
+		if(locale.getLanguage().equals("it")) loc = "IT";
+                else loc="ENG";
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
 		System.out.println("select tipo_"+loc+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
-		ResultSet rs=st.executeQuery("select tipo_"+loc.getLanguage()+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
+		ResultSet rs=st.executeQuery("select tipo_"+loc+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
 		while(rs.next()){
 			Sensori s=new Sensori();
 			if(loc.equals("IT")) s.setSensori_IT((rs.getString("tipo_it")));

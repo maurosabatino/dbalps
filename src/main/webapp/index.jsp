@@ -5,7 +5,7 @@
   <head>
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="prove/newLayoutCss.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css">
 
     <!--JAVASCRIPT-->
