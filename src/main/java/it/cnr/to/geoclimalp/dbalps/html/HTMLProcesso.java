@@ -46,7 +46,7 @@ public class HTMLProcesso {
 
 				sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>"+locale.getWord("titoloProcesso")+"</h4>");
 
-                sb.append("<div class=\"form-group\" >");
+                 sb.append("<div class=\"form-group\" >");
 				sb.append("<div class=\"row\">");
      
 				sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"nome\">"+locale.getWord("nome")+"</label> <input type=\"text\" name=\"nome\" id=\"nome\" class=\"form-control\" placeholder=\""+locale.getWord("nome")+"\" ></div>");
@@ -781,10 +781,10 @@ public class HTMLProcesso {
 		sb.append(HTMLScript.dialogMaps());
 	
 
-			sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\" role=\"form\">");
+			sb.append("<form action=\"Servlet\" name=\"dati\" class=\"insertProcesso\" method=\"POST\" role=\"form\">");
 
 			sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sul Processo</h4>");
-
+                 sb.append("<div class=\"form-group\" >");
 			sb.append("<div class=\"row\">");
 			sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"nome\">Nome Del Processo</label> <input type=\"text\" name=\"nome\" id=\"nome\" class=\"form-control\" value=\""+ p.getNome() + "\" ></div>");
 			sb.append("</div>");
@@ -960,8 +960,11 @@ public class HTMLProcesso {
 
 			sb.append("<input type=\"hidden\" name=\"operazione\" value=\"modificaProcesso\">");
 			sb.append("<input type=\"hidden\" name=\"idProcesso\" value=\""+p.getIdProcesso()+"\"/>");
-			sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">");
+                        
+                        sb.append("<button type=\"submit\" class=\"btn btn-default\">OK</button>");
+
 			sb.append("</div> </div>");
+                        sb.append("</div>");
 			sb.append("</form>");
 		
 		return sb.toString();
