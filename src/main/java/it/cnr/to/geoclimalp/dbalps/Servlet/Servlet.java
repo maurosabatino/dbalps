@@ -278,7 +278,7 @@ public class Servlet extends HttpServlet {
 			
 			StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica, locale);
                         Ubicazione ubicazione = stazione.getUbicazione();
-                        
+                        request.setAttribute("ubicazione", ubicazione);
 			request.setAttribute("stazione", stazione);
 			forward(request,response,"/visualizzaStazione.jsp");
 		}
