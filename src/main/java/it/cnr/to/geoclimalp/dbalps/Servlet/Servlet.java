@@ -105,7 +105,8 @@ public class Servlet extends HttpServlet {
 	}
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
+		ControllerDatabase cd = new ControllerDatabase();
+                
 		String operazione = request.getParameter("operazione");    
 		String path = System.getProperty("catalina.base")+"\\resources\\";
 		System.out.println("Catalina" +System.getProperty("catalina.base"));

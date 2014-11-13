@@ -28,6 +28,10 @@ import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class ControllerDatabase {
 	static String url = "jdbc:postgresql://localhost:5432/dbalps";//dbalps
@@ -2072,11 +2076,11 @@ public class ControllerDatabase {
 			user.setNome(rs.getString("nome"));
 			user.setPassword(rs.getString("password"));
 			switch(rs.getString("ruolo")){
-              case "amministratore": {
+              case "AMMINISTRATORE": {
                user.setRuolo(Role.AMMINISTRATORE);
                break;
               }
-              case "avanzato":{
+              case "AVANZATO":{
                user.setRuolo(Role.AVANZATO);
                break;
               }
@@ -2446,4 +2450,11 @@ public class ControllerDatabase {
 		 ps.executeUpdate();
 		 conn.close();ps.close();
 	}
+
+    private DataSource getDbalp() throws NamingException {
+        Context c = new InitialContext();
+        return(DataSource) c.lookup("java:comp/env/dbalp");
+    }
+    
+    
 }
