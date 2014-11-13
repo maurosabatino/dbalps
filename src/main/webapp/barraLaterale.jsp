@@ -74,8 +74,11 @@
  	<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mostra <b class="caret"></b></a>
           <ul class="dropdown-menu">
-          	<li><a href="Servlet?operazione=mostraTuttiProcessiModifica">Mostra un Processo </a></li>
-          	<li><a href="Servlet?operazione=mostraTutteStazioniMetereologiche"> mostra tutte le stazioni</a></li>
+          	<li><a href="Servlet?operazione=mostraTuttiProcessiModifica">Mostra tutti i processi </a></li>
+          	<li><a href="Servlet?operazione=mostraTutteStazioniMetereologiche"> Mostra tutte le stazioni</a></li>
+                <li><a href="Servlet?operazione=mostraAllegatiStazione"> Mostra gli allegati delle stazioni</a></li>
+                <li><a href="Servlet?operazione=mostraAllegatiProcesso"> Mostra gli allegati dei processi</a></li>
+
           </ul>
      </li>
 	<li class="dropdown">
