@@ -81,8 +81,8 @@ public class HTMLStazioneMetereologica {
 		sb.append("</div>");
 		sb.append("<br>");
 		sb.append("<div class=\"row\">");
-		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione giornaliera:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Periodo Funzionamento:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
+		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		/*sb.append("<div class=\"row\">");
@@ -179,8 +179,8 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		
 		sb.append("<div class=\"row\">");
-		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione giornaliera:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		/*errore?*/	sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Periodo Funzionamento:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
+		/*errore?*/	sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		
