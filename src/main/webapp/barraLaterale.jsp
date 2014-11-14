@@ -76,8 +76,7 @@
           <ul class="dropdown-menu">
           	<li><a href="Servlet?operazione=mostraTuttiProcessiModifica">Mostra tutti i processi </a></li>
           	<li><a href="Servlet?operazione=mostraTutteStazioniMetereologiche"> Mostra tutte le stazioni</a></li>
-                <li><a href="Servlet?operazione=scegliStazioneAllegati"> Mostra gli allegati delle stazioni</a></li>
-                <li><a href="Servlet?operazione=scegliProcessoAllegati"> Mostra gli allegati dei processi</a></li>
+                
 
           </ul>
      </li>

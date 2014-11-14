@@ -1,5 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.bean.stazione;
 
+import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import java.util.ArrayList;
 
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
@@ -17,6 +18,8 @@ public class StazioneMetereologica {
 	public String dataFine;
 	public boolean oraria;
 	public int idUtente;
+        public String tipoAggregazione;
+        public ArrayList<Allegato> allegati;
 	
 	public double distanzaProcesso;
 	
@@ -29,11 +32,10 @@ public class StazioneMetereologica {
 		ente=new Ente();
 		sensori=new ArrayList<Sensori>() ;
 		aggregazioneGiornaliera="";
-	    note="";
+                 note="";
 		dataInizio=null;
 		dataFine=null;
 		oraria=false;
-		
 		distanzaProcesso=-1;
 	}
 	
@@ -140,4 +142,23 @@ public class StazioneMetereologica {
 	public void setDistanzaProcesso(double distanzaProcesso) {
 		this.distanzaProcesso = distanzaProcesso;
 	}
+
+    public String getTipoAggregazione() {
+        return tipoAggregazione;
+    }
+
+    public void setTipoAggregazione(String tipoAggregazione) {
+        this.tipoAggregazione = tipoAggregazione;
+    }
+        
+
+    public ArrayList<Allegato> getAllegati() {
+        return allegati;
+    }
+
+    public void setAllegati(ArrayList<Allegato> allegati) {
+        this.allegati = allegati;
+    }
+        
+        
 }

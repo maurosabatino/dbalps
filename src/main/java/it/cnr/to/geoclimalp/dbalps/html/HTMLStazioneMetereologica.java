@@ -72,15 +72,17 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
 		sb.append(HTMLScript.scriptAutocompleteLocIdro(ControllerJson.getJsonLocazioneIdrologica(path)));
 		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))){
-		sb.append("<form action=\"Servlet\" name=\"dati\" onSubmit=\"return verificaInserisci(this);\" method=\"POST\">" );	
+				sb.append("<form action=\"Servlet\" class=\"insertStazione\"  method=\"POST\" role=\"form\">");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
-		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-12\"><label for=\"nome\">Nome Della Stazione</label> <input type=\"text\" name=\"nome\" id=\"nome\" class=\"form-control\" placeholder=\"nome\" ></div>");
+              sb.append("<div class=\"form-group\" >");
+
+                sb.append("<div class=\"row\">");
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"nome\">nome</label> <input type=\"text\" name=\"nome\" id=\"nome\" class=\"form-control\" placeholder=nome ></div>");
 		sb.append("</div>");
 		sb.append("<br>");
 		sb.append("<div class=\"row\">");
-		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione giornaliera:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Periodo Funzionamento:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
+		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		/*sb.append("<div class=\"row\">");
@@ -89,8 +91,8 @@ public class HTMLStazioneMetereologica {
 		sb.append("</div>");
 		sb.append("<br>");*/
 		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datainizio\">Data inizio</label> <input type=\"text\" id=\"datainizio\" name=\"datainizio\" class=\"form-control\" placeholder=\"datainizio\"></div>");
-		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datafine\">Data fine</label> <input type=\"text\" id=\"datafine\" name=\"datafine\" class=\"form-control\" placeholder=\"datafine\"></div>");
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datainizio\">Data inizio <input type=\"text\"  id=\"datainizio\" name=\"datainizio\" class=\"form-control\" placeholder=\"datainizio\"></div>");
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"datafine\">Data fine <input type=\"text\" id=\"datafine\" name=\"datafine\" class=\"form-control\" placeholder=\"datafine\"></div>");
 		sb.append("</div>");
 		sb.append("<br>");
 		sb.append("<div class=\"row\">");
@@ -112,8 +114,8 @@ public class HTMLStazioneMetereologica {
 		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"nazione\">Nazione</label><input readonly=\"readonly\" type=\"text\" id=\"nazione\" name=\"nazione\"class=\"form-control\" placeholder=\"Nazione\" /></div>");
 		sb.append("</div>");	
 		sb.append("<br><div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"latitudine\">Latitudine</label><input type=\"text\" id=\"latitudine\"name=\"latitudine\" class=\"form-control\" placeholder=\"Latitudine\"/></div>");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"longitudine\">Longitudine</label><input type=\"text\" id=\"longitudine\" name=\"longitudine\" class=\"form-control\" placeholder=\"Longitudine\"/></div>");
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"latitudine\">latitudine</label><input type=\"text\" id=\"latitudine\"name=\"latitudine\" class=\"form-control\" placeholder=\"latitudine\"/></div>");
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"longitudine\">longitudine</label><input type=\"text\" id=\"longitudine\" name=\"longitudine\" class=\"form-control\" placeholder=\"longitudine\"/></div>");
 		sb.append("</div>");
 		sb.append("<br><div class=\"row\">");
 		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"quota\">Quota</label> <input type=\"text\" id=\"quota\"name=\"quota\" class=\"form-control\" placeholder=\"Quota\"/></div>");
@@ -139,9 +141,13 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		
 			sb.append("<input type=\"hidden\" name=\"operazione\" value=\"inserisciStazione\">" );
-			sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+                    sb.append("<button type=\"submit\" class=\"btn btn-default\">Inserisci stazione</button>");
+
 			sb.append("</div>");
-			sb.append(	"		</form>");}
+                        sb.append("</div>");                        
+
+
+			sb.append("</form>");}
 		else {
 				sb.append("<h1>Pagina delle segnalazioni(Da implementare)</h1>");
 			}
@@ -161,6 +167,9 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteLocAmm(ControllerJson.getJsonLocazioneAmminitrativa(path)));
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
+
+                System.out.println("ente:"+ControllerJson.getJsonEnte2(path));
+                
 		String temp;		
 		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">" );
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
@@ -170,8 +179,8 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		
 		sb.append("<div class=\"row\">");
-		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione giornaliera:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		/*errore?*/	sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Periodo Funzionamento:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
+		/*errore?*/	sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		
@@ -820,7 +829,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<option value=\"document\">Document</option>");
 		sb.append("<option value=\"map\">Map </option>");
 		sb.append("<option value=\"image\">Image</option>");
-		sb.append("<option value=\"photo\">Photo</option>");
+		sb.append("<option value=\"link\">Link</option>");
 		sb.append("</select>");
 		sb.append("</div>");
 		sb.append("</div>");
