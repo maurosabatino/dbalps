@@ -1,5 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
+import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
 
 import java.io.File;
@@ -147,18 +148,27 @@ public class Servlet extends HttpServlet {
 		}
 		else if(operazione.equals("mostraProcesso")){
 			int idProcesso=Integer.parseInt(request.getParameter("idProcesso"));
-			String content = HTMLProcesso.mostraProcesso(idProcesso,locale);
-			HTMLContent c = new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc",c);
-			forward(request,response,"/processo.jsp");
+			Processo processo = ControllerDatabase.prendiProcesso(idProcesso);
+                        Ubicazione ubicazione = processo.getUbicazione();
+                                                                        System.out.println(" pre allegati");
+
+                        ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoProcesso(idProcesso);
+                                                System.out.println("allegati");
+
+                        request.setAttribute("ubicazione", ubicazione);
+                        System.out.println("ubicazione");
+                        processo.getAttributiProcesso().setAllegati(allegati);
+			request.setAttribute("processo", processo);
+                                                System.out.println("processo");
+
+			forward(request,response,"/visualizzaProcesso.jsp");
+                        
 		}
 		else if(operazione.equals("mostraTuttiProcessi")){
 			String content=HTMLProcesso.mostraTuttiProcessi();
-			HTMLContent c = new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc",c);
-			forward(request,response,"/processo.jsp");
+                        ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessi();
+			request.setAttribute("processo", processo);
+			forward(request,response,"/visualizzaTuttiProcessi.jsp");
 		
 		}
 		else if(operazione.equals("mostraTuttiProcessiModifica")){
@@ -275,11 +285,13 @@ public class Servlet extends HttpServlet {
 		else if(operazione.equals("mostraStazioneMetereologica")){
 
 			int idStazioneMetereologica=Integer.parseInt(request.getParameter("idStazioneMetereologica"));
-			String content=HTMLStazioneMetereologica.mostraStazioneMetereologica(idStazioneMetereologica,locale);
-			HTMLContent c=new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc", c);
-			forward(request,response,"/stazione.jsp");
+			StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica, locale);
+                        Ubicazione ubicazione = stazione.getUbicazione();
+                        ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoStazione(idStazioneMetereologica);
+                        request.setAttribute("ubicazione", ubicazione);
+                        stazione.setAllegati(allegati);
+			request.setAttribute("stazione", stazione);
+			forward(request,response,"/s.jsp");
 		}
 		else if(operazione.equals("mostraTutteStazioniMetereologiche")){
 			Utente part =(Utente)session.getAttribute("partecipante");
@@ -1039,6 +1051,16 @@ public class Servlet extends HttpServlet {
 			forward(request,response,"/stazione.jsp");
 	    
 		}
+                else if(operazione.equals("mostraAllegatiStazione")){
+                    
+                }else if(operazione.equals("mostraAllegatiProcesso")){
+                    // da completare
+                }
+                else if(operazione.equals("scegliStazioneAllegati")){
+                    //completare
+                }else if(operazione.equals("scegliProcessoAllegati")){
+                    // da completare
+                }
 		else if(operazione.equals("ricaricaJson")){
 			ControllerJson.creaJson(path);
 			forward(request,response,"/index.jsp");
