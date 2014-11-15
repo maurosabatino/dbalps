@@ -168,7 +168,7 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
 
-                System.out.println("ente:"+ControllerJson.getJsonEnte2(path));
+                
                 
 		String temp;		
 		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">" );

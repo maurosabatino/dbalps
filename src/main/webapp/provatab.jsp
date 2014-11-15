@@ -3,7 +3,7 @@
 <title>tablesorter: 296 rows</title>
 	
 	
-	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 	<script type="text/javascript" src="js/jquery-latest.js"></script>
 	
 	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<table cellspacing="0" id="large">
+<table class="table" cellspacing="0" id="large">
 	<thead>
 		<tr>
 			<th>Name</th>
