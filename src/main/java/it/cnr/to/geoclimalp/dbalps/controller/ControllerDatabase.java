@@ -1097,38 +1097,38 @@ public class ControllerDatabase {
 	public static void salvaStazione(StazioneMetereologica s,Utente part)throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		StringBuilder sb=new StringBuilder();
-		sb.append("'"+s.getNome().replaceAll("'", "''")+"',");
-		if(s.ente.getIdEnte()!=0)sb.append("'"+s.ente.getIdEnte()+"'");
-		else sb.append("null");
-		sb.append(",'"+s.getAggregazioneGiornaliera()+"'");
-		sb.append(",'"+s.getNote().replaceAll("'", "''")+"'");
-
-
-		if(s.getDataInizio()!=null)sb.append(",'"+s.getDataInizio()+"'");
-		else sb.append(",null");
-		if(s.getDataFine()!=null)sb.append(",'"+s.getDataFine()+"'");
-		else sb.append(",null");
-
-		if(s.sito.getIdSitoStazioneMetereologica()!=0)sb.append(",'"+s.sito.getIdSitoStazioneMetereologica()+"'");
-		else sb.append(",null");
-		s.setIdUtente(part.getIdUtente());
-		sb.append(","+s.getIdUtente());
-		sb.append(","+s.getUbicazione().getIdUbicazione());
 		
-		System.out.println("INSERT INTO STAZIONE_METEREOLOGICA(NOME,IDENTE,AGGREGAZIONEGIORNALIERA,NOTE,datainizio,datafine,idSitoStazione,idutentecreatore,IDUBICAZIONE) VALUES( "+sb+")");
-		 st.executeUpdate("INSERT INTO STAZIONE_METEREOLOGICA(NOME,IDENTE,AGGREGAZIONEGIORNALIERA,NOTE,datainizio,datafine,idSitoStazione,idutentecreatore,IDUBICAZIONE) VALUES( "+sb+")");
+                String sql = "insert into stazione_metereologica  (nome,aggregazionegiornaliera,note,datainizio,datafine,idsitostazione,idente,idutentecreatore,tipoaggregazione,idubicazione) values(?,?,?,?,?,?,?,?,?,?)";
+                PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);                
+                ps.setString(1,s.getNome());
+                ps.setString(2,s.getAggregazioneGiornaliera());		
+		ps.setString(3,s.getNote()); 
+		ps.setString(4,s.getDataInizio());
+                ps.setString(5,s.getDataFine());
+                if( s.sito.getIdSitoStazioneMetereologica()!=0)
+                ps.setInt(6, s.sito.getIdSitoStazioneMetereologica());
+                else  ps.setNull(6, Types.INTEGER);
+                if( s.ente.getIdEnte()!=0)
+                ps.setInt(7,s.ente.getIdEnte());
+                else ps.setNull(7, Types.INTEGER);
+		ps.setInt(8, s.getIdUtente());
+                ps.setString(9,s.getTipoAggregazione());
+                ps.setInt(10, s.getUbicazione().getIdUbicazione());
 
-		 ResultSet rs =st.executeQuery("SELECT * FROM STAZIONE_METEREOLOGICA WHERE  idUbicazione="+s.getUbicazione().getIdUbicazione()+"  ");
-		while(rs.next())
-			s.setIdStazioneMetereologica(rs.getInt("idStazioneMetereologica"));
+		ps.executeUpdate();
+
+		 ResultSet rs = ps.getGeneratedKeys();
+	        
+	        while(rs.next()){
+	          s.setIdStazioneMetereologica(rs.getInt("idstazionemetereologica"));
+	        }
+		
 		
 		salvaSensoriStazione(s);
 		rs.close();
 		st.close();
 		conn.close();
 	}
-//modificato
 	public static ArrayList<StazioneMetereologica> prendiTutteStazioniMetereologiche() throws SQLException{
 		ArrayList<StazioneMetereologica> al = new ArrayList<StazioneMetereologica>();
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
@@ -1153,6 +1153,8 @@ public class ControllerDatabase {
 			s.setIdStazioneMetereologica(rs.getInt("idStazioneMetereologica"));
 			s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
 			s.setNote(rs.getString("note"));
+                        s.setTipoAggregazione(rs.getString("tipoaggregazione"));
+
 		//	s.setOraria(rs.getBoolean("oraria"));
 			s.setDataInizio(rs.getString("datainizio"));
 			s.setDataFine(rs.getString("datafine"));
@@ -1214,8 +1216,8 @@ public class ControllerDatabase {
 			s.setIdStazioneMetereologica(idStazioneMetereologica);
 			s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
 			s.setNote(rs.getString("note"));
-			//System.out.println("note "+rs.getString("note"));
-			//s.setOraria(rs.getBoolean("oraria"));
+                        s.setTipoAggregazione(rs.getString("tipoaggregazione"));
+
 			if(rs.getString("datainizio")!=null)	s.setDataInizio(rs.getString("datainizio"));
 			
 			if(rs.getString("datafine")!=null)	s.setDataFine(rs.getString("datafine"));
@@ -1254,7 +1256,7 @@ public class ControllerDatabase {
 		}
 		ArrayList<Sensori> sensori=prendiSensori(idStazioneMetereologica,loc);
 		s.setSensori(sensori);
-		System.out.println("sono i sensori");
+		
 		rs.close();
 		st.close();
 		conn.close();
@@ -1297,9 +1299,8 @@ public class ControllerDatabase {
 	public static void modificaStazioneMetereologica(StazioneMetereologica s,String enteVecchio,int idStazione) throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		StringBuilder sb = new StringBuilder();
-		StringBuilder su = new StringBuilder();
-                String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?"
+		
+                String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?,tipoaggregazione=? "
                                 + "where idStazioneMetereologica= ?";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 
@@ -1316,8 +1317,10 @@ public class ControllerDatabase {
                 ps.setInt(7,s.ente.getIdEnte());
                 else ps.setNull(7, Types.INTEGER);
 		ps.setInt(8, s.getIdUtente());
+                ps.setString(9,s.getTipoAggregazione());
+
                 System.out.println("id stazione"+s.getIdStazioneMetereologica());
-                ps.setInt(9,s.getIdStazioneMetereologica());
+                ps.setInt(10,s.getIdStazioneMetereologica());
 		System.out.println("query: "+ps.toString());
 		ps.executeUpdate();
 
@@ -1349,26 +1352,41 @@ public class ControllerDatabase {
 	public static void salvaSensoriStazione(StazioneMetereologica s) throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		for(Sensori i:s.getSensori()){
-			 st.executeUpdate("INSERT INTO sensore_stazione(idsensore,idstazionemetereologica) VALUES( "+i.getIdsensori()+","+s.getIdStazioneMetereologica()+")");
+                System.out.println("sono dentro a salva sensore "+s.getSensori().size());
+                StringBuilder sb=new StringBuilder();
+                System.out.println("sens 0:"+s.getSensori().get(0)+" sens 1"+s.getSensori().get(1));
+                sb.append("INSERT INTO sensore_stazione(idsensore,idstazionemetereologica) values");
+		for(int i=0;i<s.getSensori().size();i++){
+			if(i!=s.getSensori().size()-1) sb.append("( "+s.getSensori().get(i).getIdsensori()+","+s.getIdStazioneMetereologica()+"),");
+                        else sb.append("( "+s.getSensori().get(i).getIdsensori()+","+s.getIdStazioneMetereologica()+") ");
 		}
+                System.out.println(sb.toString());
+                st.executeUpdate(sb.toString());
 		st.close();
 		conn.close();
 	}
 	
-	public static int idSensore(String sensore,String loc) throws SQLException{
-		int id=0;
+	public static ArrayList<Sensori> prendiSensore(String[] sensori) throws SQLException{
+                ArrayList<Sensori> s=new ArrayList<Sensori>();
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		
-		ResultSet rs=st.executeQuery("select idsensore from sensore where tipo_"+loc+"='"+sensore+"'");
+		StringBuilder sb=new StringBuilder();
+               
+                sb.append("select *from sensore where idsensore="+sensori[0]);
+                for(int i=1;i<sensori.length;i++) sb.append("or idsensore="+sensori[i] );
+		ResultSet rs=st.executeQuery(sb.toString());
+                System.out.println(sb.toString());
 		while(rs.next()){
-			id=rs.getInt("idsensore");
+                     Sensori se=new Sensori();
+			se.setIdsensori(rs.getInt("idsensore"));
+                        se.setSensori_ENG(rs.getString("tipo_eng"));
+                        se.setSensori_IT(rs.getString("tipo_it"));
+                        s.add(se);
 		}
 		rs.close();
 		st.close();
 		conn.close();
-		return id;
+		return s;
 	}
 	
 	
@@ -1590,12 +1608,12 @@ public class ControllerDatabase {
 		
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		System.out.println("select tipo_"+loc+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
-		ResultSet rs=st.executeQuery("select tipo_"+loc.getLanguage()+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
+		System.out.println("select * from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
+		ResultSet rs=st.executeQuery("select * from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
 		while(rs.next()){
 			Sensori s=new Sensori();
-			if(loc.equals("IT")) s.setSensori_IT((rs.getString("tipo_it")));
-			else s.setSensori_ENG((rs.getString("tipo_eng")));
+			 s.setSensori_IT((rs.getString("tipo_it")));
+                         s.setSensori_ENG((rs.getString("tipo_eng")));
 			
 			s.setIdsensori(rs.getInt("idsensore"));
 			sensori.add(s);
@@ -2444,4 +2462,62 @@ public class ControllerDatabase {
 		 ps.executeUpdate();
 		 conn.close();ps.close();
 	}
+        
+        public static ArrayList<Allegato> cercaAllegatoStazione(int idStazione) throws SQLException{
+            Connection conn = DriverManager.getConnection(url,usr,pwd); 
+            ArrayList<Allegato> a=new ArrayList<Allegato>();
+            String query = "select * from allegati where idallegati in(select idallegati from allegati_stazione where idstazione=?)";
+	    PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1,idStazione);
+            Allegato allegato=new Allegato();
+            ResultSet rs=  ps.executeQuery();
+            while(rs.next()){
+                allegato.setAnno(rs.getString("anno"));
+                allegato.setAutore(rs.getString("autore"));
+                allegato.setData(rs.getTimestamp("data"));
+                allegato.setFonte(rs.getString("fonte"));
+                allegato.setId(rs.getInt("idallegati"));
+                allegato.setIdUtente(rs.getInt("idUtente"));
+                allegato.setLinkFile(rs.getString("linkfile"));
+                allegato.setNella(rs.getString("nella"));
+                allegato.setNote(rs.getString("note"));
+                allegato.setTipoAllegato(rs.getString("tipoallegato"));
+                allegato.setTitolo(rs.getString("titolo"));
+                allegato.setUrlWeb(rs.getString("urlweb"));
+                a.add(allegato);
+            }
+              rs.close();
+
+            conn.close();
+            return a;
+        }
+        public static ArrayList<Allegato> cercaAllegatoProcesso(int idProcesso) throws SQLException{
+            Connection conn = DriverManager.getConnection(url,usr,pwd); 
+            ArrayList<Allegato> a=new ArrayList<Allegato>();
+            String query = "select * from allegati where idallegati in(select idallegati from allegati_processo where idprocesso=?)";
+	    PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1,idProcesso);
+           
+            Allegato allegato=new Allegato();
+            ResultSet rs=  ps.executeQuery();
+                    while(rs.next()){
+                       
+                allegato.setAnno(rs.getString("anno"));
+                allegato.setAutore(rs.getString("autore"));
+                allegato.setData(rs.getTimestamp("data"));
+                allegato.setFonte(rs.getString("fonte"));
+                allegato.setId(rs.getInt("idallegati"));
+                allegato.setIdUtente(rs.getInt("idUtente"));
+                allegato.setLinkFile(rs.getString("linkfile"));
+                allegato.setNella(rs.getString("nella"));
+                allegato.setNote(rs.getString("note"));
+                allegato.setTipoAllegato(rs.getString("tipoallegato"));
+                allegato.setTitolo(rs.getString("titolo"));
+                allegato.setUrlWeb(rs.getString("urlweb"));
+                a.add(allegato);
+            }
+                    rs.close();
+            conn.close();
+            return a;
+        }
 }
