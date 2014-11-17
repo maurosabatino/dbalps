@@ -32,7 +32,9 @@ public class ControllerStazioneMetereologica {
 			String fine=request.getParameter("datafine");
 			s.setDataFine(fine);
 		}else s.setDataFine(null);
-		
+		if(!(request.getParameter("tipoaggregazione").equals(""))){
+                    s.setTipoAggregazione(request.getParameter("tipoaggregazione"));
+                }
 		
 		return s;
 	}
@@ -50,8 +52,9 @@ public class ControllerStazioneMetereologica {
 			Ente ente=creaEnte(request);
 			s.setEnte(ente);
 		}
-		if(!(request.getParameterValues("tipo_"+loc+"")==null)){
-			s.setSensori(creaSensori(request,loc));
+                
+		if(request.getParameterValues("sensori")!=null){
+			s.setSensori(creaSensori(request));
 		}
 		s.setIdUtente(part.getIdUtente());	
 		return s;
@@ -72,41 +75,13 @@ public class ControllerStazioneMetereologica {
 		return ente;
 	}
 	
-	public static ArrayList<Sensori> creaSensori(HttpServletRequest request,String loc) throws SQLException{
+	public static ArrayList<Sensori> creaSensori(HttpServletRequest request) throws SQLException{
 		ArrayList<Sensori> sensori=new ArrayList<Sensori>();
-		int n=0;
-		String[] sensoriScelti= request.getParameterValues("tipo_IT");
-		int idsensore=0;
-				
-		if(loc.equals("IT")){			
-		if(!(sensoriScelti==null)){
-			for(int i=0;i<sensoriScelti.length;i++){
-				idsensore=ControllerDatabase.idSensore(sensoriScelti[i],loc);	
-				Sensori s=new Sensori();
-				s.setIdsensori(idsensore);
-				s.setSensori_IT(sensoriScelti[i]);
-				sensori.add(s);
-			}
-			
-		}
-		}	else {
-			if(!(sensoriScelti==null)){
-				for(int i=0;i<n-1;i++){
-					idsensore=ControllerDatabase.idSensore(sensoriScelti[i],loc);	
-					Sensori s=new Sensori();
-					s.setIdsensori(idsensore);
-					s.setSensori_ENG(sensoriScelti[i]);
-					sensori.add(s);
-				}
-			}
-		}
-		for(Sensori s:sensori){
-			System.out.println("crea sensore "+s.getSensori_IT());
+		String[] sensoriScelti= request.getParameterValues("sensori");
+		if(!(sensoriScelti==null)){		
+				sensori=ControllerDatabase.prendiSensore(sensoriScelti);	
 		}
 		return sensori;
-	}
-		
-	
-	
-	
+
+        }
 }
