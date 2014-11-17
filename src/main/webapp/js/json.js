@@ -21,7 +21,10 @@ $(document).ready(function () {
     autocompleti.push(new Dati('servletJson?op=statoFratturazione',"#statoFratturazione_ENG","#idStatoFratturazione",'idStatoFratturazione','statoFratturazione_ENG','statoFratturazione_ENG','statoFratturazione_ENG'));
     autocompleti.push(new Dati('servletJson?op=proprietaTermiche',"#proprietaTermiche_IT","#idProprietaTermiche",'idProprietaTermiche','proprietaTermiche_IT','proprietaTermiche_IT','proprietaTermiche_IT'));
     autocompleti.push(new Dati('servletJson?op=proprietaTermiche',"#proprietaTermiche_ENG","#idProprietaTermiche",'idProprietaTermiche','proprietaTermiche_ENG','proprietaTermiche_ENG','proprietaTermiche_ENG'));
-    autocompleti.push(new Dati('servletJson?op=',"","",'','','',''));
+    autocompleti.push(new Dati('servletJson?op=sitoProcesso',"#caratteristicaSito_ENG","#idsito",'idsito','caratteristicaSito_ENG','caratteristicaSito_ENG','caratteristicaSito_ENG'));
+    autocompleti.push(new Dati('servletJson?op=sitoProcesso',"#caratteristicaSito_IT","#idsito",'idSito','caratteristicaSito_IT','caratteristicaSito_IT','caratteristicaSito_IT'));
+    autocompleti.push(new Dati('servletJson?op=sitoProcesso',"#caratteristicaSito_ENG","#idsito",'idSito','caratteristicaSito_ENG','caratteristicaSito_ENG','caratteristicaSito_ENG'));
+    autocompleti.push(new Dati('servletJson?op=classeVolume',"#intervallo","#idclasseVolume",'idClasseVolume','intervallo','intervallo','intervallo'));
     
     $.each(autocompleti,function(index,value){
         /*prendo il json dalla response della url*/

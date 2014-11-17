@@ -56,6 +56,8 @@ public class servletJson extends HttpServlet {
             giveProprietaTermiche(response, path);
         } else if (op.equals("sitoProcesso")) {
             giveSitoProcesso(response, path);
+        } else if (op.equals("classeVolume")) {
+            giveClasseVolume(response, path);
         }
 
     }
@@ -148,8 +150,17 @@ public class servletJson extends HttpServlet {
     private void giveSitoProcesso(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
         path += "json/SitoProcesso.json";
         BufferedReader br = new BufferedReader(new FileReader(path));
-        ArrayList<SitoProcesso> sitoProcesso = new Gson().fromJson(br, new TypeToken<ArrayList<SitoProcesso>>() {}.getType());
+        ArrayList<SitoProcesso> sitoProcesso = new Gson().fromJson(br, new TypeToken<ArrayList<SitoProcesso>>() {
+        }.getType());
         response.getWriter().write(new Gson().toJson(sitoProcesso));
+    }
+
+    private void giveClasseVolume(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
+        path += "json/classeVolume.json";
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        ArrayList<ClasseVolume> classeVolume = new Gson().fromJson(br, new TypeToken<ArrayList<ClasseVolume>>() {
+        }.getType());
+        response.getWriter().write(new Gson().toJson(classeVolume));
     }
 
 }

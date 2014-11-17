@@ -99,9 +99,10 @@
                                             <input type="text" name=volumespecifico id="volumeSpecifico" onkeypress="return numberOnly(event)" class="form-control" placeholder=" ${locale.getWord("volumeSpecifico")} " ></div>
                                         <div class="col-xs-6 col-md-6">
                                             <label for="intervallo">${locale.getWord("intervallo")}</label>
-                                            <input type="text" id="intervallo" name=intervallo class="form-control" placeholder="${locale.getWord("intervallo")}">
+                                            <select id="intervallo" name=intervallo class="form-control">
+                                            <input type="hidden" id="idclasseVolume" name="idclasseVolume"/>
                                         </div>
-                                        <input type="hidden" id="idclasseVolume" name="idclasseVolume"  />
+                                        
                                     </div>
 
                                     <br>
@@ -189,7 +190,7 @@
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="lati"> ${locale.getWord("latitudine")} </label>
-                                                    <input type="text" id ="lati"name="lati" class="form-control" placeholder=" ${locale.getWord("latitudine")} ">
+                                                    <input type="text" id ="lati" name="lati" class="form-control" placeholder=" ${locale.getWord("latitudine")} ">
                                                 </div>
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="long"> ${locale.getWord("longitudine")} </label>
@@ -229,7 +230,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="${locale.getWord("caratteristicaSito")}">${locale.getWord("sito")}</label>
-                                                <input type="text" id="${locale.getWord("caratteristicaSito")}" name="${locale.getWord("caratteristicaSito")}" class="form-control" placeholder="${locale.getWord("sito")}"/>
+                                                <select id="${locale.getWord("caratteristicaSito")}" name="${locale.getWord("caratteristicaSito")}" class="form-control" placeholder="${locale.getWord("sito")}"/>
                                                 <input type="hidden" id="idsito" name="idsito"/>
                                             </div>
                                         </div>
