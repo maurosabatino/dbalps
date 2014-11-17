@@ -326,9 +326,9 @@ public class ControllerDatabase {
 				sp.setIdSito(rs.getInt("idsito"));
 				sp.setCaratteristicaSito_IT(rs.getString("caratteristica_it"));
 				sp.setCaratteristicaSito_ENG(rs.getString("caratteristica_eng"));
-				ap.setDanni(prendiDanniProcesso(rs.getInt("idprocesso")));
-				ap.setEffetti(prendiEffettiProcesso(rs.getInt("idprocesso")));
-				ap.setTipologiaProcesso(prendiCaratteristicheProcesso(rs.getInt("idprocesso")));
+				//ap.setDanni(prendiDanniProcesso(rs.getInt("idprocesso")));
+				//ap.setEffetti(prendiEffettiProcesso(rs.getInt("idprocesso")));
+				//ap.setTipologiaProcesso(prendiCaratteristicheProcesso(rs.getInt("idprocesso")));
 				p.setUbicazione(u);
 				al.add(p);
 			}
@@ -1098,6 +1098,7 @@ public class ControllerDatabase {
 	/*
 	 * stazione metereologica
 	 */
+        @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 	public static void salvaStazione(StazioneMetereologica s,Utente part)throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
@@ -1195,7 +1196,7 @@ public class ControllerDatabase {
 		return al;
 
 	}
-	public static StazioneMetereologica prendiStazioneMetereologica(int idStazioneMetereologica,ControllerLingua loc)throws SQLException{
+	public static StazioneMetereologica prendiStazioneMetereologica(int idStazioneMetereologica)throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
 		ResultSet rs =st.executeQuery("select *,st_x(coordinate::geometry) as x ,st_y(coordinate::geometry) as y,e.nome as enome  from stazione_metereologica staz " +
@@ -1256,7 +1257,7 @@ public class ControllerDatabase {
 			s.setIdUtente(rs.getInt("idutentecreatore"));
 			System.out.println("prende ente "+rs.getInt("idente"));
 		}
-		ArrayList<Sensori> sensori=prendiSensori(idStazioneMetereologica,loc);
+		ArrayList<Sensori> sensori=prendiSensori(idStazioneMetereologica);
 		s.setSensori(sensori);
 		System.out.println("sono i sensori");
 		rs.close();
@@ -1589,19 +1590,17 @@ public class ControllerDatabase {
 		return al;
 	}
 	
-	public static ArrayList<Sensori> prendiSensori(int idStazione,ControllerLingua locale) throws SQLException{
+	public static ArrayList<Sensori> prendiSensori(int idStazione) throws SQLException{
 		ArrayList<Sensori> sensori=new ArrayList<Sensori>();
-                String loc="";
-		if(locale.getLanguage().equals("it")) loc = "IT";
-                else loc="ENG";
+                
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		Statement st = conn.createStatement();
-		System.out.println("select tipo_"+loc+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
-		ResultSet rs=st.executeQuery("select tipo_"+loc+",idsensore from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
+		System.out.println("select * from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
+		ResultSet rs=st.executeQuery("select * from sensore where idsensore in(select idsensore from sensore_stazione where idstazionemetereologica="+idStazione+")");
 		while(rs.next()){
 			Sensori s=new Sensori();
-			if(loc.equals("IT")) s.setSensori_IT((rs.getString("tipo_it")));
-			else s.setSensori_ENG((rs.getString("tipo_eng")));
+			 s.setSensori_IT((rs.getString("tipo_it")));
+			s.setSensori_ENG((rs.getString("tipo_eng")));
 			
 			s.setIdsensori(rs.getInt("idsensore"));
 			sensori.add(s);

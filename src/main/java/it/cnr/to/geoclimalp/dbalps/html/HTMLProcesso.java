@@ -103,7 +103,7 @@ public class HTMLProcesso {
             sb.append("</div>");
 
             sb.append("<br><div class =\"row\">");
-            sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"" + locale.getWord("caratteristicaSito") + "\">" + locale.getWord("sito") + "</label><input type=\"text\" id=\"" + locale.getWord("caratteristicaSito") + "\" name=\"" + locale.getWord("caratteristicaSito") + "\" class=\"form-control\"placeholder=\"" + locale.getWord("sito") + "\"/></div>");
+            sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"" + locale.getWord("caratteristicaSito") + "\">" + locale.getWord("sito") + "</label><select type=\"text\" id=\"" + locale.getWord("caratteristicaSito") + "\" name=\"" + locale.getWord("caratteristicaSito") + "\" class=\"form-control\"placeholder=\"" + locale.getWord("sito") + "\"/></div>");
             sb.append("<input type=\"hidden\" id=\"idsito\" name=\"idsito\"/>");
             sb.append("</div>");
             sb.append("<br><div class=\"wrapper\">");

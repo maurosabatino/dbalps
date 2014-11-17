@@ -178,7 +178,7 @@ public class ProvaController {
 		double interpolazione=0;
 		boolean ok=false;	
 		for(int i=0;i<stazione.size();i++){
-			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(stazione.get(i).getIdStazioneMetereologica(),locale);
+			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(stazione.get(i).getIdStazioneMetereologica());
 			int anno=ControllerDatiClimatici.annoRiferimento(t, s.getIdStazioneMetereologica());
 			Grafici gra=new Grafici();
 			ArrayList<Dati> temperature = ProvaController.prendiTDelta(t, aggregazione,s.getIdStazioneMetereologica());
@@ -542,7 +542,7 @@ public class ProvaController {
 		boolean ok=false;
 		ArrayList<Grafici> g=new ArrayList<Grafici>();
 		for(int i=0;i<stazione.size();i++){
-			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica((stazione.get(i).getIdStazioneMetereologica()),locale);
+			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica((stazione.get(i).getIdStazioneMetereologica()));
 			for(int k=0;k<tipi.length;k++){
 				Grafici gra=new Grafici();
 				ArrayList<Dati> da=ProvaController.prendiT(t,s.getIdStazioneMetereologica(),aggregazione,tipi[k]);

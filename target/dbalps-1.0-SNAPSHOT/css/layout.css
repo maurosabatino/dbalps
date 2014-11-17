@@ -11,23 +11,15 @@ body {
 
 
 .header{
- 
-  margin-bottom: 3%;
-  margin-top: 3%;
-  
- 
-}
+ margin-bottom: 3%;
+ margin-top: 3%;
+ }
 .header img{
-  
   border-radius: 15px;
 }
 .header .navbar-default{
-   border-radius: 15px; 
+  border-radius: 15px; 
 }
-
-
-
-
 
 .main{
   background-color:#e6e6e6; 
@@ -47,6 +39,7 @@ body {
   width: 100%;
   
 }
+
 /*
  * Sidebar
  */
@@ -73,24 +66,7 @@ body {
     border-radius: 15px;
   }
 }
- /*@media (min-width: 992px ){  
-     .sidebar{
-         left: 11%;
-     }
-     .main{
-       right: 1.3%;  
-     }
- }
-@media (min-width: 1200) {
-    .sidebar{
-         left: 3%;
-     }
-     .main{
-         
-     }
-}*/
-
-
+ 
 /* Sidebar navigation */
 .nav-sidebar {
   margin-right: 1%; /* 20px padding + 1px border */
@@ -137,12 +113,12 @@ body {
         height: 0;
         overflow: hidden;
     }
-    .google-maps > .map-canvas {
+.google-maps > .map-canvas {
         position: absolute;
         top: 5%;
         left: 0;
         width: 100% !important;
         height: 100% !important;
-    }
+}
     
 

@@ -33,7 +33,7 @@ public class HTMLStazioneMetereologica {
 	}
 	public static String mostraStazioneMetereologica(int idStazioneMetereologica,ControllerLingua loc) throws SQLException{
 		System.out.println("prima");
-		StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica,loc);
+		StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica);
 		System.out.println("dopo");
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> </tr>");
@@ -759,7 +759,7 @@ public class HTMLStazioneMetereologica {
 	public static String formAllegatoStazione(int idstazione,Utente part,ControllerLingua locale) throws SQLException{
 		StringBuilder sb = new StringBuilder();
 		
-		StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione, locale);
+		StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione);
 		sb.append("<form class=\"form-horizontal\" action=\"Servlet\" name=\"dati\" method=\"POST\" enctype=\"multipart/form-data\" >");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Allegu un file alla stazione "+sm.getNome()+"</h4>");
 		sb.append("<br>");

@@ -38,7 +38,7 @@
 
                 <div class="row">
                 <jsp:include page="barraLaterale.jsp"></jsp:include>
-                    <div class="col-md-8 col-md-push-3 col-lg-8 col-lg-push-3 main">
+                    <div class="col-md-8">
                     <jsp:getProperty name="HTMLc" property="content"/>
                     </div>
                 </div>
