@@ -82,7 +82,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		sb.append("<div class=\"row\">");
 		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"tipoaggregazione\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"tipoaggregazione\"  id=\"tipoaggregazione\" class=\"form-control\" placeholder=\"tipo aggregazione\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		/*sb.append("<div class=\"row\">");
@@ -129,7 +129,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Sensori</h4>");
 		for(Sensori sens:ControllerDatabase.prendiTuttiSensori()){
-			sb.append("<input type=\"checkbox\" id=\"sensori\" name=\"tipo_IT\" value=\""+sens.getSensori_IT()+"\" > "+sens.getSensori_IT()+" ");
+			sb.append("<input type=\"checkbox\" id=\"sensori\" name=\"sensori\" value=\""+sens.getIdsensori()+"\" > "+sens.getSensori_IT()+" ");
 		}
 		sb.append("</div>");
 		sb.append("</div>");
@@ -167,8 +167,6 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteLocAmm(ControllerJson.getJsonLocazioneAmminitrativa(path)));
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
-
-                System.out.println("ente:"+ControllerJson.getJsonEnte2(path));
                 
 		String temp;		
 		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">" );
@@ -180,7 +178,7 @@ public class HTMLStazioneMetereologica {
 		
 		sb.append("<div class=\"row\">");
 		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		/*errore?*/	sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"tipoaggregazione\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"tipoaggregazione\"  id=\"tipoaggregazione\" value=\""+s.getTipoAggregazione()+"\" class=\"form-control\" placeholder=\"tipoaggregazione\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		
