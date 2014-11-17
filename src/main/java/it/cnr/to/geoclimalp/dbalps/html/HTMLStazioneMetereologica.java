@@ -260,12 +260,12 @@ public class HTMLStazioneMetereologica {
 					boolean inserito=false;
 					for(int i=0;i<s.getSensori().size();i++){
 						if(sens.getSensori_IT().equals(s.getSensori().get(i).getSensori_IT())){
-							sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getSensori_IT()+"\" checked=\"checked\" > "+sens.getSensori_IT()+" "); 
+							sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getIdsensori()+"\" checked=\"checked\" > "+sens.getSensori_IT()+" "); 
 							inserito=true;
 
 						}
 					}
-					if(inserito==false) sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getSensori_IT()+"\" > "+sens.getSensori_IT()+" ");
+					if(inserito==false) sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getIdsensori()+"\" > "+sens.getSensori_IT()+" ");
 					inserito=false;
 				}
 				
