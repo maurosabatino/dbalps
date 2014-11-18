@@ -15,7 +15,7 @@ public class HTMLScript {
 		sb.append("autoOpen:false,");
 		sb.append("width: '1036',");
 		sb.append("height: '600',");
-        sb.append("position: \"right center\",");
+                sb.append("position: \"right center\",");
 		sb.append("resizeStop: function(event, ui) {google.maps.event.trigger(map, 'resize') },");
 		sb.append("open: function(event, ui) {google.maps.event.trigger(map, 'resize'); },");   
 		sb.append("buttons: {");

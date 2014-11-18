@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
 import com.google.gson.Gson;
@@ -10,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica;
+import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -58,6 +54,10 @@ public class servletJson extends HttpServlet {
             giveSitoProcesso(response, path);
         } else if (op.equals("classeVolume")) {
             giveClasseVolume(response, path);
+        } else if (op.equals("locAmm")) {
+            giveLocAmm(response, path);
+        } else if (op.equals("locIdro")) {
+            giveLocIdro(response, path);
         }
 
     }
@@ -161,6 +161,22 @@ public class servletJson extends HttpServlet {
         ArrayList<ClasseVolume> classeVolume = new Gson().fromJson(br, new TypeToken<ArrayList<ClasseVolume>>() {
         }.getType());
         response.getWriter().write(new Gson().toJson(classeVolume));
+    }
+
+    private void giveLocAmm(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
+        path += "json/LocazioneAmministrativa.json";
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        ArrayList<LocazioneAmministrativa> locAmm = new Gson().fromJson(br, new TypeToken<ArrayList<LocazioneAmministrativa>>() {
+        }.getType());
+        response.getWriter().write(new Gson().toJson(locAmm));
+    }
+
+    private void giveLocIdro(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
+        path += "json/LocazioneIdrologica.json";
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        ArrayList<LocazioneIdrologica> locazioneIdrologica = new Gson().fromJson(br, new TypeToken<ArrayList<LocazioneIdrologica>>() {
+        }.getType());
+        response.getWriter().write(new Gson().toJson(locazioneIdrologica));
     }
 
 }
