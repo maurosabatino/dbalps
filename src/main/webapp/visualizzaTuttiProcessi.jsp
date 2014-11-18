@@ -1,5 +1,7 @@
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.*"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
@@ -17,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tabella.css"/>
+
 
     <!--JAVASCRIPT-->
     <script src="js/jquery-2.1.1.min.js"></script>
@@ -54,21 +58,28 @@
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
      <div class="col-md-9 col-md-offset-3 col-lg-9 col-lg-offset-3 main">
-     <table class="table">
+     <table class="table" >
          <thead>
-             <tr> <th>Nome</th> <th>data</th> <th>comune</th> <th> dettagli</th> </tr>
+             <tr> <th>Nome </th>
+                    <th>Data </th> <th>Comune </th> <th> Dettagli</th> <th> Modifica</th> <th> Elimina</th> </tr>
 	</thead>
-        <tfoot>
-            <tr> <th>Nome</th> <th>data</th> <th>comune</th> <th> dettagli</th> </tr>
-        </tfoot>
+       
         <tbody>
-        <%int i=0;
+        <%
             ArrayList<Processo> processo = (ArrayList<Processo>) request.getAttribute("processo");
         for(Processo p:processo ){ %>
         
             <tr> 
-                <td><%=p.getNome()%> </td> <td><%=p.getData()%></td> <td><%= p.getUbicazione().getLocAmm().getComune() %> </td>	<td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>">dettagli</a></td>
-                         
+                <td><%=p.getNome()%> </td> <td><%=p.getData()%></td> <td><%= p.getUbicazione().getLocAmm().getComune() %> </td>
+                <td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>">Dettagli</a></td>
+                <% Utente part = (Utente) session.getAttribute("partecipante");
+                        if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente()==part.getIdUtente()) )){%>
+                <td> <a href="Servlet?operazione=mostraModificaProcesso&idProcesso=<%=p.getIdProcesso()%>">Modifica</a></td>
+                 <%}%>
+                  <% 
+                        if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente()==part.getIdUtente()) )){%>
+                <td> <a href="Servlet?operazione=eliminaProcesso&idProcesso=<%=p.getIdProcesso()%>">Elimina</a></td>
+                <%}%>
            </tr>
             <%}%>              
 	</tbody>
