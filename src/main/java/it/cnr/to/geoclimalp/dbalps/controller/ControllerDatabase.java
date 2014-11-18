@@ -2456,6 +2456,45 @@ public class ControllerDatabase {
                 conn.close();
                 return p;
         }
+        public static ArrayList<Processo> prendiTuttiProcessiMese(String mese) throws SQLException{
+                Connection conn = DriverManager.getConnection(url,usr,pwd);
+		Statement st = conn.createStatement();
+		ResultSet rs;
+                ArrayList<Processo> p=new ArrayList<Processo>();
+                System.out.println("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))="+mese+"");
+                 rs=st.executeQuery("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))="+mese+"  ");
+                
+                while(rs.next()){
+                    String f=String.valueOf(rs.getInt("formatodata"));
+                    if(f.length()>1){
+                        
+                        if(HTMLProcesso.campoData(f, 1)==true) {
+                           Processo pro=new ProcessoCompleto();
+                           Ubicazione u = new Ubicazione();
+                           pro.setIdProcesso(rs.getInt("idProcesso"));
+				pro.setNome(rs.getString("nome"));
+				pro.setData(rs.getTimestamp("data"));
+                                AttributiProcesso ap = new AttributiProcesso();
+				ap.setAltezza(rs.getDouble("altezza"));
+				ap.setLarghezza(rs.getDouble("larghezza"));
+				ap.setSuperficie(rs.getDouble("superficie"));
+				pro.setFormatoData(rs.getInt("formatodata"));
+				ap.setVolume_specifico(rs.getDouble("volumespecifico"));
+                                LocazioneAmministrativa locAmm=new LocazioneAmministrativa();
+				locAmm.setIdComune(rs.getInt("idcomune"));
+				locAmm.setComune(rs.getString("nomecomune"));
+				
+                                u.setLocAmm(locAmm);
+				pro.setUbicazione(u);
+                                p.add(pro);
+                        }
+                    }
+                }
+                rs.close();
+                st.close();
+                conn.close();
+                return p;
+        }
 	
 // allegati
 	public static int salvaAllegato(int idUtente,String autore,String anno, String titolo, String in, String fonte, String urlWeb, String note, String tipo, String absoluteFile) throws SQLException{
