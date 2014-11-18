@@ -71,7 +71,7 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
 		sb.append(HTMLScript.scriptAutocompleteLocIdro(ControllerJson.getJsonLocazioneIdrologica(path)));
-		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))){
+		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE))){
 				sb.append("<form action=\"Servlet\" class=\"insertStazione\"  method=\"POST\" role=\"form\">");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
               sb.append("<div class=\"form-group\" >");
@@ -159,7 +159,7 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		String loc ="IT";
 		Calendar inizio = new GregorianCalendar();
-		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))) {
+		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE))) {
 		
 		
 		sb.append(HTMLScript.scriptData("datainizio"));
@@ -167,7 +167,8 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteLocAmm(ControllerJson.getJsonLocazioneAmminitrativa(path)));
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
-                
+                sb.append(HTMLScript.scriptAutocompleteLocIdro(ControllerJson.getJsonLocazioneIdrologica(path)));
+                        
 		String temp;		
 		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">" );
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
