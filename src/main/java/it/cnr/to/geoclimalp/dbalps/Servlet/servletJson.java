@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica;
+import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase;
 import java.io.BufferedReader;
@@ -58,6 +58,10 @@ public class servletJson extends HttpServlet {
             giveLocAmm(response, path);
         } else if (op.equals("locIdro")) {
             giveLocIdro(response, path);
+        } else if (op.equals("sitoStazione")) {
+            giveSitoStazione(response, path);
+        } else if (op.equals("ente")) {
+            giveEnte(response, path);
         }
 
     }
@@ -177,6 +181,24 @@ public class servletJson extends HttpServlet {
         ArrayList<LocazioneIdrologica> locazioneIdrologica = new Gson().fromJson(br, new TypeToken<ArrayList<LocazioneIdrologica>>() {
         }.getType());
         response.getWriter().write(new Gson().toJson(locazioneIdrologica));
+    }
+
+    private void giveSitoStazione(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
+        path += "json/SitoStazioneMetereologica.json";
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        ArrayList<SitoStazioneMetereologica> sito = new Gson().fromJson(br, new TypeToken<ArrayList<SitoStazioneMetereologica>>() {
+        }.getType());
+        response.getWriter().write(new Gson().toJson(sito));
+
+    }
+
+    private void giveEnte(HttpServletResponse response, String path) throws FileNotFoundException, IOException {
+        path += "json/Ente.json";
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        ArrayList<Ente> ente = new Gson().fromJson(br, new TypeToken<ArrayList<Ente>>() {
+        }.getType());
+        response.getWriter().write(new Gson().toJson(ente));
+
     }
 
 }

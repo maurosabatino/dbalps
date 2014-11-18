@@ -6,8 +6,7 @@ public class Ente {
 	
 	public Ente(){
 		idEnte=0;
-		ente="";
-			
+		ente="";			
 	}
 
 	public int getIdEnte() {

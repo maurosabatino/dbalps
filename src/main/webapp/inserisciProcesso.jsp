@@ -128,7 +128,7 @@
                                                         } else {
                                                             tipoProc = tp.getNome_ENG();
                                                         }%>
-                                                <input type="checkbox" name=" ${locale.getWord("tipoProcesso")} " value=" <%=tipoProc%> "/>  <%=tipoProc%> 
+                                                <input type="checkbox" name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>"/><%=tipoProc%> 
                                                 <%}%>
                                             </p>
 
