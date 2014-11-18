@@ -28,6 +28,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
+import it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso;
 
 public class ControllerDatabase {
 	static String url = "jdbc:postgresql://localhost:5432/dbalps";//dbalps
@@ -1124,7 +1125,7 @@ public class ControllerDatabase {
 	        }
 		
 		
-		salvaSensoriStazione(s);
+		if(s.getSensori().size()!=0)salvaSensoriStazione(s);
 		rs.close();
 		st.close();
 		conn.close();
@@ -2414,8 +2415,49 @@ public class ControllerDatabase {
 		
 		return temperature;
 	}
+        
+        public static ArrayList<Processo> prendiTuttiProcessiStagioni(String stagione) throws SQLException{
+                Connection conn = DriverManager.getConnection(url,usr,pwd);
+		Statement st = conn.createStatement();
+		ResultSet rs;
+                ArrayList<Processo> p=new ArrayList<Processo>();
+                if(stagione.equals("inverno")) rs=st.executeQuery("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))=12 or (EXTRACT(MONTH FROM processo.data))=1 or (EXTRACT(MONTH FROM processo.data))=2 ");
+                else if(stagione.equals("primavera")) rs=st.executeQuery("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))=3 or (EXTRACT(MONTH FROM processo.data))=4 or (EXTRACT(MONTH FROM processo.data))=5 ");
+                else if(stagione.equals("estate")) rs=st.executeQuery("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))=6 or (EXTRACT(MONTH FROM processo.data))=7 or (EXTRACT(MONTH FROM processo.data))=8 ");
+                else  rs=st.executeQuery("select * from processo left join ubicazione u on (processo.idubicazione=u.idubicazione) left join comune c on (c.idcomune=u.idcomune) where (EXTRACT(MONTH FROM processo.data))=9 or (EXTRACT(MONTH FROM processo.data))=10 or (EXTRACT(MONTH FROM processo.data))=11 ");
+                while(rs.next()){
+                    String f=String.valueOf(rs.getInt("formatodata"));
+                    if(f.length()>1){
+                        
+                        if(HTMLProcesso.campoData(f, 1)==true) {
+                           Processo pro=new ProcessoCompleto();
+                           Ubicazione u = new Ubicazione();
+                           pro.setIdProcesso(rs.getInt("idProcesso"));
+				pro.setNome(rs.getString("nome"));
+				pro.setData(rs.getTimestamp("data"));
+                                AttributiProcesso ap = new AttributiProcesso();
+				ap.setAltezza(rs.getDouble("altezza"));
+				ap.setLarghezza(rs.getDouble("larghezza"));
+				ap.setSuperficie(rs.getDouble("superficie"));
+				pro.setFormatoData(rs.getInt("formatodata"));
+				ap.setVolume_specifico(rs.getDouble("volumespecifico"));
+                                LocazioneAmministrativa locAmm=new LocazioneAmministrativa();
+				locAmm.setIdComune(rs.getInt("idcomune"));
+				locAmm.setComune(rs.getString("nomecomune"));
+				
+                                u.setLocAmm(locAmm);
+				pro.setUbicazione(u);
+                                p.add(pro);
+                        }
+                    }
+                }
+                rs.close();
+                st.close();
+                conn.close();
+                return p;
+        }
 	
-
+// allegati
 	public static int salvaAllegato(int idUtente,String autore,String anno, String titolo, String in, String fonte, String urlWeb, String note, String tipo, String absoluteFile) throws SQLException{
 		Connection conn = DriverManager.getConnection(url,usr,pwd);
 		int idAllegato = 0;
