@@ -165,7 +165,6 @@ public class Servlet extends HttpServlet {
                         
 		}
 		else if(operazione.equals("mostraTuttiProcessi")){
-			String content=HTMLProcesso.mostraTuttiProcessi();
                         ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessi();
 			request.setAttribute("processo", processo);
 			forward(request,response,"/visualizzaTuttiProcessi.jsp");
@@ -173,11 +172,9 @@ public class Servlet extends HttpServlet {
 		}
 		else if(operazione.equals("mostraTuttiProcessiModifica")){
 			Utente part = (Utente)session.getAttribute("partecipante");
-			String content=HTMLProcesso.mostraTuttiProcessiModifica(part);
-			HTMLContent c = new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc",c);
-			forward(request,response,"/processo.jsp");
+			 ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessi();
+			request.setAttribute("processo", processo);
+			forward(request,response,"/visualizzaTuttiProcessi.jsp");
 		}
 		else if(operazione.equals("queryProcesso")){
 			String content=HTMLProcesso.listaQueryProcesso();
@@ -256,6 +253,17 @@ public class Servlet extends HttpServlet {
 			request.setAttribute("HTMLc",c);
 			forward(request,response,"/processo.jsp");
 		}
+                else if(operazione.equals("formRicercaProcessoPerStagione")){
+                         forward(request,response,"/ricercaStagione.jsp");
+                    
+                }
+                 else if(operazione.equals("ricercaProcessoPerStagione")){
+                        String stagione = request.getParameter("stagione");
+                         ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessiStagioni(stagione);
+			request.setAttribute("processo", processo);
+                     forward(request,response,"/visualizzaTuttiProcessi.jsp");
+                    
+                }
 		/*
 		 * Stazione metereologica
 		 */
@@ -295,11 +303,9 @@ public class Servlet extends HttpServlet {
 		}
 		else if(operazione.equals("mostraTutteStazioniMetereologiche")){
 			Utente part =(Utente)session.getAttribute("partecipante");
-			String content=HTMLStazioneMetereologica.mostraTutteStazioniMetereologiche(part);
-			HTMLContent c = new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc",c);
-			forward(request,response,"/stazione.jsp");
+                        ArrayList<StazioneMetereologica> stazione=ControllerDatabase.prendiTutteStazioniMetereologiche();
+                        request.setAttribute("stazione", stazione);
+			forward(request,response,"/visualizzaTutteStazioni.jsp");
 		}
 		else if(operazione.equals("ricercaStazione")){
 		
