@@ -121,7 +121,7 @@ public class HTMLProcesso {
       			sb.append("<div id=\"controls\">");
 				sb.append("<br><div class=\"row\">");
 				sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"latitudine\">"+locale.getWord("latitudine")+"</label><input type=\"text\" id=\"latitudine\"name=\"latitudine\" class=\"form-control\" placeholder=\""+locale.getWord("latitudine")+"\"/></div>");
-				sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"longitudine\">"+locale.getWord("longitudine")+"</label><input type=\"text\" id=\"longitudine\" name=\"longitudine\" class=\"form-control\" placeholder=\""+locale.getWord("longitudine")+"\"/></div>");
+				sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"longitudine\">"+locale.getWord("longitudine")+"</label><input type=\"text\" id=\"longitudine\"name=\"longitudine\" class=\"form-control\" placeholder=\""+locale.getWord("longitudine")+"\"/></div>");
 				sb.append("<div class=\"col-xs-6 col-md-4\"><button type=\"button\" class=\"round-button\"name=\"showMap\" id=\"showMap\"><img src=\"img/map-marker-th.png\"/></button></div>");
 				sb.append("</div>");
 				sb.append("</div>");
@@ -595,6 +595,11 @@ public class HTMLProcesso {
 		}
 		return sb.toString();
 	}
+        public static boolean campoData(String formato,int pos){
+            boolean ce=false;
+            if(formato.charAt(pos)=='1') ce=true;
+            return ce;
+        }
 
 	public static String formCercaProcessi(String path, String loc) throws SQLException {
 		StringBuilder sb = new StringBuilder();
@@ -779,7 +784,8 @@ public class HTMLProcesso {
 		sb.append(HTMLScript.scriptAutcompleteLitologia(ControllerJson.getJsonLitologia(path, loc), loc));
 		sb.append(HTMLScript.scriptAutocompleteSitoProcesso(ControllerJson.getJsonSitoProcesso(path, loc), loc));
 		sb.append(HTMLScript.dialogMaps());
-	
+                
+                String temp="";
 
 			sb.append("<form action=\"Servlet\" name=\"dati\" class=\"insertProcesso\" method=\"POST\" role=\"form\">");
 
@@ -790,7 +796,9 @@ public class HTMLProcesso {
 			sb.append("</div>");
 			sb.append("<br><div class=\"row \">");
 			int a=cal.get(Calendar.YEAR);
-			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"anno\">Anno</label> <input type=\"text\" id=\"anno\" name=\"anno\" class=\"form-control\" value=\""+a+"\"></div>");
+                        if(a!=1) temp=Integer.toString(a);
+                        else temp="";
+			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"anno\">Anno</label> <input type=\"text\" id=\"anno\" name=\"anno\" class=\"form-control\" value=\""+temp+"\"></div>");
 
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"mese\">Mese</label> <select id=\"mese\" name=\"mese\" class=\"form-control\" >");
 			sb.append("<option value=\"vuoto\"> </option>");
@@ -804,7 +812,7 @@ public class HTMLProcesso {
 			sb.append("</div>");
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"giorno\">Giorno</label> <select id=\"giorno\" name=\"giorno\" class=\"form-control\" >");
 			sb.append("<option value=\"vuoto\"> </option>");
-			for (int i = 1; i <= 31; i++){
+                        for (int i = 1; i <= 31; i++){
 				if(cal.get(Calendar.DAY_OF_MONTH)!=i)
 				sb.append("<option value=\"" + i + "\">" + i + "</option>");
 				else
@@ -816,10 +824,18 @@ public class HTMLProcesso {
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"ora\">Ora</label> <input type=\"text\" id=\"ora\" name=\"ora\"  class=\"form-control\" placeholder=\"ora\"></div> ");
 			sb.append("</div>");
 			sb.append("<br><div class=\"row\">");
-			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"superficie\">Superficie</label><input type=\"text\" name=\"superficie\" id=\"superficie\" class=\"form-control\" value=\""+p.getAttributiProcesso().getSuperficie()+" \"></div>");
-			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"larghezza\">Larghezza</label><input type=\"text\" name=\"larghezza\" id=\"larghezza\" class=\"form-control\" value=\""+p.getAttributiProcesso().getLarghezza()+" \"></div>");
-			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"altezza\">Altezza</label><input type=\"text\" name=\"altezza\" id=\"altezza\" class=\"form-control\" value=\""+p.getAttributiProcesso().getAltezza()+" \"></div>");
-			sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"volumeSpecifico\">Volume Specifico</label><input type=\"text\" name=volumespecifico id=\"volumeSpecifico\"class=\"form-control\" value=\""+p.getAttributiProcesso().getVolume_specifico()+"\" ></div>");
+                         if(p.getAttributiProcesso().getSuperficie()!=0.0) temp=Double.toString(p.getAttributiProcesso().getSuperficie());
+                        else temp="";
+			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"superficie\">Superficie</label><input type=\"text\" name=\"superficie\" id=\"superficie\" class=\"form-control\" value=\""+temp+" \"></div>");
+			 if(p.getAttributiProcesso().getLarghezza()!=0.0) temp=Double.toString(p.getAttributiProcesso().getLarghezza());
+                        else temp="";
+                        sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"larghezza\">Larghezza</label><input type=\"text\" name=\"larghezza\" id=\"larghezza\" class=\"form-control\" value=\""+temp+" \"></div>");
+			 if(p.getAttributiProcesso().getAltezza()!=0.0) temp=Double.toString(p.getAttributiProcesso().getAltezza());
+                        else temp="";
+                        sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"altezza\">Altezza</label><input type=\"text\" name=\"altezza\" id=\"altezza\" class=\"form-control\" value=\""+temp+" \"></div>");
+			 if(p.getAttributiProcesso().getVolume_specifico()!=0.0) temp=Double.toString(p.getAttributiProcesso().getVolume_specifico());
+                        else temp="";
+                        sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"volumeSpecifico\">Volume Specifico</label><input type=\"text\" name=volumespecifico id=\"volumeSpecifico\"class=\"form-control\" value=\""+temp+"\" ></div>");
 			if(p.getAttributiProcesso().getClasseVolume().getIntervallo()==null) p.getAttributiProcesso().getClasseVolume().setIntervallo("");
 			sb.append("<div class=\"col-xs-6 col-md-2\"><label for=\"intervallo\">Classe Volume</label><input type=\"text\" id=\"intervallo\" name=intervallo class=\"form-control\" value=\""+p.getAttributiProcesso().getClasseVolume().getIntervallo()+"\"></div>");
 			sb.append("<input type=\"hidden\" id=\"idclasseVolume\" name=\"idclasseVolume\" value=\""+p.getAttributiProcesso().getClasseVolume().getIdClasseVolume()+"\" />");
@@ -1090,6 +1106,8 @@ public class HTMLProcesso {
 		sb.append("       <a href=\"Servlet?operazione=mostraTuttiProcessi\" class=\"list-group-item\"> mostra tutti i processi</a>");
 		sb.append("			  <a href=\"Servlet?operazione=mostraProcessiMaps\" class=\"list-group-item\"> mostra processi sulla mappa</a>");
 		sb.append(" 			<a href=\"Servlet?operazione=formCercaProcessi\" class=\"list-group-item\"> ricerca processo</a>");
+                sb.append(" 			<a href=\"Servlet?operazione=formRicercaProcessoPerStagione\" class=\"list-group-item\"> ricerca processo per stagione</a>");
+                //sb.append(" 			<a href=\"Servlet?operazione=formCercaProcessiMese\" class=\"list-group-item\"> ricerca processo per mese</a>");
 		sb.append("  		</div>");
 		sb.append("  		</div>	");             		
 		return sb.toString();
