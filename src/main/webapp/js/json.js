@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     function Dati(url, input, target, value, label, search, sort) {
         this.url = url;
