@@ -1,3 +1,4 @@
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.*"%>
@@ -61,7 +62,7 @@
      <table class="table" >
          <thead>
              <tr> <th>Nome </th>
-                    <th>Data </th> <th>Comune </th> <th> Dettagli</th> <th> Modifica</th> <th> Elimina</th> </tr>
+                    <th>Data </th> <th>Comune </th><th>Tipologia </th>  <th> Dettagli</th> <th> Modifica</th> <th> Elimina</th> </tr>
 	</thead>
        
         <tbody>
@@ -71,6 +72,14 @@
         
             <tr> 
                 <td><%=p.getNome()%> </td> <td><%=p.getData()%></td> <td><%= p.getUbicazione().getLocAmm().getComune() %> </td>
+                <% int i=0;
+                    StringBuilder tipologia=new StringBuilder();
+                    for(TipologiaProcesso t:p.getAttributiProcesso().getTipologiaProcesso()){
+                        if(!tipologia.toString().equals("")) tipologia.append(" ,");
+                        tipologia.append(t.getNome_IT());
+                    }
+                %>
+                <td><%=tipologia.toString() %></td>
                 <td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>">Dettagli</a></td>
                 <% Utente part = (Utente) session.getAttribute("partecipante");
                         if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente()==part.getIdUtente()) )){%>
