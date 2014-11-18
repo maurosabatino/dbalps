@@ -264,6 +264,17 @@ public class Servlet extends HttpServlet {
                      forward(request,response,"/visualizzaTuttiProcessi.jsp");
                     
                 }
+                 else if(operazione.equals("formRicercaProcessoPerMese")){
+                         forward(request,response,"/ricercaMese.jsp");
+                    
+                }
+                 else if(operazione.equals("ricercaProcessoPerMese")){
+                        String mese = request.getParameter("mese");
+                         ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessiMese(mese);
+			request.setAttribute("processo", processo);
+                     forward(request,response,"/visualizzaTuttiProcessi.jsp");
+                    
+                }
 		/*
 		 * Stazione metereologica
 		 */
