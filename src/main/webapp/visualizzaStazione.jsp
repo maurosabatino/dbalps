@@ -10,7 +10,8 @@
 <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
 <!DOCTYPE html>
-<html>
+<html>   
+    
     <head>
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
