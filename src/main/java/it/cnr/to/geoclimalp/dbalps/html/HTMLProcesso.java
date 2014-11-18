@@ -1107,7 +1107,7 @@ public class HTMLProcesso {
 		sb.append("			  <a href=\"Servlet?operazione=mostraProcessiMaps\" class=\"list-group-item\"> mostra processi sulla mappa</a>");
 		sb.append(" 			<a href=\"Servlet?operazione=formCercaProcessi\" class=\"list-group-item\"> ricerca processo</a>");
                 sb.append(" 			<a href=\"Servlet?operazione=formRicercaProcessoPerStagione\" class=\"list-group-item\"> ricerca processo per stagione</a>");
-                //sb.append(" 			<a href=\"Servlet?operazione=formCercaProcessiMese\" class=\"list-group-item\"> ricerca processo per mese</a>");
+                sb.append(" 			<a href=\"Servlet?operazione=formRicercaProcessoPerMese\" class=\"list-group-item\"> ricerca processo per mese</a>");
 		sb.append("  		</div>");
 		sb.append("  		</div>	");             		
 		return sb.toString();
