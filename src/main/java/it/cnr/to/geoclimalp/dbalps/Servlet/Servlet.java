@@ -185,17 +185,12 @@ public class Servlet extends HttpServlet {
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
+            //modificato da mauro 18/11 ore 16:18
         } else if (operazione.equals("mostraModificaProcesso")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Utente part = (Utente) session.getAttribute("partecipante");
-
             Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-
-            String content = HTMLProcesso.modificaProcesso(p, path, loc, part, locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            request.setAttribute("processo",p);
+            forward(request, response, "/modificaProcesso.jsp");
         } else if (operazione.equals("modificaProcesso")) {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
