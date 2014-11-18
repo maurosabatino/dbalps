@@ -244,91 +244,58 @@ public class ControllerDatabase {
 			conn.close();
 			return p;
 		}
-		
+//modificato 18/11 da daler		
 		public static ArrayList<Processo> prendiTuttiProcessi() throws SQLException{
 			ArrayList<Processo> al = new ArrayList<Processo>();
 			Connection conn = DriverManager.getConnection(url,usr,pwd);
 			Statement st = conn.createStatement();
 			StringBuilder sb = new StringBuilder();
-			sb.append("select *,st_x(coordinate::geometry) as x ,st_y(coordinate::geometry) as y, l.nome_it as lito_it,l.nome_eng as lito_eng,pt.nome_it as pt_it,pt.nome_eng as pt_eng,sf.nome_it as sf_it,sf.nome_eng as sf_eng ");
-			sb.append(" from processo proc ");
-			sb.append(" left join sito_processo sp on (proc.idsito=sp.idsitoprocesso) ");
-			sb.append(" left join classi_volume cv  on (proc.idclassevolume=cv.idclassevolume)");
-			sb.append(" left join litologia l on(proc.idlitologia = l.idlitologia) ");
-			sb.append(" left join proprieta_termiche pt on (pt.idproprietatermiche=proc.idproprietatermiche) ");
-			sb.append(" left join stato_fratturazione sf on (proc.idstatofratturazione=sf.idstatofratturazione)");
-			sb.append(" left join ubicazione u on (proc.idubicazione=u.idubicazione)");
-			sb.append(" left join comune c on (c.idcomune=u.idcomune)");
-			sb.append(" left join provincia p on (c.idProvincia=p.idProvincia)");
-			sb.append(" left join regione r on ( r.idregione=p.idregione)");
-			sb.append(" left join nazione n on (r.idnazione=n.idnazione)");
-			sb.append(" left join sottobacino s on (s.idsottobacino=u.idsottobacino)");
-			sb.append(" left join bacino b on (b.idbacino=s.idbacino)");
+                        int idprocesso=0;
+			sb.append("select * from processo as proc "+
+                          "  left join ubicazione u on (proc.idubicazione=u.idubicazione)"+
+                        "left join comune c on (c.idcomune=u.idcomune)"+
+                        "left join caratteristiche_processo ca on (ca.idprocesso=proc.idprocesso)"+
+                        "left join tipologia_processo ti on (ti.idtipologiaprocesso=ca.idtipologiaprocesso)");
 			ResultSet rs = st.executeQuery(sb.toString());
 			while(rs.next()){
 	          Processo p;
+                  if(idprocesso==rs.getInt("idProcesso")){
+                      idprocesso=rs.getInt("idProcesso");
+                      TipologiaProcesso ti=new TipologiaProcesso();
+                                ti.setIdTipologiaProcesso(rs.getInt("idtipologiaprocesso"));
+                                ti.setNome_ENG(rs.getString("nome_eng"));
+                                ti.setNome_IT(rs.getString("nome_it"));
+                      al.get(al.size()-1).getAttributiProcesso().getTipologiaProcesso().add(ti);
+                      
+                  }else{
+                      
+                  
 	          if(rs.getBoolean("convalidato")) p = new ProcessoCompleto();
 	          else p = new Segnalazione();
+                                 idprocesso=rs.getInt("idProcesso");
 				Ubicazione u = new Ubicazione();
 				Coordinate coord = new Coordinate();
 				LocazioneAmministrativa locAmm = new LocazioneAmministrativa();
-				LocazioneIdrologica locIdro = new LocazioneIdrologica();
-	            AttributiProcesso ap = new AttributiProcesso();
-				p.setIdProcesso(rs.getInt("idProcesso"));
+	                        AttributiProcesso ap = new AttributiProcesso();
+				p.setIdProcesso(rs.getInt("idProcesso")); 
 				p.setNome(rs.getString("nome"));
 				p.setData(rs.getTimestamp("data"));
-				ap.setDescrizione(rs.getString("descrizione"));
-				ap.setNote(rs.getString("note"));
-				ap.setAltezza(rs.getDouble("altezza"));
-				ap.setLarghezza(rs.getDouble("larghezza"));
-				ap.setSuperficie(rs.getDouble("superficie"));
-				ap.setVolume_specifico(rs.getDouble("volumespecifico"));
 				p.setFormatoData(rs.getInt("formatodata"));
-				coord.setX(rs.getDouble("x"));
-				coord.setY(rs.getDouble("y"));
 				locAmm.setIdComune(rs.getInt("idcomune"));
 				locAmm.setComune(rs.getString("nomecomune"));
-				locAmm.setProvincia(rs.getString("nomeprovincia"));
-				locAmm.setRegione(rs.getString("nomeregione"));
-				locAmm.setNazione(rs.getString("nomenazione"));
-				locIdro.setIdSottoBacino(rs.getInt("idsottobacino"));
-				locIdro.setBacino(rs.getString("nomebacino"));
-				locIdro.setSottobacino(rs.getString("nomesottobacino"));
-				u.setCoordinate(coord);
 				u.setLocAmm(locAmm);
-				u.setLocIdro(locIdro);
-				u.setEsposizione(rs.getString("esposizione"));
-				u.setQuota(rs.getDouble("quota"));
 				p.setUbicazione(u);
-				ClasseVolume cv = new ClasseVolume();
-				cv.setIdClasseVolume(rs.getInt("idclassevolume"));
-				cv.setIntervallo(rs.getString("intervallo"));
-				ap.setClasseVolume(cv);
-				Litologia l = new Litologia();
-				l.setIdLitologia(rs.getInt("idlitologia"));
-				l.setNomeLitologia_IT(rs.getString("lito_it"));
-				l.setNomeLitologia_ENG(rs.getString("lito_eng"));
-				ap.setLitologia(l);
-				ProprietaTermiche pt = new ProprietaTermiche();
-				pt.setIdProprietaTermiche(rs.getInt("idproprietatermiche"));
-				pt.setProprietaTermiche_IT(rs.getString("pt_it"));
-				pt.setProprietaTermiche_ENG(rs.getString("pt_eng"));
-				ap.setProprietaTermiche(pt);
-				StatoFratturazione sf = new StatoFratturazione();
-				sf.setIdStatoFratturazione(rs.getInt("idstatofratturazione"));
-				sf.setStatoFratturazione_IT(rs.getString("sf_it"));
-				sf.setStatoFratturazione_ENG(rs.getString("sf_eng"));
-				ap.setStatoFratturazione(sf);
-				SitoProcesso sp = new SitoProcesso();
-				sp.setIdSito(rs.getInt("idsito"));
-				sp.setCaratteristicaSito_IT(rs.getString("caratteristica_it"));
-				sp.setCaratteristicaSito_ENG(rs.getString("caratteristica_eng"));
-				ap.setDanni(prendiDanniProcesso(rs.getInt("idprocesso")));
-				ap.setEffetti(prendiEffettiProcesso(rs.getInt("idprocesso")));
-				ap.setTipologiaProcesso(prendiCaratteristicheProcesso(rs.getInt("idprocesso")));
+                                ArrayList<TipologiaProcesso> tipo=new ArrayList<TipologiaProcesso>();
+                                TipologiaProcesso ti=new TipologiaProcesso();
+                                ti.setIdTipologiaProcesso(rs.getInt("idtipologiaprocesso"));
+                                ti.setNome_ENG(rs.getString("nome_eng"));
+                                ti.setNome_IT(rs.getString("nome_it"));
+                                tipo.add(ti);
+                                ap.setTipologiaProcesso(tipo);
 				p.setUbicazione(u);
+                                p.setAttributiProcesso(ap);
 				al.add(p);
-			}
+			}}
 			rs.close();
 			st.close();
 			conn.close();
@@ -1145,6 +1112,81 @@ public class ControllerDatabase {
 				"left join nazione n on (r.idnazione=n.idnazione)" +
 				"left join sottobacino s on (s.idsottobacino=u.idsottobacino) " +
 				"left join bacino b on (b.idbacino=s.idbacino)" );
+		while(rs.next()){
+			StazioneMetereologica s=new StazioneMetereologica();
+			Ubicazione u = new Ubicazione();
+			Coordinate coord = new Coordinate();
+			LocazioneAmministrativa locAmm = new LocazioneAmministrativa();
+			LocazioneIdrologica locIdro = new LocazioneIdrologica();
+			s.setIdStazioneMetereologica(rs.getInt("idStazioneMetereologica"));
+			s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
+			s.setNote(rs.getString("note"));
+                        s.setTipoAggregazione(rs.getString("tipoaggregazione"));
+
+		//	s.setOraria(rs.getBoolean("oraria"));
+			s.setDataInizio(rs.getString("datainizio"));
+			s.setDataFine(rs.getString("datafine"));
+			s.setNome(rs.getString("nome"));
+			coord.setX(rs.getDouble("x"));
+			coord.setY(rs.getDouble("y"));
+			locAmm.setIdComune(rs.getInt("idcomune"));
+			locAmm.setComune(rs.getString("nomecomune"));
+			locAmm.setProvincia(rs.getString("nomeprovincia"));
+			locAmm.setRegione(rs.getString("nomeregione"));
+			locAmm.setNazione(rs.getString("nomenazione"));
+			locIdro.setIdSottoBacino(rs.getInt("idsottobacino"));
+			locIdro.setBacino(rs.getString("nomebacino"));
+			locIdro.setSottobacino(rs.getString("nomesottobacino"));
+			u.setCoordinate(coord);
+			u.setLocAmm(locAmm);
+			u.setLocIdro(locIdro);
+			u.setEsposizione(rs.getString("esposizione"));
+			u.setQuota(rs.getDouble("quota"));
+			s.setUbicazione(u);
+			Ente e = new Ente();
+			e.setIdEnte(rs.getInt("idente"));
+			e.setEnte(rs.getString("enome"));
+			s.setEnte(e);
+			SitoStazioneMetereologica sito = new SitoStazioneMetereologica();
+			sito.setIdSitoStazioneMetereologica(rs.getInt("idsitostazione"));
+			sito.setCaratteristiche_IT(rs.getString("caratteristiche_it"));
+			sito.setCaratteristiche_ENG(rs.getString("caratteristiche_eng"));
+			s.setSito(sito);
+			s.setIdUtente(rs.getInt("idutentecreatore"));
+			al.add(s);
+		}
+		rs.close();
+		st.close();
+		conn.close();
+		return al;
+
+	}
+        public static ArrayList<StazioneMetereologica> prendiTutteStazioniMetereologicheConDati(String tabella) throws SQLException{
+		ArrayList<StazioneMetereologica> al = new ArrayList<StazioneMetereologica>();
+		Connection conn = DriverManager.getConnection(url,usr,pwd);
+		Statement st = conn.createStatement();
+		System.out.println("select *,st_x(coordinate::geometry) as x ,st_y(coordinate::geometry) as y,e.nome as enome  from stazione_metereologica staz " +
+				"left join sito_stazione ss on (staz.idsitostazione=ss.idsitostazione)" +
+				"left join ente e  on (staz.idente=e.idente)" +
+				"left join ubicazione u on (staz.idubicazione=u.idubicazione)" +
+				"left join comune c on (c.idcomune=u.idcomune)" +
+				"left join provincia p on (c.idProvincia=p.idProvincia)" +
+				"left join regione r on ( r.idregione=p.idregione)" +
+				"left join nazione n on (r.idnazione=n.idnazione)" +
+				"left join sottobacino s on (s.idsottobacino=u.idsottobacino) " +
+				"left join bacino b on (b.idbacino=s.idbacino)"
+                                + " "+tabella );
+		ResultSet rs = st.executeQuery("select *,st_x(coordinate::geometry) as x ,st_y(coordinate::geometry) as y,e.nome as enome  from stazione_metereologica staz " +
+				"left join sito_stazione ss on (staz.idsitostazione=ss.idsitostazione)" +
+				"left join ente e  on (staz.idente=e.idente)" +
+				"left join ubicazione u on (staz.idubicazione=u.idubicazione)" +
+				"left join comune c on (c.idcomune=u.idcomune)" +
+				"left join provincia p on (c.idProvincia=p.idProvincia)" +
+				"left join regione r on ( r.idregione=p.idregione)" +
+				"left join nazione n on (r.idnazione=n.idnazione)" +
+				"left join sottobacino s on (s.idsottobacino=u.idsottobacino) " +
+				"left join bacino b on (b.idbacino=s.idbacino)"
+                                + " "+tabella );
 		while(rs.next()){
 			StazioneMetereologica s=new StazioneMetereologica();
 			Ubicazione u = new Ubicazione();
@@ -2404,10 +2446,8 @@ public class ControllerDatabase {
 		Statement st = conn.createStatement();
 		ResultSet rs;
 		rs=st.executeQuery("select temperatura"+tipo+",data from temperatura_"+tipo+" where  idstazionemetereologica="+id+" and (EXTRACT(MONTH FROM data))::int BETWEEN "+mese+" AND "+mesefinale+" and extract(year from data)="+anno+" order by data");
-		System.out.println("select temperatura"+tipo+",data from temperatura_"+tipo+" where  idstazionemetereologica="+id+" and (EXTRACT(MONTH FROM data))::int BETWEEN "+mese+" AND "+mesefinale+" and extract(year from data)="+anno+"");
 		while(rs.next()){
-			temperature.add(rs.getDouble("temperatura"+tipo+""));
-			
+			temperature.add(rs.getDouble("temperatura"+tipo+""));		
 		}
 		rs.close();
 		st.close();
