@@ -11,7 +11,7 @@ public class AttributiProcesso {
 	private Double larghezza;
 	private Double altezza;
 	private Double volume_specifico;
-    private Litologia litologia;
+        private Litologia litologia;
 	private ProprietaTermiche proprietaTermiche;
 	private StatoFratturazione statoFratturazione;
 	private SitoProcesso SitoProcesso;
@@ -21,6 +21,7 @@ public class AttributiProcesso {
 	String gradoDanno;
 	private ArrayList<TipologiaProcesso> tipologiaProcesso;
         private ArrayList<Allegato> allegati;
+        private int idUtente;
    
     public AttributiProcesso(){
        descrizione = "";
@@ -38,7 +39,8 @@ public class AttributiProcesso {
         danni = new ArrayList<>();
         gradoDanno="";
         tipologiaProcesso = new ArrayList<>();
-        allegati = new ArrayList<>();
+        idUtente=0;
+        
     }
 
   /**
@@ -254,5 +256,15 @@ public void setGradoDanno(String gradoDanno) {
     public void setAllegati(ArrayList<Allegato> allegati) {
         this.allegati = allegati;
     }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
+    }
+  
+  
     
 }

@@ -126,8 +126,7 @@ public class Servlet extends HttpServlet {
          */
         if (operazione.equals("formInserisciProcesso")) {
             forward(request, response, "/inserisciProcesso.jsp");
-        }
-        else if (operazione.equals("inserisciProcesso")) {
+        } else if (operazione.equals("inserisciProcesso")) {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
             String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
@@ -168,8 +167,7 @@ public class Servlet extends HttpServlet {
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
-        }
-        else if (operazione.equals("formCercaProcessi")) {
+        } else if (operazione.equals("formCercaProcessi")) {
 
             String content = HTMLProcesso.formCercaProcessi(path, loc);
             HTMLContent c = new HTMLContent();
@@ -259,7 +257,7 @@ public class Servlet extends HttpServlet {
         } else if (operazione.equals("inserisciStazione")) {
             Utente part = (Utente) session.getAttribute("partecipante");
             Ubicazione u = ControllerUbicazione.nuovaUbicazione(request);
-			//ControllerDatabase.salvaUbicazione(u);
+            //ControllerDatabase.salvaUbicazione(u);
 
             StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
             ControllerDatabase.salvaStazione(s, part);
@@ -323,25 +321,25 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/stazione.jsp");
         } else if (operazione.equals("inserisciStazioneModificata")) {
 
-			Ubicazione u = ControllerUbicazione.inputUbicazione(request);
-			//ControllerDatabase.salvaUbicazione(u);
-			System.out.println("id3= "+u.getIdUbicazione());
+            Ubicazione u = ControllerUbicazione.inputUbicazione(request);
+            //ControllerDatabase.salvaUbicazione(u);
+            System.out.println("id3= " + u.getIdUbicazione());
 
-			Utente part = (Utente)session.getAttribute("partecipante");
+            Utente part = (Utente) session.getAttribute("partecipante");
 
-			StazioneMetereologica s=ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc,u,part);
-                        s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
-			String enteVecchio=request.getParameter("enteVecchio");
-			int idStazione=Integer.parseInt(request.getParameter("idStazione"));
-			System.out.println("id5= "+s.getUbicazione().getIdUbicazione());
-			s.getUbicazione().setIdUbicazione(ControllerDatabase.getIdUbicazioneStazione(idStazione));
-			
-			ControllerDatabase.modificaStazioneMetereologica(s,enteVecchio,idStazione);
-			String content=HTMLStazioneMetereologica.mostraStazioneMetereologica(idStazione,locale);
-			HTMLContent c = new HTMLContent();
-			c.setContent(content);
-			request.setAttribute("HTMLc",c);
-			forward(request,response,"/stazione.jsp");
+            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
+            s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
+            String enteVecchio = request.getParameter("enteVecchio");
+            int idStazione = Integer.parseInt(request.getParameter("idStazione"));
+            System.out.println("id5= " + s.getUbicazione().getIdUbicazione());
+            s.getUbicazione().setIdUbicazione(ControllerDatabase.getIdUbicazioneStazione(idStazione));
+
+            ControllerDatabase.modificaStazioneMetereologica(s, enteVecchio, idStazione);
+            String content = HTMLStazioneMetereologica.mostraStazioneMetereologica(idStazione, locale);
+            HTMLContent c = new HTMLContent();
+            c.setContent(content);
+            request.setAttribute("HTMLc", c);
+            forward(request, response, "/stazione.jsp");
 
         } else if (operazione.equals("mostraStazioneMetereologica")) {
 
@@ -1087,6 +1085,11 @@ public class Servlet extends HttpServlet {
         } else if (operazione.equals("ricaricaJson")) {
             ControllerJson.creaJson(path);
             forward(request, response, "/index.jsp");
+        }else if (operazione.equals("changeLanguage")){
+            loc = request.getParameter("loc");
+            locale = new ControllerLingua(Locale.forLanguageTag(loc));
+            session.setAttribute("loc", loc);
+            session.setAttribute("locale", locale);
         }
 
     }
@@ -1097,47 +1100,49 @@ public class Servlet extends HttpServlet {
         rd.forward(request, response);
     }
 
-    public static List<File> uploadByJavaServletAPI(HttpServletRequest request,String path) throws IOException, ServletException{
-		OutputStream out = null;
-    InputStream filecontent = null;
-    List<File> files = new LinkedList<File>();
-    Collection<Part> parts = request.getParts();	
-    for(Part part:parts){   
-    	if(part.getContentType() != null){
-    		try {
-    			System.out.println(path);
-    			String fileName = getFilename(part);
-    			System.out.println("nome del file: "+fileName);
-    			File file = new File (path +File.separator+fileName);
-    			out = new FileOutputStream(file);
-    			filecontent = part.getInputStream();
-    			int read = 0;
-    			final byte[] bytes = new byte[1024];
-    			while ((read = filecontent.read(bytes)) != -1) {
-    				out.write(bytes, 0, read);
-    			}
-          	files.add(file);
-    		} catch (FileNotFoundException fne) {
-    			
-    		} finally {
-    			if (out != null) {
-    				out.close();
-    			}
-    			if (filecontent != null) {
-    				filecontent.close();
-    			}
-    		}	
-    	}
+    public static List<File> uploadByJavaServletAPI(HttpServletRequest request, String path) throws IOException, ServletException {
+        OutputStream out = null;
+        InputStream filecontent = null;
+        List<File> files = new LinkedList<File>();
+        Collection<Part> parts = request.getParts();
+        for (Part part : parts) {
+            if (part.getContentType() != null) {
+                try {
+                    System.out.println(path);
+                    String fileName = getFilename(part);
+                    System.out.println("nome del file: " + fileName);
+                    File file = new File(path + File.separator + fileName);
+                    out = new FileOutputStream(file);
+                    filecontent = part.getInputStream();
+                    int read = 0;
+                    final byte[] bytes = new byte[1024];
+                    while ((read = filecontent.read(bytes)) != -1) {
+                        out.write(bytes, 0, read);
+                    }
+                    files.add(file);
+                } catch (FileNotFoundException fne) {
+
+                } finally {
+                    if (out != null) {
+                        out.close();
+                    }
+                    if (filecontent != null) {
+                        filecontent.close();
+                    }
+                }
+            }
+        }
+        return files;
     }
-    return files;
-	}
+
     private static String getFilename(Part part) {
-		for (String cd : part.getHeader("content-disposition").split(";")) {
-			if (cd.trim().startsWith("filename")) {
-				String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-				return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-			}
-		}
-		return null;
-	}
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
+    
 }

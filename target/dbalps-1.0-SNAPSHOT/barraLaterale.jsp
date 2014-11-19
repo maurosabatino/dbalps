@@ -11,12 +11,12 @@
                 </ul>
 
                 <ul class="nav nav-sidebar">
-                    <li><a class="img-circle" href="Servlet?operazione=changeLanguage&language=it-IT">
+                    <li><button class="img-circle" id="buttonIT">
                             <img alt="Brand" src="img/italy_round_icon_64.png">Italiano
-                        </a>
-                        <a class="img-circle" href="Servlet?operazione=changeLanguage&language=en-US">
+                        </button>
+                        <button id="buttonENG" class="img-circle">
                             <img alt="Brand" src="img/united_kingdom_round_icon_64.png">English
-                        </a>
+                        </button>
                     </li>
                     <% Utente part = (Utente) session.getAttribute("partecipante");
                         if (part == null) {

@@ -30,8 +30,10 @@
         <script src="js/jquery.stickyfooter.min.js"></script>
         <script src="js/selectize.js"></script>
         <script src="js/json.js"></script>
+        <script src="js/personalLibrary.js"></script>
         <script src="js/mappe.js"></script>
         <script src="js/validator.js"></script>
+        
 
         <!--Google Maps-->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
