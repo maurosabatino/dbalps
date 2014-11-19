@@ -1,5 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
+import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
 
 import java.io.File;
@@ -139,101 +140,224 @@ public class Servlet extends HttpServlet {
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("mostraProcesso")) {
-            int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            String content = HTMLProcesso.mostraProcesso(idProcesso, locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("mostraTuttiProcessi")) {
-            String content = HTMLProcesso.mostraTuttiProcessi();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+        } 
+		else if(operazione.equals("mostraProcesso")){
+			int idProcesso=Integer.parseInt(request.getParameter("idProcesso"));
+			Processo processo = ControllerDatabase.prendiProcesso(idProcesso);
+                        Ubicazione ubicazione = processo.getUbicazione();
+                                                                        System.out.println(" pre allegati");
 
-        } else if (operazione.equals("mostraTuttiProcessiModifica")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
-            String content = HTMLProcesso.mostraTuttiProcessiModifica(part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("queryProcesso")) {
-            String content = HTMLProcesso.listaQueryProcesso();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        }
-        if (operazione.equals("formCercaProcessi")) {
+                        ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoProcesso(idProcesso);
+                                                System.out.println("allegati");
 
-            String content = HTMLProcesso.formCercaProcessi(path, loc);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("cercaProcesso")) {
+                        request.setAttribute("ubicazione", ubicazione);
+                        System.out.println("ubicazione");
+                        processo.getAttributiProcesso().setAllegati(allegati);
+			request.setAttribute("processo", processo);
+                                                System.out.println("processo");
 
-            Processo p = ControllerProcesso.inputProcesso(request, locale);
-            Ubicazione u = ControllerUbicazione.inputUbicazione(request);
-            System.out.println("id ubicazione servlet" + u.getLocAmm().getIdComune());
-            ArrayList<Processo> ap = ControllerDatabase.ricercaProcesso(p, u);
-            String content = HTMLProcesso.mostraCercaProcessi(ap);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-            //modificato da mauro 18/11 ore 16:18
-        } else if (operazione.equals("mostraModificaProcesso")) {
-            int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-            request.setAttribute("processo",p);
-            forward(request, response, "/modificaProcesso.jsp");
-        } else if (operazione.equals("modificaProcesso")) {
-            Utente user = (Utente) session.getAttribute("partecipante");
-            Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
-            String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("eliminaProcesso")) {
-            int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-            ControllerDatabase.eliminaProcesso(p.getIdProcesso(), p.getUbicazione().getIdUbicazione());
-            String content = "ho eliminato il processo " + p.getNome() + "";
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("mostraProcessiMaps")) {
-            String content = HTMLProcesso.mostraProcessiMaps();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("formRicercaSingola")) {
-            String attributi = request.getParameter("attributi");
-            String content = HTMLProcesso.formCercaSingola(attributi, path, loc);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } /*
-         * Stazione metereologica
-         */ else if (operazione.equals("formInserisciStazione")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
+			forward(request,response,"/visualizzaProcesso.jsp");
+                        
+		}
+		else if(operazione.equals("mostraTuttiProcessi")){
+                        ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessi();
+			request.setAttribute("processo", processo);
+			forward(request,response,"/visualizzaTuttiProcessi.jsp");
+		
+		}
+		else if(operazione.equals("mostraTuttiProcessiModifica")){
+			Utente part = (Utente)session.getAttribute("partecipante");
+			 ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessi();
+			request.setAttribute("processo", processo);
+			forward(request,response,"/visualizzaTuttiProcessi.jsp");
+		}
+		else if(operazione.equals("queryProcesso")){
+			String content=HTMLProcesso.listaQueryProcesso();
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		if(operazione.equals("formCercaProcessi")){
+			
+			String content = HTMLProcesso.formCercaProcessi(path, loc);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		else if(operazione.equals("cercaProcesso")){
+			
+			Processo p = ControllerProcesso.inputProcesso(request, locale);
+			Ubicazione u = ControllerUbicazione.inputUbicazione(request);
+			System.out.println("id ubicazione servlet"+u.getLocAmm().getIdComune());
+			ArrayList<Processo> ap =ControllerDatabase.ricercaProcesso(p,u);
+			String content = HTMLProcesso.mostraCercaProcessi(ap);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		else if(operazione.equals("mostraModificaProcesso")){
+			int idProcesso=Integer.parseInt(request.getParameter("idProcesso"));
+			Utente part = (Utente)session.getAttribute("partecipante");
 
-            String content = HTMLStazioneMetereologica.formStazioneMetereologica(path, part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("inserisciStazione")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
-            Ubicazione u = ControllerUbicazione.nuovaUbicazione(request);
+			Processo p = ControllerDatabase.prendiProcesso(idProcesso);
+		
+			String content = HTMLProcesso.modificaProcesso(p,path,loc,part,locale);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		
+		else if(operazione.equals("modificaProcesso")){
+			 Utente user = (Utente)session.getAttribute("partecipante");
+             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
+             String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(),locale);
+             HTMLContent c = new HTMLContent();
+             c.setContent(content);
+             request.setAttribute("HTMLc",c);
+             forward(request,response,"/processo.jsp");
+		}
+		
+		else if(operazione.equals("eliminaProcesso")){
+			int idProcesso=Integer.parseInt(request.getParameter("idProcesso"));
+			Processo p = ControllerDatabase.prendiProcesso(idProcesso);
+			ControllerDatabase.eliminaProcesso(p.getIdProcesso(),p.getUbicazione().getIdUbicazione());
+			String content = "ho eliminato il processo "+p.getNome()+"";
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		
+		
+		else if(operazione.equals("mostraProcessiMaps")){
+			String content=HTMLProcesso.mostraProcessiMaps();
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		else if(operazione.equals("formRicercaSingola")){
+			String attributi = request.getParameter("attributi");
+			String content = HTMLProcesso.formCercaSingola(attributi, path, loc);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+                else if(operazione.equals("formRicercaProcessoPerStagione")){
+                         forward(request,response,"/ricercaStagione.jsp");
+                    
+                }
+                 else if(operazione.equals("ricercaProcessoPerStagione")){
+                        String stagione = request.getParameter("stagione");
+                         ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessiStagioni(stagione);
+			request.setAttribute("processo", processo);
+                     forward(request,response,"/visualizzaTuttiProcessi.jsp");
+                    
+                }
+                 else if(operazione.equals("formRicercaProcessoPerMese")){
+                         forward(request,response,"/ricercaMese.jsp");
+                    
+                }
+                 else if(operazione.equals("ricercaProcessoPerMese")){
+                        String mese = request.getParameter("mese");
+                         ArrayList<Processo> processo=ControllerDatabase.prendiTuttiProcessiMese(mese);
+			request.setAttribute("processo", processo);
+                     forward(request,response,"/visualizzaTuttiProcessi.jsp");
+                    
+                }
+		/*
+		 * Stazione metereologica
+		 */
+		else if(operazione.equals("formInserisciStazione")){
+			Utente part = (Utente)session.getAttribute("partecipante");
+
+			String content = HTMLStazioneMetereologica.formStazioneMetereologica(path,part);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("inserisciStazione")){
+			Utente part = (Utente)session.getAttribute("partecipante");
+			Ubicazione u = ControllerUbicazione.nuovaUbicazione(request);
+			//ControllerDatabase.salvaUbicazione(u);
+			
+			StazioneMetereologica s=ControllerStazioneMetereologica.nuovaStazioneMetereologica(request,loc,u,part);
+			ControllerDatabase.salvaStazione(s,part);
+			String content = HTMLStazioneMetereologica.mostraStazioneMetereologica(s.getIdStazioneMetereologica(),locale);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		
+		}
+		else if(operazione.equals("mostraStazioneMetereologica")){
+
+			int idStazioneMetereologica=Integer.parseInt(request.getParameter("idStazioneMetereologica"));
+			StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica, locale);
+                        Ubicazione ubicazione = stazione.getUbicazione();
+                        ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoStazione(idStazioneMetereologica);
+                        request.setAttribute("ubicazione", ubicazione);
+                        stazione.setAllegati(allegati);
+			request.setAttribute("stazione", stazione);
+			forward(request,response,"/s.jsp");
+		}
+		else if(operazione.equals("mostraTutteStazioniMetereologiche")){
+			Utente part =(Utente)session.getAttribute("partecipante");
+                        ArrayList<StazioneMetereologica> stazione=ControllerDatabase.prendiTutteStazioniMetereologiche();
+                        request.setAttribute("stazione", stazione);
+			forward(request,response,"/visualizzaTutteStazioni.jsp");
+		}
+		else if(operazione.equals("ricercaStazione")){
+		
+			Ubicazione u = ControllerUbicazione.inputUbicazione(request);
+			Utente part = (Utente)session.getAttribute("partecipante");
+
+			StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request,loc,u,part);
+			ArrayList<StazioneMetereologica> ap =ControllerDatabase.ricercaStazioneMetereologica(s,u);
+			String content = HTMLStazioneMetereologica.mostraCercaStazioneMetereologica(ap);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("formRicercaStazione")){
+			String content = HTMLStazioneMetereologica.formRicercaMetereologica(path);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("elencoStazioneModifica")){
+			String content = HTMLStazioneMetereologica.scegliStazioneModifica();
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("modificaStazione")){
+	
+			System.out.print(Integer.parseInt(request.getParameter("idStazioneMetereologica")));
+			Utente part = (Utente)session.getAttribute("partecipante");
+			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")),locale);
+			//StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")),loc);
+			String ente=s.getEnte().getEnte();
+			String content =HTMLStazioneMetereologica.modificaStazioneMetereologica(s,path,part);
+			HTMLContent c = new HTMLContent();
+			c.setContent(content);
+			//request.setAttribute("enteVecchio", idente);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("inserisciStazioneModificata")){
+
+			Ubicazione u = ControllerUbicazione.inputUbicazione(request);
+>>>>>>> 904f633480fe7a2158fdc5b6f12a5757a7a019b7
 			//ControllerDatabase.salvaUbicazione(u);
 
             StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
@@ -822,217 +946,234 @@ public class Servlet extends HttpServlet {
              }
              out.println();
 				
-				
-             }*/
 
-            out.close();
+			}*/
+			
+		
+		
+		out.close();
+		
+	        File downloadFile = new File(test);
+	        FileInputStream inStream = new FileInputStream(downloadFile);
+	   		         
+	        // obtains ServletContext
+	        ServletContext context = getServletContext();
+	         
+	        // gets MIME type of the file
+	        String mimeType = context.getMimeType(test);
+	        if (mimeType == null) {        
+	            // set to binary type if MIME mapping not found
+	            mimeType = "application/octet-stream";
+	        }
+	        
+	        // modifies response
+	        response.setContentType(mimeType);
+	        response.setContentLength((int) downloadFile.length());
+	         
+	        // forces download
+	        String headerKey = "Content-Disposition";
+	        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+	        response.setHeader(headerKey, headerValue);
+	         
+	        // obtains response's output stream
+	        OutputStream outStream = response.getOutputStream();
+	         
+	        byte[] buffer = new byte[4096];
+	        int bytesRead = -1;
+	         
+	        while ((bytesRead = inStream.read(buffer)) != -1) {
+	            outStream.write(buffer, 0, bytesRead);
+	        }
+	         
+	        inStream.close();
+	        outStream.close();
+	}
+	
+	else if(operazione.equals("scegliProcessoAllegato")){
+		String content = HTMLProcesso.mostraTuttiProcessiAllega();
+		HTMLContent c=new HTMLContent();
+		c.setContent(content);
+		request.setAttribute("HTMLc",c);
+		forward(request,response,"/processo.jsp");
+	}
+	else if(operazione.equals("formAllegatoProcesso")){
+		int idprocesso = Integer.parseInt(request.getParameter("idprocesso"));
+		Utente part = (Utente)session.getAttribute("partecipante");
 
-            File downloadFile = new File(test);
-            FileInputStream inStream = new FileInputStream(downloadFile);
+		String content = HTMLProcesso.formAllegatoProcesso(idprocesso,part);
+		HTMLContent c=new HTMLContent();
+		c.setContent(content);
+		request.setAttribute("HTMLc",c);
+		forward(request,response,"/processo.jsp");
+	}
+			
+		else if(operazione.equals("uploadAllegatoProcesso")){
+			String uploadPath = path + "\\" + "allegatiProcesso";
+			File uploadDir = new File(uploadPath);
+	    if (!uploadDir.exists()) {
+	        uploadDir.mkdir();
+	    }
+	    int idProcesso = Integer.parseInt(request.getParameter("idprocesso"));
+	    Processo p = ControllerDatabase.prendiProcesso(idProcesso);
+	    String autore = "";
+	    String anno = "";
+	    String titolo = "";
+	    String in = "";
+	    String fonte = "";
+	    String urlWeb = "";
+	    String note = "";
+	    String tipo = "";
+	    Utente part = (Utente) session.getAttribute("partecipante");
+	    String uploadPathProcesso = path + "\\" + "allegatiProcesso\\"+""+p.getNome()+"";
+			File uploadDirP = new File(uploadPathProcesso);
+	    if (!uploadDirP.exists()) {
+	        uploadDirP.mkdir();
+	    }
+	    
+	    List<File> uploadFile = uploadByJavaServletAPI(request, uploadPathProcesso);
+	    if(!(uploadFile.isEmpty())){
+	    	for(File f:uploadFile){
+	    		autore = request.getParameter("autore");
+	    		anno = request.getParameter("anno");
+	    		titolo = request.getParameter("titolo");
+	    		in = request.getParameter("in");
+	    		fonte = request.getParameter("fonte");
+	    		urlWeb = request.getParameter("urlWeb");
+	    		note = request.getParameter("note");
+	    		tipo = request.getParameter("tipo");
+	    		ControllerDatabase.salvaAllegatoProcesso(idProcesso,part.getIdUtente(),autore,anno,titolo,in,fonte,urlWeb,note,tipo,f.getAbsolutePath());
+	    	}
+	    }
+	    String content = "<h5>allegato il file per il proceso: "+p.getNome()+"</h5>";
+	    HTMLContent c=new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/processo.jsp");
+		}
+		
+		else if(operazione.equals("scegliStazioneAllegato")){
+			String content = HTMLStazioneMetereologica.scegliStazioneAllegati();
+			HTMLContent c=new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		else if(operazione.equals("formAllegatoStazione")){
+			int idstazione = Integer.parseInt(request.getParameter("idstazione"));
+			Utente part = (Utente)session.getAttribute("partecipante");
 
-            // obtains ServletContext
-            ServletContext context = getServletContext();
-
-            // gets MIME type of the file
-            String mimeType = context.getMimeType(test);
-            if (mimeType == null) {
-                // set to binary type if MIME mapping not found
-                mimeType = "application/octet-stream";
-            }
-
-            // modifies response
-            response.setContentType(mimeType);
-            response.setContentLength((int) downloadFile.length());
-
-            // forces download
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-            response.setHeader(headerKey, headerValue);
-
-            // obtains response's output stream
-            OutputStream outStream = response.getOutputStream();
-
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
-            }
-
-            inStream.close();
-            outStream.close();
-        } else if (operazione.equals("scegliProcessoAllegato")) {
-            String content = HTMLProcesso.mostraTuttiProcessiAllega();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("formAllegatoProcesso")) {
-            int idprocesso = Integer.parseInt(request.getParameter("idprocesso"));
-            Utente part = (Utente) session.getAttribute("partecipante");
-
-            String content = HTMLProcesso.formAllegatoProcesso(idprocesso, part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("uploadAllegatoProcesso")) {
-            String uploadPath = path + "\\" + "allegatiProcesso";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            int idProcesso = Integer.parseInt(request.getParameter("idprocesso"));
-            Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-            String autore = "";
-            String anno = "";
-            String titolo = "";
-            String in = "";
-            String fonte = "";
-            String urlWeb = "";
-            String note = "";
-            String tipo = "";
-            Utente part = (Utente) session.getAttribute("partecipante");
-            String uploadPathProcesso = path + "\\" + "allegatiProcesso\\" + "" + p.getNome() + "";
-            File uploadDirP = new File(uploadPathProcesso);
-            if (!uploadDirP.exists()) {
-                uploadDirP.mkdir();
-            }
-
-            List<File> uploadFile = uploadByJavaServletAPI(request, uploadPathProcesso);
-            if (!(uploadFile.isEmpty())) {
-                for (File f : uploadFile) {
-                    autore = request.getParameter("autore");
-                    anno = request.getParameter("anno");
-                    titolo = request.getParameter("titolo");
-                    in = request.getParameter("in");
-                    fonte = request.getParameter("fonte");
-                    urlWeb = request.getParameter("urlWeb");
-                    note = request.getParameter("note");
-                    tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoProcesso(idProcesso, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, f.getAbsolutePath());
+			String content = HTMLStazioneMetereologica.formAllegatoStazione(idstazione,part,locale);
+			HTMLContent c=new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+		}
+		
+		else if(operazione.equals("uploadAllegatoStazione")){
+			String uploadPath = path + "\\" + "allegatiStazione";
+			File uploadDir = new File(uploadPath);
+	    if (!uploadDir.exists()) {
+	        uploadDir.mkdir();
+	    }
+	    int idstazione = Integer.parseInt(request.getParameter("idstazione"));
+	    StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione, locale);
+	    String autore = "";
+	    String anno = "";
+	    String titolo = "";
+	    String in = "";
+	    String fonte = "";
+	    String urlWeb = "";
+	    String note = "";
+	    String tipo = "";
+	    Utente part = (Utente) session.getAttribute("partecipante");
+	    String uploadPathStazione = path + "\\" + "allegatiStazione\\"+""+sm.getNome()+"";
+			File uploadDirP = new File(uploadPathStazione);
+	    if (!uploadDirP.exists()) {
+	        uploadDirP.mkdir();
+	    }
+	    
+	    List<File> uploadFile = uploadByJavaServletAPI(request, uploadPathStazione);
+	    if(!(uploadFile.isEmpty())){
+	    	for(File f:uploadFile){
+	    		autore = request.getParameter("autore");
+	    		System.out.println("autore:"+request.getParameter("autore"));
+	    		anno = request.getParameter("anno");
+	    		titolo = request.getParameter("titolo");
+	    		in = request.getParameter("in");
+	    		fonte = request.getParameter("fonte");
+	    		urlWeb = request.getParameter("urlWeb");
+	    		note = request.getParameter("note");
+	    		tipo = request.getParameter("tipo");
+	    		ControllerDatabase.salvaAllegatoStazione(idstazione,part.getIdUtente(),autore,anno,titolo,in,fonte,urlWeb,note,tipo,f.getAbsolutePath());
+	    	}
+	    }
+	    String content = "<h5>allegato il file per la stazione: "+sm.getNome()+"</h5>";
+	    HTMLContent c=new HTMLContent();
+			c.setContent(content);
+			request.setAttribute("HTMLc",c);
+			forward(request,response,"/stazione.jsp");
+	    
+		}
+                else if(operazione.equals("mostraAllegatiStazione")){
+                    
+                }else if(operazione.equals("mostraAllegatiProcesso")){
+                    // da completare
                 }
-            }
-            String content = "<h5>allegato il file per il proceso: " + p.getNome() + "</h5>";
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
-        } else if (operazione.equals("scegliStazioneAllegato")) {
-            String content = HTMLStazioneMetereologica.scegliStazioneAllegati();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("formAllegatoStazione")) {
-            int idstazione = Integer.parseInt(request.getParameter("idstazione"));
-            Utente part = (Utente) session.getAttribute("partecipante");
-
-            String content = HTMLStazioneMetereologica.formAllegatoStazione(idstazione, part, locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("uploadAllegatoStazione")) {
-            String uploadPath = path + "\\" + "allegatiStazione";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            int idstazione = Integer.parseInt(request.getParameter("idstazione"));
-            StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione);
-            String autore = "";
-            String anno = "";
-            String titolo = "";
-            String in = "";
-            String fonte = "";
-            String urlWeb = "";
-            String note = "";
-            String tipo = "";
-            Utente part = (Utente) session.getAttribute("partecipante");
-            String uploadPathStazione = path + "\\" + "allegatiStazione\\" + "" + sm.getNome() + "";
-            File uploadDirP = new File(uploadPathStazione);
-            if (!uploadDirP.exists()) {
-                uploadDirP.mkdir();
-            }
-
-            List<File> uploadFile = uploadByJavaServletAPI(request, uploadPathStazione);
-            if (!(uploadFile.isEmpty())) {
-                for (File f : uploadFile) {
-                    autore = request.getParameter("autore");
-                    System.out.println("autore:" + request.getParameter("autore"));
-                    anno = request.getParameter("anno");
-                    titolo = request.getParameter("titolo");
-                    in = request.getParameter("in");
-                    fonte = request.getParameter("fonte");
-                    urlWeb = request.getParameter("urlWeb");
-                    note = request.getParameter("note");
-                    tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoStazione(idstazione, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, f.getAbsolutePath());
+                else if(operazione.equals("scegliStazioneAllegati")){
+                    //completare
+                }else if(operazione.equals("scegliProcessoAllegati")){
+                    // da completare
                 }
-            }
-            String content = "<h5>allegato il file per la stazione: " + sm.getNome() + "</h5>";
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-
-        } else if (operazione.equals("ricaricaJson")) {
-            ControllerJson.creaJson(path);
-            forward(request, response, "/index.jsp");
-        }
-
-    }
-
-    private void forward(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher rd = sc.getRequestDispatcher(page);
-        rd.forward(request, response);
-    }
-
-    public static List<File> uploadByJavaServletAPI(HttpServletRequest request, String path) throws IOException, ServletException {
-        OutputStream out = null;
-        InputStream filecontent = null;
-        List<File> files = new LinkedList<File>();
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getContentType() != null) {
-                try {
-                    System.out.println(path);
-                    String fileName = getFilename(part);
-                    System.out.println("nome del file: " + fileName);
-                    File file = new File(path + File.separator + fileName);
-                    out = new FileOutputStream(file);
-                    filecontent = part.getInputStream();
-                    int read = 0;
-                    final byte[] bytes = new byte[1024];
-                    while ((read = filecontent.read(bytes)) != -1) {
-                        out.write(bytes, 0, read);
-                    }
-                    files.add(file);
-                } catch (FileNotFoundException fne) {
-
-                } finally {
-                    if (out != null) {
-                        out.close();
-                    }
-                    if (filecontent != null) {
-                        filecontent.close();
-                    }
-                }
-            }
-        }
-        return files;
-    }
-
-    private static String getFilename(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
+		else if(operazione.equals("ricaricaJson")){
+			ControllerJson.creaJson(path);
+			forward(request,response,"/index.jsp");
+		}
+		
+		
+	}
+								
+			
+	    
+	
+	private void forward(HttpServletRequest request, HttpServletResponse response, String page)  throws ServletException, IOException {
+		        ServletContext sc = getServletContext();
+		        RequestDispatcher rd = sc.getRequestDispatcher(page);
+		        rd.forward(request,response);
+	}
+	
+	
+	public static List<File> uploadByJavaServletAPI(HttpServletRequest request,String path) throws IOException, ServletException{
+		OutputStream out = null;
+    InputStream filecontent = null;
+    List<File> files = new LinkedList<File>();
+    Collection<Part> parts = request.getParts();	
+    for(Part part:parts){   
+    	if(part.getContentType() != null){
+    		try {
+    			System.out.println(path);
+    			String fileName = getFilename(part);
+    			System.out.println("nome del file: "+fileName);
+    			File file = new File (path +File.separator+fileName);
+    			out = new FileOutputStream(file);
+    			filecontent = part.getInputStream();
+    			int read = 0;
+    			final byte[] bytes = new byte[1024];
+    			while ((read = filecontent.read(bytes)) != -1) {
+    				out.write(bytes, 0, read);
+    			}
+          	files.add(file);
+    		} catch (FileNotFoundException fne) {
+    			
+    		} finally {
+    			if (out != null) {
+    				out.close();
+    			}
+    			if (filecontent != null) {
+    				filecontent.close();
+    			}
+    		}	
+    	}
+>>>>>>> 904f633480fe7a2158fdc5b6f12a5757a7a019b7
     }
 
 }
