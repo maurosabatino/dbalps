@@ -1,4 +1,3 @@
-
 package it.cnr.to.geoclimalp.dbalps.html;
 
 import com.google.gson.GsonBuilder;
@@ -622,6 +621,14 @@ public class HTMLProcesso {
             }
         }
         return sb.toString();
+    }
+
+    public static boolean campoData(String formato, int pos) {
+        boolean ce = false;
+        if (formato.charAt(pos) == '1') {
+            ce = true;
+        }
+        return ce;
     }
 
     public static String formCercaProcessi(String path, String loc) throws SQLException {
