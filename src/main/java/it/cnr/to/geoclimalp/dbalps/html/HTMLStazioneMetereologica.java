@@ -1,6 +1,5 @@
 package it.cnr.to.geoclimalp.dbalps.html;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,7 +65,6 @@ public class HTMLStazioneMetereologica {
 	 	sb.append(HTMLScript.scriptControlloInserimento("nome"));
 	 	sb.append(HTMLScript.scriptControlloInserimento("comune"));
 	 	sb.append(HTMLScript.scriptChiusuraControlloInserimento());
-
 		sb.append(HTMLScript.scriptAutocompleteLocAmm(ControllerJson.getJsonLocazioneAmminitrativa(path)));
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
@@ -75,7 +73,6 @@ public class HTMLStazioneMetereologica {
 				sb.append("<form action=\"Servlet\" class=\"insertStazione\"  method=\"POST\" role=\"form\">");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
               sb.append("<div class=\"form-group\" >");
-
                 sb.append("<div class=\"row\">");
 		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"nome\">nome</label> <input type=\"text\" name=\"nome\" id=\"nome\" class=\"form-control\" placeholder=nome ></div>");
 		sb.append("</div>");
@@ -660,8 +657,9 @@ public class HTMLStazioneMetereologica {
 	}
 	
 	
-	public static String scegliStazioniQuery(String op) throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+	public static String scegliStazioniQuery(String op,String tabella) throws SQLException{
+                
+		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 			sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
