@@ -22,7 +22,12 @@ public class AttributiProcesso {
 	private ArrayList<TipologiaProcesso> tipologiaProcesso;
         private ArrayList<Allegato> allegati;
         private int idUtente;
-   
+        private double runout;
+        private double volumeAccumulo;
+        private double superficieAccumulo;
+        private boolean pubblico;
+        private String fonte;
+        
     public AttributiProcesso(){
        descrizione = "";
         note = "";
@@ -40,7 +45,11 @@ public class AttributiProcesso {
         gradoDanno="";
         tipologiaProcesso = new ArrayList<>();
         idUtente=0;
-        
+        runout=0.0;
+        superficieAccumulo=0.0;
+        volumeAccumulo=0.0;
+        pubblico = false;
+        fonte = "";
     }
 
   /**
@@ -263,6 +272,46 @@ public void setGradoDanno(String gradoDanno) {
 
     public void setIdUtente(int idUtente) {
         this.idUtente = idUtente;
+    }
+
+    public double getRunout() {
+        return runout;
+    }
+
+    public void setRunout(double runout) {
+        this.runout = runout;
+    }
+
+    public double getVolumeAccumulo() {
+        return volumeAccumulo;
+    }
+
+    public void setVolumeAccumulo(double volumeAccumulo) {
+        this.volumeAccumulo = volumeAccumulo;
+    }
+
+    public double getSuperficieAccumulo() {
+        return superficieAccumulo;
+    }
+
+    public void setSuperficieAccumulo(double superficieAccumulo) {
+        this.superficieAccumulo = superficieAccumulo;
+    }
+
+    public boolean isPubblico() {
+        return pubblico;
+    }
+
+    public void setPubblico(boolean pubblico) {
+        this.pubblico = pubblico;
+    }
+
+    public String getFonte() {
+        return fonte;
+    }
+
+    public void setFonte(String fonte) {
+        this.fonte = fonte;
     }
   
   

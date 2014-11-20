@@ -37,11 +37,13 @@ public class ControllerDatabase {
     /**
      * Processo
      */
+    //modificato per i nuovi attributi del processo
     public static Processo salvaProcesso(Processo p, Utente user) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         String sql = "INSERT INTO processo(idUbicazione,idSito,nome,data,descrizione,note,altezza,larghezza,superficie,volumespecifico,"
-                + "idutentecreatore,idutentemodifica,convalidato,idclassevolume,idlitologia,idproprietatermiche,idstatofratturazione,formatodata,gradodanno)"
-                + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                    +"idutentecreatore,idutentemodifica,convalidato,idclassevolume,idlitologia,idproprietatermiche,idstatofratturazione,"
+                    + "formatodata,gradodanno,runout,volumeaccumulo,superficieaccumulo,pubblico,fonte)"
+                    +" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         if (p.getUbicazione().getIdUbicazione() != 0) {
@@ -101,10 +103,13 @@ public class ControllerDatabase {
         }
         ps.setInt(18, p.getFormatoData());
         ps.setString(19, p.getAttributiProcesso().getGradoDanno());
-
+        
+        ps.setDouble(20, p.getAttributiProcesso().getRunout());
+        ps.setDouble(22, p.getAttributiProcesso().getSuperficieAccumulo());
+        ps.setDouble(21, p.getAttributiProcesso().getVolumeAccumulo());
+        ps.setBoolean(23, p.getAttributiProcesso().isPubblico());
+        ps.setString(24, p.getAttributiProcesso().getFonte());
         ps.executeUpdate();
-
-        System.out.println("Query insert Processo: " + ps.toString());
 
         ResultSet rs = ps.getGeneratedKeys();
 
@@ -144,7 +149,7 @@ public class ControllerDatabase {
         st.close();
         conn.close();
     }
-
+    //modificato per i nuovi attributi del processo
     public static Processo prendiProcesso(int idProcesso) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
@@ -180,20 +185,21 @@ public class ControllerDatabase {
             }
             p.setIdProcesso(rs.getInt("idProcesso"));
             p.setNome(rs.getString("nome"));
-            System.out.println("nome processo" + p.getNome());
             p.setData(rs.getTimestamp("data"));
             AttributiProcesso ap = new AttributiProcesso();
             ap.setDescrizione(rs.getString("descrizione"));
-            System.out.println("DEASCRIZIONE " + ap.getDescrizione());
             ap.setNote(rs.getString("note"));
-            System.out.println("grado danno: " + rs.getString("gradodanno"));
             ap.setGradoDanno(rs.getString("gradodanno"));
             ap.setAltezza(rs.getDouble("altezza"));
             ap.setLarghezza(rs.getDouble("larghezza"));
             ap.setSuperficie(rs.getDouble("superficie"));
             p.setFormatoData(rs.getInt("formatodata"));
             ap.setVolume_specifico(rs.getDouble("volumespecifico"));
-
+            ap.setRunout(rs.getDouble("runout"));
+            ap.setVolumeAccumulo(rs.getDouble("volumeaccumulo"));
+            ap.setSuperficieAccumulo(rs.getDouble("superficieaccumulo"));
+            ap.setFonte(rs.getString("fonte"));
+            ap.setPubblico(rs.getBoolean("pubblico"));
             coord.setX(rs.getDouble("x"));
             coord.setY(rs.getDouble("y"));
             locAmm.setIdComune(rs.getInt("idcomune"));
@@ -210,7 +216,6 @@ public class ControllerDatabase {
             u.setLocIdro(locIdro);
             u.setEsposizione(rs.getString("esposizione"));
             u.setAttendibilita(rs.getString("aff"));
-            System.out.println("quota: " + rs.getDouble("q") + " idubicazione=" + rs.getInt("idubicazione"));
             u.setQuota(rs.getDouble("q"));
             p.setUbicazione(u);
             ClasseVolume cv = new ClasseVolume();
@@ -235,8 +240,6 @@ public class ControllerDatabase {
 
             SitoProcesso sp = new SitoProcesso();
             sp.setIdSito(rs.getInt("idsito"));
-
-            System.out.println("sito da db: " + rs.getString("caratteristica_it"));
             sp.setCaratteristicaSito_IT(rs.getString("caratteristica_it"));
             sp.setCaratteristicaSito_ENG(rs.getString("caratteristica_eng"));
             ap.setSitoProcesso(sp);
@@ -650,7 +653,8 @@ public class ControllerDatabase {
         StringBuilder su = new StringBuilder();
 
         String sql = "update processo set idSito=?,nome=?,data=?,descrizione=?,note=?,altezza=?,larghezza=?,superficie=?,volumespecifico=?,"
-                + "idutentemodifica=?,convalidato=?,idclassevolume=?,idlitologia=?,idproprietatermiche=?,idstatofratturazione=?,formatodata=?,gradodanno=?"
+                + "idutentemodifica=?,convalidato=?,idclassevolume=?,idlitologia=?,idproprietatermiche=?,idstatofratturazione=?,formatodata=?,gradodanno=?,"
+                + "runout = ?,volumeaccumulo=?,superficieaccumulo=?,pubblico=?,fonte=?"
                 + "where idprocesso = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -705,7 +709,12 @@ public class ControllerDatabase {
         }
         ps.setInt(16, p.getFormatoData());
         ps.setString(17, p.getAttributiProcesso().getGradoDanno());
-        ps.setInt(18, p.getIdProcesso());
+        ps.setDouble(18, p.getAttributiProcesso().getRunout());
+        ps.setDouble(19, p.getAttributiProcesso().getVolumeAccumulo());
+        ps.setDouble(20, p.getAttributiProcesso().getSuperficieAccumulo());
+        ps.setBoolean(21, p.getAttributiProcesso().isPubblico());
+        ps.setString(23, p.getAttributiProcesso().getFonte());
+        ps.setInt(24, p.getIdProcesso());
         System.out.println("query Processo: " + ps.toString());
         ps.executeUpdate();
 
