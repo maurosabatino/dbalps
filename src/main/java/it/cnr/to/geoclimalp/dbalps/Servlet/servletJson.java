@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mauro
  */
+
 @WebServlet(name = "servletJson", urlPatterns = {"/servletJson"})
 public class servletJson extends HttpServlet {
 

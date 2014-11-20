@@ -1465,9 +1465,7 @@ public class ControllerDatabase {
     public static void salvaSensoriStazione(StazioneMetereologica s) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
-        System.out.println("sono dentro a salva sensore " + s.getSensori().size());
         StringBuilder sb = new StringBuilder();
-        System.out.println("sens 0:" + s.getSensori().get(0) + " sens 1" + s.getSensori().get(1));
         sb.append("INSERT INTO sensore_stazione(idsensore,idstazionemetereologica) values");
         for (int i = 0; i < s.getSensori().size(); i++) {
             if (i != s.getSensori().size() - 1) {

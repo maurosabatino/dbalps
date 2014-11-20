@@ -10,14 +10,20 @@
     <head>
         <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
         <jsp:setProperty  name="locale" property="*"/>
+        
         <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
         <jsp:setProperty  name="partecipante" property="*"/>
+        
+        <jsp:useBean id="stazione" class="it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica" scope="request" />
+            <jsp:setProperty  name="stazione" property="*"/>
+            <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
+<jsp:setProperty  name="ubicazione" property="*"/>
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="css/selectize.bootstrap3.css"/>
         <link rel="stylesheet" type="text/css" href="css/layout.css"/>
-       <!-- <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>-->
+        <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
 
         <!--JAVASCRIPT-->
@@ -33,7 +39,10 @@
         <script src="js/json.js"></script>
         <script src="js/mappe.js"></script>
         <script src="js/validator.js"></script>
-
+        
+        <script>
+            $("#ente").ready(function(){ 
+                $("#ente idente[1]").prop("selected", "selected"); }); </script>
         <!--Google Maps-->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
         <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
@@ -44,9 +53,7 @@
         <div class="container">
             <jsp:include page="header.jsp"></jsp:include>
 
-                <div class="row">
-                    <jsp:include page="barraLaterale.jsp"></jsp:include>
-                    
+                <div class="row"> 
                     <div class="col-md-8">
                     <%if (partecipante != null && (partecipante.getRuolo().equals(Role.AMMINISTRATORE) || partecipante.getRuolo().equals(Role.AVANZATO))) {%>
                     <form action="Servlet" id="insertStazione"  method="POST" role="form">
@@ -54,24 +61,24 @@
 
                                 <div class="form-group" >
                                     <div class="row">
-                                        <div class="col-xs-6 col-md-6"><label for="nome">${locale.getWord("nome")}</label> <input type="text" name="nome" id="nome" class="form-control" placeholder="<%=locale.getWord("nome") %>" ></div>
+                                        <div class="col-xs-6 col-md-6"><label for="nome">${locale.getWord("nome")}</label> <input type="text" name="nome" id="nome" value="${stazione.nome}" class="form-control" placeholder="<%=locale.getWord("nome") %>" ></div>
 		</div>
 		<br>
 		<div class="row">
-			<div class="col-xs-6 col-md-4"><label for="aggregazionegiornaliera">${locale.getWord("aggregazioneTemporale")}<input type="text" name="aggregazioneGiornaliera"  id="aggregazionegiornaliera" class="form-control" placeholder="aggregazione giornaliera"></div>	
-			<div class="col-xs-6 col-md-3"><label for="tipoaggregazione">${locale.getWord("tipoDiAggregazioneGiornaliera")}<input type="text" name="tipoaggregazione"  id="tipoaggregazione" class="form-control" placeholder="tipo aggregazione"></div>
+			<div class="col-xs-6 col-md-4"><label for="aggregazionegiornaliera">${locale.getWord("aggregazioneTemporale")}<input type="text" name="aggregazioneGiornaliera"  id="aggregazionegiornaliera" value="${stazione.aggregazioneGiornaliera}" class="form-control" placeholder="aggregazione giornaliera"></div>	
+			<div class="col-xs-6 col-md-3"><label for="tipoaggregazione">${locale.getWord("tipoDiAggregazioneGiornaliera")}<input type="text" name="tipoaggregazione"  id="tipoaggregazione" value="${stazione.tipoAggregazione}" class="form-control" placeholder="tipo aggregazione"></div>
 		</div>
 		<br>
 		<div class="row">
-		<div class="col-xs-6 col-md-4"><label for="datainizio">${locale.getWord("dataInizio")} <input type="text"  id="datainizio" name="datainizio" class="form-control" placeholder="datainizio"></div>
-		<div class="col-xs-6 col-md-4"><label for="datafine">${locale.getWord("dataFine")}<input type="text" id="datafine" name="datafine" class="form-control" placeholder="datafine"></div>
+		<div class="col-xs-6 col-md-4"><label for="datainizio">${locale.getWord("dataInizio")} <input type="text"  id="datainizio" name="datainizio" value="${stazione.dataInizio}" class="form-control" placeholder="datainizio"></div>
+		<div class="col-xs-6 col-md-4"><label for="datafine">${locale.getWord("dataFine")}<input type="text" id="datafine" name="datafine" value="${stazione.dataFine}" class="form-control" placeholder="datafine"></div>
 		</div>
 		<br>
 		<div class="row">
                      <div class="col-xs-6 col-md-6">
                                             <label for="ente">${locale.getWord("ente")}</label>
                                             <select id="ente" name=ente class="form-control">
-                                            <input type="hidden" id="idEnte" name="idEnte"/>
+                                            <input type="hidden" id="idEnte" name="idEnte" />                                           
                                         </div>
 		</div>
                
@@ -84,7 +91,9 @@
                                             <div class="form-group" >
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="sottobacino">${locale.getWord("sottobacino")}</label>
-                                                    <select type="text" id="sottobacino" name="sottobacino" class="form-control" placeholder=" ${locale.getWord("sottobacino")}"></select>
+                                                  
+                                                 <select  id="sottobacino" name="sottobacino"  class="form-control" ></select>
+
                                                 </div>
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="bacino">${locale.getWord("bacino")}</label>
@@ -97,7 +106,7 @@
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-3">
                                                     <label for="comune">${locale.getWord("comune")}</label>
-                                                    <select id="comune" name="comune" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
+                                                    <select id="comune" name="comune" value="${ubicazione.locAmm.comune}" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
                                                     <input type="hidden" id="idcomune" name="idcomune" />
                                                 </div>
 
@@ -119,11 +128,11 @@
                                                 <div class="row">
                                                     <div class="col-xs-6 col-md-4">
                                                         <label for="latitudine">${locale.getWord("latitudine")}</label>
-                                                        <input type="text" id="latitudine" name="latitudine" class="form-control" placeholder=" ${locale.getWord("latitudine")} "/>
+                                                        <input type="text" id="latitudine"  name="latitudine" value="${ubicazione.coordinate.getX()}"  class="form-control" placeholder=" ${locale.getWord("latitudine")} "/>
                                                     </div>
                                                     <div class="col-xs-6 col-md-4">
                                                         <label for="longitudine"> ${locale.getWord("longitudine")} </label>
-                                                        <input type="text" id="longitudine" name="longitudine" class="form-control" placeholder=" ${locale.getWord("longitudine")} "/>
+                                                        <input type="text" id="longitudine" name="longitudine" value="${ubicazione.coordinate.getY()}" class="form-control" placeholder=" ${locale.getWord("longitudine")} "/>
                                                     </div>
                                                     <div class="col-xs-6 col-md-4">
                                                         <button type="button" class="round-button" name="showMap" id="showMap">
@@ -152,20 +161,20 @@
                                         <div class="row">
                                             <div class="col-xs-6 col-md-6">
                                                 <label for="quota"> ${locale.getWord("quota")} </label>
-                                                <input type="text" id="quota" name="quota" class="form-control" placeholder=" ${locale.getWord("quota")} "/>
+                                                <input type="text" id="quota" name="quota" value="${ubicazione.quota}" class="form-control" placeholder=" ${locale.getWord("quota")} "/>
                                             </div>
                                             <div class="col-xs-6 col-md-6">
                                                 <label for="esposizione"> ${locale.getWord("esposizione")} </label> 
                                                 <select class="form-control" name="esposizione" id="esposizione">
                                                     <option value=""></option>
-                                                    <option value="${locale.getWord("n")}"> ${locale.getWord("n")} </option>
-                                                    <option value="${locale.getWord("ne")}"> ${locale.getWord("ne")} </option>
-                                                    <option value="${locale.getWord("e")}"> ${locale.getWord("e")} </option>
-                                                    <option value="${locale.getWord("se")}"> ${locale.getWord("se")} </option>
-                                                    <option value="${locale.getWord("s")}"> ${locale.getWord("s")} </option>
-                                                    <option value="${locale.getWord("so")}"> ${locale.getWord("so")} </option>
-                                                    <option value="${locale.getWord("o")}"> ${locale.getWord("o")} </option>
-                                                    <option value="${locale.getWord("no")}"> ${locale.getWord("no")} </option>
+                                                    <option value=" ${locale.getWord("n")} "> ${locale.getWord("n")} </option>
+                                                    <option value=" ${locale.getWord("ne")} "> ${locale.getWord("ne")} </option>
+                                                    <option value=" ${locale.getWord("e")} "> ${locale.getWord("e")} </option>
+                                                    <option value=" ${locale.getWord("se")} "> ${locale.getWord("se")} </option>
+                                                    <option value=" ${locale.getWord("s")} "> ${locale.getWord("s")} </option>
+                                                    <option value=" ${locale.getWord("so")} "> ${locale.getWord("so")} </option>
+                                                    <option value=" ${locale.getWord("o")} "> ${locale.getWord("o")} </option>
+                                                    <option value=" ${locale.getWord("no")} "> ${locale.getWord("no")} </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -200,7 +209,7 @@
                                         <label for="note"> ${locale.getWord("note")} </label>
                                     </div>
                                     <div class="content-secondary">
-                                        <textarea rows="5" cols="90" name="note" id="note" class="textarea" placeholder="Note"></textarea>
+                                        <textarea rows="5" cols="100" name="note" id="note"  class="textarea" placeholder="Note">${stazione.note}</textarea>
                                     </div>
                                 </div>
 

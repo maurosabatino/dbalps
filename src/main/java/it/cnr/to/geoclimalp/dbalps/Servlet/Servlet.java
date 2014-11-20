@@ -187,15 +187,10 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("mostraModificaProcesso")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Utente part = (Utente) session.getAttribute("partecipante");
-
             Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-
-            String content = HTMLProcesso.modificaProcesso(p, path, loc, part, locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            request.setAttribute("processo",p);
+            forward(request, response, "/modificaProcesso.jsp");
+	
         } else if (operazione.equals("modificaProcesso")) {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
@@ -247,13 +242,7 @@ public class Servlet extends HttpServlet {
         } /*
          * Stazione metereologica
          */ else if (operazione.equals("formInserisciStazione")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
-
-            String content = HTMLStazioneMetereologica.formStazioneMetereologica(path, part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
+            forward(request,response,"/inserisciStazione.jsp");
         } else if (operazione.equals("inserisciStazione")) {
             Utente part = (Utente) session.getAttribute("partecipante");
             Ubicazione u = ControllerUbicazione.nuovaUbicazione(request);
@@ -306,20 +295,15 @@ public class Servlet extends HttpServlet {
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("modificaStazione")) {
-
-            System.out.print(Integer.parseInt(request.getParameter("idStazioneMetereologica")));
-            Utente part = (Utente) session.getAttribute("partecipante");
-            StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")));
-            //StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")),loc);
-            String ente = s.getEnte().getEnte();
-            String content = HTMLStazioneMetereologica.modificaStazioneMetereologica(s, path, part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            //request.setAttribute("enteVecchio", idente);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("inserisciStazioneModificata")) {
+        } 
+        else if(operazione.equals("modificaStazione")){
+			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")));			
+			Ubicazione ubicazione = s.getUbicazione();
+                        request.setAttribute("stazione",s);
+                         request.setAttribute("ubicazione",ubicazione);
+			forward(request,response,"/modificaStazione.jsp");
+        }
+        else if (operazione.equals("inserisciStazioneModificata")) {
 
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             //ControllerDatabase.salvaUbicazione(u);
@@ -340,94 +324,24 @@ public class Servlet extends HttpServlet {
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
-
-        } else if (operazione.equals("mostraStazioneMetereologica")) {
-
-            int idStazioneMetereologica = Integer.parseInt(request.getParameter("idStazioneMetereologica"));
-
-            StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica);
-            Ubicazione ubicazione = stazione.getUbicazione();
-            request.setAttribute("ubicazione", ubicazione);
-            request.setAttribute("stazione", stazione);
-            forward(request, response, "/visualizzaStazione.jsp");
-        } else if (operazione.equals("mostraTutteStazioniMetereologiche")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
-            String content = HTMLStazioneMetereologica.mostraTutteStazioniMetereologiche(part);
+		}
+		else if(operazione.equals("queryStazione")){
+			String content = HTMLStazioneMetereologica.listaQueryStazione();
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("ricercaStazione")) {
-
-            Ubicazione u = ControllerUbicazione.inputUbicazione(request);
-            Utente part = (Utente) session.getAttribute("partecipante");
-
-            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
-            ArrayList<StazioneMetereologica> ap = ControllerDatabase.ricercaStazioneMetereologica(s, u);
-            String content = HTMLStazioneMetereologica.mostraCercaStazioneMetereologica(ap);
+		}
+		else if(operazione.equals("mostraStazioniMaps")){	
+			String content=HTMLStazioneMetereologica.mostraStazioniMaps();
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("formRicercaStazione")) {
-            String content = HTMLStazioneMetereologica.formRicercaMetereologica(path);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("elencoStazioneModifica")) {
-            String content = HTMLStazioneMetereologica.scegliStazioneModifica();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("modificaStazione")) {
+		}
 
-            System.out.print(Integer.parseInt(request.getParameter("idStazioneMetereologica")));
-            Utente part = (Utente) session.getAttribute("partecipante");
-            StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")));
-            //StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(request.getParameter("idStazioneMetereologica")),loc);
-            String ente = s.getEnte().getEnte();
-            String content = HTMLStazioneMetereologica.modificaStazioneMetereologica(s, path, part);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            //request.setAttribute("enteVecchio", idente);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("inserisciStazioneModificata")) {
+		//elaborazioni
 
-            Ubicazione u = ControllerUbicazione.inputUbicazione(request);
-            //ControllerDatabase.salvaUbicazione(u);
-            System.out.println("id3= " + u.getIdUbicazione());
-
-            Utente part = (Utente) session.getAttribute("partecipante");
-
-            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
-            s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
-            String enteVecchio = request.getParameter("enteVecchio");
-            int idStazione = Integer.parseInt(request.getParameter("idStazione"));
-            System.out.println("id5= " + s.getUbicazione().getIdUbicazione());
-            s.getUbicazione().setIdUbicazione(ControllerDatabase.getIdUbicazioneStazione(idStazione));
-
-            ControllerDatabase.modificaStazioneMetereologica(s, enteVecchio, idStazione);
-            String content = HTMLStazioneMetereologica.mostraStazioneMetereologica(idStazione, locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("queryStazione")) {
-            String content = HTMLStazioneMetereologica.listaQueryStazione();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } else if (operazione.equals("mostraStazioniMaps")) {
-            String content = HTMLStazioneMetereologica.mostraStazioniMaps();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
-        } //elaborazioni
         else if (operazione.equals("scegliRaggio")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
             session.setAttribute("idProcesso", idProcesso);
@@ -603,7 +517,7 @@ public class Servlet extends HttpServlet {
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
             ArrayList<Grafici> g = ProvaController.mediaTemperatura(stazione, aggregazione, data, gradiente, quota, tipi, locale);
             String titolo = "Temperatura";
-            String unita = "(�C)";
+            String unita = "(°C)";
             String content = HTMLElaborazioni.grafici(g, titolo, unita);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
@@ -762,20 +676,36 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/elaborazioni.jsp");
         } else if (operazione.equals("precipitazioniMese") || operazione.equals("precipitazioniTrimestre") || operazione.equals("precipitazioniAnno") || operazione.equals("temperaturaEPrecipitazioneAnno") || operazione.equals("temperaturaAnno") || operazione.equals("temperaturaTrimestre")) {
             String op;
+                String tabella="";
             if (operazione.equals("precipitazioniMese")) {
                 op = "datiQueryPrecipitazioniMese";
-            } else if (operazione.equals("precipitazioniTrimestre")) {
+                     tabella="where idstazionemetereologica in(select distinct(idstazionemetereologica) from precipitazione)";
+                }
+		else if(operazione.equals("precipitazioniTrimestre")){
                 op = "datiQueryPrecipitazioniTrimestre";
-            } else if (operazione.equals("precipitazioniAnno")) {
+                    tabella="where idstazionemetereologica in(select distinct(idstazionemetereologica) from precipitazione)";
+                }
+		else if(operazione.equals("precipitazioniAnno")){
                 op = "datiQueryPrecipitazioniAnno";
-            } else if (operazione.equals("temperaturaAnno")) {
+                    tabella="where idstazionemetereologica in(select distinct(idstazionemetereologica) from precipitazione)";
+                }
+		else if(operazione.equals("temperaturaAnno")){
                 op = "datiQueryTemperaturaAnno";
-            } else if (operazione.equals("temperaturaTrimestre")) {
+                    tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
+"                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+                }
+		else if(operazione.equals("temperaturaTrimestre")){
                 op = "datiQueryTemperaturaTrimestre";
-            } else {
+                    tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
+"                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+                }
+
+                else{
                 op = "datiTemperaturaEPrecipitazioneAnno";
+                    tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
+                    "        UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
             }
-            String content = HTMLStazioneMetereologica.scegliStazioniQuery(op);
+            String content = HTMLStazioneMetereologica.scegliStazioniQuery(op,tabella);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);

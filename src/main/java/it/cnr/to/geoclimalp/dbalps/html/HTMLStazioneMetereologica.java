@@ -660,8 +660,8 @@ public class HTMLStazioneMetereologica {
 	}
 	
 	
-	public static String scegliStazioniQuery(String op) throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+	public static String scegliStazioniQuery(String op,String tabella) throws SQLException{
+		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 			sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
