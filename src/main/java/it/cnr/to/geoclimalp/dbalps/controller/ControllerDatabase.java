@@ -2253,7 +2253,7 @@ public class ControllerDatabase {
             OperazioneUtente o=new OperazioneUtente();
             o.setData(rs.getTimestamp("data"));
             o.setData(rs.getTimestamp("datafine"));
-            o.setData(rs.getTimestamp("datainizio"));
+            o.setData(rs.getTimestamp("datainzio"));
             o.setIdProcesso(rs.getInt("idprocesso"));
             o.setIdStazione(rs.getInt("idstazione"));
             o.setOperazione(rs.getString("operazione"));
@@ -2268,6 +2268,31 @@ public class ControllerDatabase {
         st.close();
         conn.close();
         return operazioni;
+    }
+    
+    public static int aggiornaTracciaUtente(OperazioneUtente op) throws SQLException{
+        int traccia=0;
+         Connection conn = DriverManager.getConnection(url, usr, pwd);
+        String sql = "insert into tracciautente(idutente,data,tabella,operazione,idstazione,datainzio,datafine,idprocesso) values(?,?,?,?,?,?,?,?)";
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, op.getIdUtente());
+        ps.setTimestamp(2, op.getData());
+        ps.setString(3, op.getTabella());
+        ps.setString(4, op.getOperazione());
+        ps.setInt(5, op.getIdStazione());
+        ps.setTimestamp(6, op.getDataInizio());
+        ps.setTimestamp(7, op.getDataFine());
+        ps.setInt(8, op.getIdProcesso());
+  
+         ResultSet rs = ps.getGeneratedKeys();
+        while (rs.next()) {
+            traccia=(rs.getInt("idtraccia"));
+        }
+        rs.close();
+        
+         ps.executeUpdate();
+        conn.close();
+        return traccia;
     }
     
     

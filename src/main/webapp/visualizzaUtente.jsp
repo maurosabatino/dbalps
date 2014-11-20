@@ -1,3 +1,4 @@
+<%@page import="java.sql.Timestamp"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
@@ -95,18 +96,40 @@
 <div class="container-fluid">
  <table class="table" >
          <thead>
-             <tr> <th>${locale.getWord("operazione")}</th> <th>${locale.getWord("tabella")}</th>  <th>${locale.getWord("data")}</th> <th> ${locale.getWord("processo")}</th> <th> ${locale.getWord("stazione")}</th> </tr>
+             <tr> <th>${locale.getWord("operazione")}</th> <th>${locale.getWord("tabella")}</th>  <th>${locale.getWord("data")}</th> <th> ${locale.getWord("tipo")}</th> <th> ${locale.getWord("nomeTipo")}</th> </tr>
 	</thead>
        
         <tbody> 
-             <%
-            
+             <%       
              for(OperazioneUtente op: partecipante.getOperazioni() ){ %>
 			<tr>
                         <td><%= op.getOperazione() %> </td> <td> <%= op.getTabella() %></td>
-			<td><%= op.getData() %></td> 
-			<td><%= op.getIdProcesso() %></td>
-                        <td><%= op.getIdStazione()  %></td>			
+			
+                        <% String tipo="";
+                            Timestamp data=new Timestamp(0);
+                            String nome="";
+                        if(op.getIdProcesso()!=0){
+                            tipo=""+locale.getWord("processo");
+                            data=op.getData();
+                            nome=op.getNomeProcesso();
+                        }
+                        else if(op.getIdStazione()!=0){
+                            tipo=""+locale.getWord("stazione");
+                             data=op.getData();
+                             nome=op.getNomeStazione();
+                        }
+                        else if(op.getDataInizio()!=null){
+                            tipo="Login";
+                             data=op.getDataInizio();
+                        }
+                        else{
+                            tipo="Logout";
+                             data=op.getDataFine();
+                        }
+                        %>
+                        <td><%= data %></td> 
+			<td><%= tipo %></td>
+                        <td><%= nome  %></td>			
 			</tr>
                         <%}%>
 		</tbody>

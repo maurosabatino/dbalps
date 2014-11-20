@@ -19,10 +19,12 @@ public class OperazioneUtente {
     Timestamp dataFine;
     String operazione;
     String tabella;
+    String nomeProcesso;
+    String nomeStazione;
     int idStazione;
     int idProcesso;
 
-    public OperazioneUtente(int idUtente, int idTraccia, Timestamp data, Timestamp dataInizio, Timestamp dataFine, String operazione, int idStazione, int idProcesso,String tabella) {
+    public OperazioneUtente(int idUtente, int idTraccia, Timestamp data, Timestamp dataInizio, Timestamp dataFine, String operazione, int idStazione, int idProcesso,String tabella,String nomeProcesso,String nomeStazione) {
         this.idUtente = idUtente;
         this.idTraccia = idTraccia;
         this.data = data;
@@ -32,6 +34,8 @@ public class OperazioneUtente {
        this.tabella = tabella;
         this.idStazione = idStazione;
         this.idProcesso = idProcesso;
+        this.nomeProcesso=nomeProcesso;
+        this.nomeStazione=nomeStazione;
     }
     
       public OperazioneUtente() {
@@ -44,6 +48,8 @@ public class OperazioneUtente {
         this.idStazione = 0;
         this.idProcesso = 0;
         this.tabella="";
+         this.nomeProcesso="";
+        this.nomeStazione="";
     }
 
     public int getIdUtente() {
@@ -116,6 +122,22 @@ public class OperazioneUtente {
 
     public void setTabella(String tabella) {
         this.tabella = tabella;
+    }
+
+    public String getNomeProcesso() {
+        return nomeProcesso;
+    }
+
+    public void setNomeProcesso(String nomeProcesso) {
+        this.nomeProcesso = nomeProcesso;
+    }
+
+    public String getNomeStazione() {
+        return nomeStazione;
+    }
+
+    public void setNomeStazione(String nomeStazione) {
+        this.nomeStazione = nomeStazione;
     }
 
   

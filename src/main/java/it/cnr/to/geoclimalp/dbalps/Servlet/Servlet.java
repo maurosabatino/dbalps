@@ -37,6 +37,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import it.cnr.to.geoclimalp.dbalps.bean.Dati;
 import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
 import it.cnr.to.geoclimalp.dbalps.bean.HTMLContent;
+import it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
@@ -127,8 +128,18 @@ public class Servlet extends HttpServlet {
         if (operazione.equals("formInserisciProcesso")) {
             forward(request, response, "/inserisciProcesso.jsp");
         } else if (operazione.equals("inserisciProcesso")) {
+            
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
+            OperazioneUtente op=new OperazioneUtente();
+            op.setData(null);
+            op.setIdProcesso(p.getIdProcesso());
+            int idutente=user.getIdUtente();
+            op.setIdUtente(idutente);
+            op.setTabella("processo");
+            op.setNomeProcesso(p.getNome());
+            op.setOperazione("inserito processo");
+            int t=ControllerDatabase.aggiornaTracciaUtente(op);
             String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
