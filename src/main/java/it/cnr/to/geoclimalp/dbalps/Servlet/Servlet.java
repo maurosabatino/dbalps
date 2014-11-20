@@ -631,11 +631,9 @@ public class Servlet extends HttpServlet {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else if (operazione.equals("visualizzaTuttiUtenti")) {
-            String content = HTMLUtente.visualizzaTuttiUtente();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/utente.jsp");
+            ArrayList<Utente> utenti = ControllerDatabase.PrendiTuttiUtenti();
+            request.setAttribute("utenti", utenti);
+            forward(request, response, "/visualizzaTuttiUtenti.jsp");
         } //query
         else if (operazione.equals("queryClimatiche")) {
             String content = HTMLElaborazioni.sceltaQuery();

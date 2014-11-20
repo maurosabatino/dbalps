@@ -2241,6 +2241,14 @@ public class ControllerDatabase {
         conn.close();
         return part;
     }
+    
+    public static Utente prendiUtente() throws SQLException {
+        Utente u=new Utente();
+        
+        return u;
+    }
+    
+    
 
     public static String dataCorrente() {
         Calendar cal = new GregorianCalendar();

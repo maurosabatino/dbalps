@@ -1,6 +1,8 @@
 package it.cnr.to.geoclimalp.dbalps.bean.Utente;
 
+import it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Utente {
 	int idUtente;
@@ -12,6 +14,7 @@ public class Utente {
 	Role ruolo;
 	Timestamp dataCreazione;
 	Timestamp dataultimoAccesso;
+        ArrayList<OperazioneUtente> operazioni;
 	
 	public Utente(){
 		idUtente=0;
@@ -23,6 +26,7 @@ public class Utente {
 		ruolo = Role.BASE;
 		dataCreazione=new Timestamp(0);
 		dataultimoAccesso=new Timestamp(0);
+                operazioni=new ArrayList<OperazioneUtente>();
 	}
 	
 	public void setIdUtente(int id){
@@ -100,5 +104,21 @@ public class Utente {
   public void setDataUltimoaccesso(Timestamp dataUltimoAccesso) {
     this.dataultimoAccesso = dataUltimoAccesso;
   }
+
+    public Timestamp getDataultimoAccesso() {
+        return dataultimoAccesso;
+    }
+
+    public void setDataultimoAccesso(Timestamp dataultimoAccesso) {
+        this.dataultimoAccesso = dataultimoAccesso;
+    }
+
+    public ArrayList<OperazioneUtente> getOperazioni() {
+        return operazioni;
+    }
+
+    public void setOperazioni(ArrayList<OperazioneUtente> operazioni) {
+        this.operazioni = operazioni;
+    }
 	
 }
