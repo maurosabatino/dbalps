@@ -331,7 +331,8 @@ public class ControllerProcesso {
         tpnome_it = request.getParameterValues("tpnome_IT");
         for (String tpnome_it1 : tpnome_it) {
           TipologiaProcesso tp = new TipologiaProcesso();
-          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_it1, loc));
+          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_it1,"IT"));
+          System.out.println("idTipologia: "+tp.getIdTipologiaProcesso());
           tp.setNome_IT(tpnome_it1);
           t.add(tp);
         }
@@ -342,12 +343,13 @@ public class ControllerProcesso {
         tpnome_eng = request.getParameterValues("tpnome_ENG");
         for (String tpnome_eng1 : tpnome_eng) {
           TipologiaProcesso tp = new TipologiaProcesso();
-          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_eng1,loc));
+          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_eng1,"ENG"));
           tp.setNome_ENG(tpnome_eng1);
           t.add(tp);
         }
       }
     }
+      System.out.println("tipologia: "+t.toString());
     return t;
   }
 

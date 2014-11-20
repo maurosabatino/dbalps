@@ -1,5 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.bean.processo;
 
+import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class AttributiProcesso {
 	private Double larghezza;
 	private Double altezza;
 	private Double volume_specifico;
-    private Litologia litologia;
+        private Litologia litologia;
 	private ProprietaTermiche proprietaTermiche;
 	private StatoFratturazione statoFratturazione;
 	private SitoProcesso SitoProcesso;
@@ -19,6 +20,8 @@ public class AttributiProcesso {
 	private ArrayList <Danni> danni;
 	String gradoDanno;
 	private ArrayList<TipologiaProcesso> tipologiaProcesso;
+        private ArrayList<Allegato> allegati;
+        private int idUtente;
    
     public AttributiProcesso(){
        descrizione = "";
@@ -36,6 +39,8 @@ public class AttributiProcesso {
         danni = new ArrayList<>();
         gradoDanno="";
         tipologiaProcesso = new ArrayList<>();
+        idUtente=0;
+        
     }
 
   /**
@@ -243,5 +248,23 @@ public void setGradoDanno(String gradoDanno) {
   public void setTipologiaProcesso(ArrayList<TipologiaProcesso> tipologiaProcesso) {
     this.tipologiaProcesso = tipologiaProcesso;
   }
+
+    public ArrayList<Allegato> getAllegati() {
+        return allegati;
+    }
+
+    public void setAllegati(ArrayList<Allegato> allegati) {
+        this.allegati = allegati;
+    }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
+    }
+  
+  
     
 }

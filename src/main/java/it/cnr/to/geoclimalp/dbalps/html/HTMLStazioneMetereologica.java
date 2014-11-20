@@ -33,7 +33,7 @@ public class HTMLStazioneMetereologica {
 	}
 	public static String mostraStazioneMetereologica(int idStazioneMetereologica,ControllerLingua loc) throws SQLException{
 		System.out.println("prima");
-		StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica,loc);
+		StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica);
 		System.out.println("dopo");
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> </tr>");
@@ -71,7 +71,7 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
 		sb.append(HTMLScript.scriptAutocompleteLocIdro(ControllerJson.getJsonLocazioneIdrologica(path)));
-		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))){
+		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE))){
 				sb.append("<form action=\"Servlet\" class=\"insertStazione\"  method=\"POST\" role=\"form\">");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
               sb.append("<div class=\"form-group\" >");
@@ -82,7 +82,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		sb.append("<div class=\"row\">");
 		sb.append(	"<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append(	"<div class=\"col-xs-6 col-md-3\"><label for=\"tipoaggregazione\">tipo di aggregazione giornaliera:<input type=\"text\" name=\"tipoaggregazione\"  id=\"tipoaggregazione\" class=\"form-control\" placeholder=\"tipo aggregazione\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		/*sb.append("<div class=\"row\">");
@@ -129,7 +129,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<br>");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Sensori</h4>");
 		for(Sensori sens:ControllerDatabase.prendiTuttiSensori()){
-			sb.append("<input type=\"checkbox\" id=\"sensori\" name=\"tipo_IT\" value=\""+sens.getSensori_IT()+"\" > "+sens.getSensori_IT()+" ");
+			sb.append("<input type=\"checkbox\" id=\"sensori\" name=\"sensori\" value=\""+sens.getIdsensori()+"\" > "+sens.getSensori_IT()+" ");
 		}
 		sb.append("</div>");
 		sb.append("</div>");
@@ -159,7 +159,7 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		String loc ="IT";
 		Calendar inizio = new GregorianCalendar();
-		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))) {
+		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE))) {
 		
 		
 		sb.append(HTMLScript.scriptData("datainizio"));
@@ -167,9 +167,8 @@ public class HTMLStazioneMetereologica {
 		sb.append(HTMLScript.scriptAutocompleteLocAmm(ControllerJson.getJsonLocazioneAmminitrativa(path)));
 		sb.append(HTMLScript.scriptAutocompleteSitoStazione(ControllerJson.getJsonSitoStazione(path, loc),loc));
 		sb.append(HTMLScript.scriptAutocompleteEnte(ControllerJson.getJsonEnte(path)));
-
-                
-                
+                sb.append(HTMLScript.scriptAutocompleteLocIdro(ControllerJson.getJsonLocazioneIdrologica(path)));
+                        
 		String temp;		
 		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">" );
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati sulla Stazione</h4>");		
@@ -180,7 +179,7 @@ public class HTMLStazioneMetereologica {
 		
 		sb.append("<div class=\"row\">");
 		sb.append("<div class=\"col-xs-6 col-md-4\"><label for=\"aggregazionegiornaliera\">Aggregazione temporale:<input type=\"text\" name=\"aggregazioneGiornaliera\"  id=\"aggregazionegiornaliera\" value=\""+s.getAggregazioneGiornaliera()+"\" class=\"form-control\" placeholder=\"aggregazione giornaliera\"></div>" );	
-		/*errore?*/	sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"periodofunzionamento\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"periodoFunzionamento\"  id=\"aggregazionegiornaliera\" class=\"form-control\" placeholder=\"periodo\"></div>" );
+		sb.append("<div class=\"col-xs-6 col-md-3\"><label for=\"tipoaggregazione\">Tipo di aggregazione giornaliera:<input type=\"text\" name=\"tipoaggregazione\"  id=\"tipoaggregazione\" value=\""+s.getTipoAggregazione()+"\" class=\"form-control\" placeholder=\"tipoaggregazione\"></div>" );
 		sb.append("</div>");
 		sb.append("<br>");
 		
@@ -262,12 +261,12 @@ public class HTMLStazioneMetereologica {
 					boolean inserito=false;
 					for(int i=0;i<s.getSensori().size();i++){
 						if(sens.getSensori_IT().equals(s.getSensori().get(i).getSensori_IT())){
-							sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getSensori_IT()+"\" checked=\"checked\" > "+sens.getSensori_IT()+" "); 
+							sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getIdsensori()+"\" checked=\"checked\" > "+sens.getSensori_IT()+" "); 
 							inserito=true;
 
 						}
 					}
-					if(inserito==false) sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getSensori_IT()+"\" > "+sens.getSensori_IT()+" ");
+					if(inserito==false) sb.append("<input type=\"checkbox\" name=\"tipo_it\" value=\""+sens.getIdsensori()+"\" > "+sens.getSensori_IT()+" ");
 					inserito=false;
 				}
 				
@@ -661,8 +660,8 @@ public class HTMLStazioneMetereologica {
 	}
 	
 	
-	public static String scegliStazioniQuery(String op) throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+	public static String scegliStazioniQuery(String op,String tabella) throws SQLException{
+		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 			sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
@@ -768,7 +767,7 @@ public class HTMLStazioneMetereologica {
 	public static String formAllegatoStazione(int idstazione,Utente part,ControllerLingua locale) throws SQLException{
 		StringBuilder sb = new StringBuilder();
 		
-		StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione, locale);
+		StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione);
 		sb.append("<form class=\"form-horizontal\" action=\"Servlet\" name=\"dati\" method=\"POST\" enctype=\"multipart/form-data\" >");
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Allegu un file alla stazione "+sm.getNome()+"</h4>");
 		sb.append("<br>");

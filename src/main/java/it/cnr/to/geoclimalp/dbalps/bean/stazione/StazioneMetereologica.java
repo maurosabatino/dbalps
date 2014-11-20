@@ -1,3 +1,4 @@
+
 package it.cnr.to.geoclimalp.dbalps.bean.stazione;
 
 import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
@@ -160,5 +161,5 @@ public class StazioneMetereologica {
         this.allegati = allegati;
     }
         
-        
+
 }

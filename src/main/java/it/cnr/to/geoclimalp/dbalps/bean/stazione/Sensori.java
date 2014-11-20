@@ -1,6 +1,5 @@
 package it.cnr.to.geoclimalp.dbalps.bean.stazione;
 
-import java.util.ArrayList;
 
 public class Sensori {
 	public  int idsensori;

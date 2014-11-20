@@ -49,32 +49,8 @@ public class ControllerJson {
 		return sb.toString();
 	}
 	
-	public static String getJsonEffettiMorfologici(String path,String loc){
-		ArrayList<SitoProcesso> effettiMorfologici = new ArrayList<SitoProcesso>();
-		StringBuilder sb = new StringBuilder();
-		try {
-			path+="json/EffettiMorfologici.json";
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			effettiMorfologici = new Gson().fromJson(br, new TypeToken<ArrayList<EffettiMorfologici>>(){}.getType());
-			sb.append(new Gson().toJson(effettiMorfologici).replaceAll("tipo_"+loc, "label"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sb.toString();
-	}
-	public static String getJsonDanni(String path,String loc){
-		ArrayList<Danni> danni = new ArrayList<Danni>();
-		StringBuilder sb = new StringBuilder();
-		try {
-			path+="json/danni.json";
-			BufferedReader br = new BufferedReader(new FileReader(path));
-			danni = new Gson().fromJson(br, new TypeToken<ArrayList<Danni>>(){}.getType());
-			sb.append(new Gson().toJson(danni).replaceAll("tipo_"+loc, "label"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sb.toString();
-	}
+	
+	
 	
 	public static String getJsonProprietaTermiche(String path,String loc){
 		ArrayList<ProprietaTermiche> proprietaTermiche = new ArrayList<ProprietaTermiche>();

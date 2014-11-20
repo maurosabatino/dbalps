@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
  
 <jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
@@ -8,6 +7,8 @@
 <jsp:setProperty  name="processo" property="*"/>
 <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
+<jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
+ <jsp:setProperty  name="locale" property="*"/>
 <html>
 
 <head>
@@ -69,7 +70,7 @@
       google.maps.event.addDomListener(window, 'load', initialize);
      });
     </script>
-<title>Evento</title>
+<title>${locale.getWord("evento")}</title>
 </head>
 <body>
   <div class ="container">
@@ -85,28 +86,31 @@
   <div class="row">
     <div class="row">
         <div class="col-md-9 col-md-push-2"><h1> <%=processo.getNome()%> </h1></div>
-      <div class="col-md-2 col-md-pull-9"><h1>Dettagli evento</h1> </div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("dettagliEvento")}</h1> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-2"><h1><%= processo.getData() %> <!--<small> 0.57.00</small>--></h1></div>
-      <div class="col-md-2 col-md-pull-9"><h1>Data </h1> </div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("data")} </h1> </div>
     </div>
   </div>
       <div class="row">
         <div class="col-md-9 col-md-push-4"><p>
-               <%     StringBuilder tipologia=new StringBuilder();
-                tipologia.append(processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT());
-                for(int i=1;i<processo.getAttributiProcesso().getTipologiaProcesso().size();i++){
-                    tipologia.append(","+processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT() );
-                }
-         
+                <%     
+                StringBuilder tipologia = new StringBuilder();
+                   if (processo.getAttributiProcesso().getTipologiaProcesso().size() != 0) {
+                       tipologia.append(processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT());
+                       for (int i = 1; i < processo.getAttributiProcesso().getTipologiaProcesso().size(); i++) {
+                           tipologia.append("," + processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT());
+                       }
+                   
+                   }
                 %>
                   <%=tipologia.toString() %>
             </p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Tipologia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("tipologia")}</strong> </div>
     </div>
     <div class="row">
-  <h2>Descrizione</h2>
+  <h2>${locale.getWord("descrizione")}</h2>
   <p><%=processo.getAttributiProcesso().getDescrizione()%>
   </p>
 </div>
@@ -119,90 +123,90 @@
  
   <div class="col-md-5">
   <div class="row">
-    <h2>Ubicazione</h2>
+    <h2>${locale.getWord("ubicazione")}</h2>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getComune() %></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Comune</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("comune")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getProvincia() %></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Provincia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("provincia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getRegione() %></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Regione</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("regione")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getRegione() %></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Stato</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("nazione")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getLocIdro().getSottobacino() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Sottobacino</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("sottoBacino")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getLocIdro().getBacino() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Bacino</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("bacino")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getQuota() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Quota</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("quota")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getEsposizione() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Esposizione</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("esposizione")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getCoordinate().getX() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Latitudine</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("latitudine")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getCoordinate().getY() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Longitudine</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("longitudine")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getAttendibilita() %></p> </div>
-      <div class="col-md-4 col-md-pull-6"><strong>Affidabilità Coordinate</strong> </div>
+      <div class="col-md-4 col-md-pull-6"><strong>${locale.getWord("affidabilitaCoordinate")}</strong> </div>
     </div>   
       <div class="row">
       <div class="col-md-9 col-md-push-4"><p> <%=processo.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_IT() %></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Morfologia sito</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("morfologiaSito")}</strong> </div>
     </div>
   </div>
     
   <div class="row">
-    <h2>Dettagli Processo</h2>
+    <h2>${locale.getWord("dettagliEvento")}</h2>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getAttributiProcesso().getAltezza() %></p> m</div>
-      <div class="col-md-3 col-md-pull-9"><strong>Altezza nicchia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("altezzaNicchia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getAttributiProcesso().getLarghezza() %></p> m</div>
-      <div class="col-md-3 col-md-pull-9"><strong>Larghezza nicchia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("larghezzaNicchia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getAttributiProcesso().getSuperficie() %> m<sup>2</sup></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Superficie nicchia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("superficieNicchia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getAttributiProcesso().getVolume_specifico() %> m<sup>3</sup></p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Volume nicchia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("volumeNicchia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getClasseVolume().getIntervallo() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Classe Volume</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("classeVolume")}</strong> </div>
     </div>
        <div class="row">
-      <div class="col-md-6 col-md-push-4"><p><%=// %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Distanza Propagazione</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p></p> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("distanzaPropagazione")}</strong> </div>
     </div>
       <div class="row">
-      <div class="col-md-6 col-md-push-4"><p><%=// %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Volume dell'accumulo</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p></p> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("volumeAccumulo")}</strong> </div>
     </div>
       <div class="row">
-      <div class="col-md-6 col-md-push-4"><p><%=// %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Superficie dell'accumulo</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p></p> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("superficieAccumulo")}</strong> </div>
     </div>
   </div>
 
@@ -213,48 +217,50 @@
   
    
   <div class="row">
-    <h2>Geologia</h2>
+    <h2>${locale.getWord("geologia")}</h2>
     <div class="row">
       <div class="col-md-9 col-md-push-4"><p><%=processo.getAttributiProcesso().getLitologia().getNomeLitologia_IT() %></p></div>
-      <div class="col-md-3 col-md-pull-9"><strong>Litologia</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("litologia")}</strong> </div>
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getProprietaTermiche().getProprieta_termiche_IT() %> </p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Proprietà Termiche</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("proprietaTermiche")}</strong> </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-md-push-4"><p> <%=processo.getAttributiProcesso().getStatoFratturazione().getStato_fratturazione_IT() %></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Stato Fratturazione</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("statoFratturazione")}</strong> </div>
     </div>
   </div>
 
   <div class="row">
-    <h2>Impatti</h2>
+    <h2>${locale.getWord("impatti")}</h2>
     <div class="row">
         <div class="col-md-9 col-md-push-4"><p>
-                <%     StringBuilder danni=new StringBuilder();
-                danni.append(processo.getAttributiProcesso().getDanni().get(0).getTipo_IT() );
-                for(int i=1;i<processo.getAttributiProcesso().getDanni().size();i++){
-                    danni.append(","+processo.getAttributiProcesso().getDanni().get(i).getTipo_IT() );
-                }
+                <%     StringBuilder danni = new StringBuilder();
+                    if (processo.getAttributiProcesso().getDanni().size() != 0) {
+                        danni.append(processo.getAttributiProcesso().getDanni().get(0).getTipo_IT());
+                        for (int i = 1; i < processo.getAttributiProcesso().getDanni().size(); i++) {
+                            danni.append("," + processo.getAttributiProcesso().getDanni().get(i).getTipo_IT());
+                        }
+                    }
          
                 %>
                   <%=danni.toString() %>            </p> </div>
-      <div class="col-md-3 col-md-pull-9"><strong>Danni</strong> </div>
+      <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("danni")}</strong> </div>
     </div>
     <div class="row">
                 <div class="col-md-6 col-md-push-4"><p>
-           <%        StringBuilder effetti=new StringBuilder();
-                effetti.append(processo.getAttributiProcesso().getEffetti().get(0).getTipo_IT() );
-                for(int i=1;i<processo.getAttributiProcesso().getEffetti().size();i++){
-                    danni.append(","+processo.getAttributiProcesso().getEffetti().get(i).getTipo_IT() );
-                }
-         
-                %>
+                        <%        StringBuilder effetti = new StringBuilder();
+               if (processo.getAttributiProcesso().getEffetti().size() != 0) {
+                   effetti.append(processo.getAttributiProcesso().getEffetti().get(0).getTipo_IT());
+                   for (int i = 1; i < processo.getAttributiProcesso().getEffetti().size(); i++) {
+                       danni.append("," + processo.getAttributiProcesso().getEffetti().get(i).getTipo_IT());
+                   }
+               }%>
                   <%=effetti.toString() %>         
                         
             </p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>Effetti Morfologici</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("effettiMorfologici")}</strong> </div>
     </div>
   </div>
   
@@ -275,9 +281,9 @@
 </div> <!--fine parte centrale-->
    <div class="container-fluid">
   
-    <h2>Allegati</h2>
+    <h2>${locale.getWord("allegati")}</h2>
     <div class="col-md-6"> 
-    <h3>Immagini</h3>
+    <h3>${locale.getWord("immagini")}</h3>
        <% int i=0;
        for( i=0;i<processo.getAttributiProcesso().getAllegati().size();i++){
             
@@ -352,6 +358,11 @@
            </div>
             </ol>
         <%} } %>
+    </div>
+     <div class="row">
+  <h2>Note</h2>
+  <p><%=processo.getAttributiProcesso().getNote()%>
+  </p>
     </div>
     
   </div>

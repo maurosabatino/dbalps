@@ -1,28 +1,11 @@
-<%-- 
-    Document   : footer
-    Created on : 3-nov-2014, 10.50.17
-    Author     : Mauro
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Footer</title>
-  </head>
-  <body>
-   
-      
-        <div class="footer">
-            <div class="row">
-                <div class="col-md-9">
-                    <p></p>
-                </div>
-            </div>
-        </div>
-      
-      
-   
-  </body>
-</html>
+<div class="col-md-10 col-md-push-1">
+    <div class="footer">
+        <p>
+            <a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Strict" height="31" width="88"></a>
+        </p>
+    </div>
+</div>
+
+
+
