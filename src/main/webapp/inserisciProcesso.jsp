@@ -83,6 +83,21 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-xs-6 col-md-4">
+                                            <label for="supeficieaccumulo">${locale.getWord("supeficieaccumulo")}</label>
+                                            <input type="text" name="supeficieaccumulo" id="supeficieaccumulo" class="form-control" placeholder="${locale.getWord("supeficieaccumulo")}"/>
+                                        </div>
+                                        <div class="col-xs-6 col-md-4">
+                                            <label for="volumeaccumulo"> ${locale.getWord("volumeaccumulo")}</label>
+                                            <input type="text" name="volumeaccumulo" id="volumeaccumulo" class="form-control" placeholder="${locale.getWord("volumeaccumulo")}">
+                                        </div>
+                                        <div class="col-xs-6 col-md-4">
+                                            <label for="runout">${locale.getWord("runout")}</label>
+                                            <input type="text" name="runout" id="runout" class="form-control" placeholder="${locale.getWord("runout")}">
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-4">
                                             <label for="superficie">${locale.getWord("superficie")}</label>
                                             <input type="text" name="superficie" id="superficie" class="form-control" placeholder="${locale.getWord("superficie")}"/>
                                         </div>
@@ -323,7 +338,19 @@
 
                                         </div>
                                     </div> </div>
-
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <label for="fonte"> ${locale.getWord("fonte")} </label>
+                                                        <input type="text" id="fonte" name="fonte" class="form-control" placeholder=" ${locale.getWord("fonte")} " />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="pubblico"/>${locale.getWord("pubblico")}
+                                                </label>
+                                            </div>
+                                                </div>
+                                                </div>                    
                                 <br><div class="wrapper">
                                     <div class="content-main">
                                         <label for="note"> ${locale.getWord("note")} </label>

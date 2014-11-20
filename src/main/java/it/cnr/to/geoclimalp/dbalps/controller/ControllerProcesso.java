@@ -128,6 +128,28 @@ public class ControllerProcesso {
         String gradoDanno = request.getParameter("gradoDanno");
         ap.setGradoDanno(gradoDanno);
       }
+    if (!(request.getParameter("runout") == null)) {
+        if (!(request.getParameter("runout").equals(""))) {
+       ap.setRunout(Double.parseDouble(request.getParameter("runout")));
+       }
+      }
+    if (!(request.getParameter("volumeaccumulo") == null)) {
+        if (!(request.getParameter("volumeaccumulo").equals(""))) {
+        ap.setVolumeAccumulo(Double.parseDouble(request.getParameter("volumeaccumulo")));
+        }
+      }
+    if (!(request.getParameter("supeficieaccumulo") == null)) {
+        if (!(request.getParameter("supeficieaccumulo").equals(""))) {
+        ap.setSuperficieAccumulo(Double.parseDouble(request.getParameter("supeficieaccumulo")));
+        }
+      }
+    if (!(request.getParameter("fonte") == null)) {
+        ap.setFonte(request.getParameter("fonte"));
+      }
+    if (!(request.getParameter("pubblico") == null)) {
+        ap.setPubblico(false);
+      }else ap.setPubblico(true);
+    
     SitoProcesso sp = creaSito(request, loc);
     ClasseVolume cv = creaClasseVolume(request);
     System.out.println("id classe volume da controller: "+cv.getIdClasseVolume());
