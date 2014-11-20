@@ -1,3 +1,5 @@
+
+$(document).ready(function () {
 var d = new Date();
   $("#insertProcesso").bootstrapValidator({
         message: 'This value is not valid',
@@ -9,11 +11,9 @@ var d = new Date();
         fields: {
             nome: {
                validators: {
-                    message: {
-                        //regexp: /^[a-zA-Z0-9_\\s àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ\-']+$/
-                      
+                    notEmpty: {
+                        message: 'The name is required'
                     }
-                    
                 }
             },
             
@@ -69,7 +69,16 @@ var d = new Date();
             }
             
         },
-        
+        longitudine :{
+            	 validators: {
+                    between: {
+                        min: -180,
+                        max: 180,
+                        message: 'The longitude must be between -180.0 and 180.0'
+                    }
+                }
+            
+        },
         quota :{
             	validators: {
                      numeric :{
@@ -89,19 +98,12 @@ var d = new Date();
                 }
             }
             
-        },
-        longitudine :{
-            	 validators: {
-                    between: {
-                        min: -180,
-                        max: 180,
-                        message: 'The longitude must be between -180.0 and 180.0'
-                    }
-                }
-            
-       }
+        }
+        
         
       
     });
 
+
+});
 

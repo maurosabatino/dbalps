@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="css/selectize.bootstrap3.css"/>
         <link rel="stylesheet" type="text/css" href="css/layout.css"/>
-       <!-- <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>-->
+        <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
 
         <!--JAVASCRIPT-->
