@@ -33,7 +33,7 @@
         <script src="js/personalLibrary.js"></script>
         <script src="js/mappe.js"></script>
         <script src="js/validator.js"></script>
-        
+
 
         <!--Google Maps-->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
@@ -63,18 +63,18 @@
 
                                         <div class="col-xs-6 col-md-3"><label for="mese"> ${locale.getWord("mese")} </label>
                                             <select id="mese" name="mese" class="form-control">
-                                            <option value="vuoto"> </option>
-                                            <%for (int i = 1; i <= 12; i++) {%>
-                                            <option value="<%=i%>"><%=i%></option>
-                                            <%}%>
+                                                <option value="vuoto"> </option>
+                                                <%for (int i = 1; i <= 12; i++) {%>
+                                                <option value="<%=i%>"><%=i%></option>
+                                                <%}%>
                                             </select>
                                         </div>
                                         <div class="col-xs-6 col-md-3"><label for="giorno"> ${locale.getWord("giorno")} </label> 
                                             <select id="giorno" name="giorno" class="form-control">
-                                            <option value="vuoto"> </option>
-                                            <%for (int i = 1; i <= 31; i++) {%>
-                                            <option value="<%=i%>"> <%=i%></option>
-                                            <%}%>
+                                                <option value="vuoto"> </option>
+                                                <%for (int i = 1; i <= 31; i++) {%>
+                                                <option value="<%=i%>"> <%=i%></option>
+                                                <%}%>
                                             </select>
                                         </div>
                                         <div class="col-xs-6 col-md-3"><label for="ora"> ${locale.getWord("ora")} </label> <input type="text" id="ora" name="ora"  class="form-control" placeholder=" ${locale.getWord("ora")} "></div> 
@@ -104,9 +104,9 @@
                                         <div class="col-xs-6 col-md-6">
                                             <label for="intervallo">${locale.getWord("intervallo")}</label>
                                             <select id="intervallo" name=intervallo class="form-control">
-                                            <input type="hidden" id="idclasseVolume" name="idclasseVolume"/>
+                                                <input type="hidden" id="idclasseVolume" name="idclasseVolume"/>
                                         </div>
-                                        
+
                                     </div>
 
                                     <br>
@@ -118,24 +118,35 @@
                                             <textarea rows="5" cols="100" name="descrizione" id="descrizione" class="textarea" placeholder=" ${locale.getWord("descrizione")} "></textarea>
                                         </div>
                                     </div>
-                                    <br>
-                                    <h4> ${locale.getWord("tipologiaProcesso")} </h4>
-                                    <div class="panel panel-default"> 
-                                        <div class="panel-body">
-                                            <p>
-                                                <%for (TipologiaProcesso tp : ControllerDatabase.prendiTipologiaProcesso()) {
-                                                        String tipoProc;
-                                                        if (locale.getLanguage().equals("it")) {
-                                                            tipoProc = tp.getNome_IT();
-                                                        } else {
-                                                            tipoProc = tp.getNome_ENG();
-                                                        }%>
-                                                <input type="checkbox" name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>"/><%=tipoProc%> 
-                                                <%}%>
-                                            </p>
-
-                                        </div> </div>
                                 </div>
+                                <br>
+                                
+                                <div class="form-group">
+                                    <div class="panel panel-default"> 
+                                          <label class="col-sm-3 control-label"> ${locale.getWord("tipologiaProcesso")} </label>
+                                        <div class="panel-body">
+                                          
+                                           <%for (TipologiaProcesso tp : ControllerDatabase.prendiTipologiaProcesso()) {
+                                                    String tipoProc;
+                                                    if (locale.getLanguage().equals("it")) {
+                                                        tipoProc = tp.getNome_IT();
+                                                    } else {
+                                                        tipoProc = tp.getNome_ENG();
+                                                    }%>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>" 
+                                                            data-bv-choice="true"
+                                                            data-bv-choice-min="1"
+                                                            data-bv-choice-max="10"
+                                                            data-bv-choice-message="you must insert al least one process tipology"/><%=tipoProc%> 
+                                                </label>
+                                            </div>
+                                            <%}%>
+                                        </div>
+                                    </div> 
+                                </div>
+
 
                                 <div class="panel panel-default">
                                     <div class="panel-body"> 
@@ -153,48 +164,48 @@
                                                 </div> 
                                             </div>
                                         </div>
-                                            <br>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-xs-6 col-md-3">
+                                                <label for="comune">${locale.getWord("comune")}</label>
+                                                <select id="comune" name="comune" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
+                                                <input type="hidden" id="idcomune" name="idcomune" />
+                                            </div>
+
+                                            <div class="col-xs-6 col-md-3">
+                                                <label for="provincia"> ${locale.getWord("provincia")} </label>
+                                                <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} "/>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <label for="regione"> ${locale.getWord("regione")} </label>
+                                                <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " />
+                                            </div>
+                                            <div class="col-xs-6 col-md-3"><label for="nazione"> ${locale.getWord("nazione")} </label>
+                                                <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " />
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div id="controls">
+
                                             <div class="row">
-                                                <div class="col-xs-6 col-md-3">
-                                                    <label for="comune">${locale.getWord("comune")}</label>
-                                                    <select id="comune" name="comune" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
-                                                    <input type="hidden" id="idcomune" name="idcomune" />
+                                                <div class="col-xs-4 col-md-4">
+                                                    <label for="latitudine">${locale.getWord("latitudine")}</label>
+                                                    <input type="text" id="latitudine" name="latitudine" class="form-control" placeholder=" ${locale.getWord("latitudine")} "/>
                                                 </div>
-
-                                                <div class="col-xs-6 col-md-3">
-                                                    <label for="provincia"> ${locale.getWord("provincia")} </label>
-                                                    <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} "/>
+                                                <div class="col-xs-4 col-md-4">
+                                                    <label for="longitudine">${locale.getWord("longitudine")}</label>
+                                                    <input type="text" id="longitudine" name="longitudine" class="form-control" placeholder=" ${locale.getWord("longitudine")} "/>
                                                 </div>
-                                                <div class="col-xs-6 col-md-3">
-                                                    <label for="regione"> ${locale.getWord("regione")} </label>
-                                                    <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " />
-                                                </div>
-                                                <div class="col-xs-6 col-md-3"><label for="nazione"> ${locale.getWord("nazione")} </label>
-                                                    <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " />
+                                                <div class="col-xs-2 col-md-4">
+                                                    <button type="button" class="round-button" name="showMap" id="showMap">
+                                                        <img class="img-circle" src="img/map-marker-th.png"/>
+                                                    </button>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div id="controls">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col-xs-6 col-md-4">
-                                                        <label for="latitudine">${locale.getWord("latitudine")}</label>
-                                                        <input type="text" id="latitudine" name="latitudine" class="form-control" placeholder=" ${locale.getWord("latitudine")} "/>
-                                                    </div>
-                                                    <div class="col-xs-6 col-md-4">
-                                                        <label for="longitudine"> ${locale.getWord("longitudine")} </label>
-                                                        <input type="text" id="longitudine" name="longitudine" class="form-control" placeholder=" ${locale.getWord("longitudine")} "/>
-                                                    </div>
-                                                    <div class="col-xs-6 col-md-4">
-                                                        <button type="button" class="round-button" name="showMap" id="showMap">
-                                                            <img class="img-circle" src="img/map-marker-th.png"/>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                       
-                                        
-                                            <div id="map_container" title="Location Map">
+
+                                        <div id="map_container" title="Location Map">
                                             <div id="map_canvas" style="width:100%;height:80%;"></div>
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-6">
@@ -207,8 +218,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                                
-                                                
+
+
                                         <br>
                                         <div class="row">
                                             <div class="col-xs-6 col-md-6">
@@ -262,18 +273,18 @@
                                             <input type="checkbox" name=" ${locale.getWord("tipoDanno")} " value="<%=tipoDanno%> "/>  <%=tipoDanno%>  
                                             <% } %>
                                         </p>
-                                        
+
                                         <h4>Effetti Morfologici</h4>
                                         <p>
-                                        <%for (EffettiMorfologici em : ControllerDatabase.prendiEffettiMOrfologici()) {
-                                                String effMorfologici;
-                                                if (locale.getLanguage().equals("it")) {
-                                                    effMorfologici = em.getTipo_IT();
-                                                } else {
-                                                    effMorfologici = em.getTipo_ENG();
-                                                }%>
-                                        <input type="checkbox" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
-                                        <%}%>
+                                            <%for (EffettiMorfologici em : ControllerDatabase.prendiEffettiMOrfologici()) {
+                                                    String effMorfologici;
+                                                    if (locale.getLanguage().equals("it")) {
+                                                        effMorfologici = em.getTipo_IT();
+                                                    } else {
+                                                        effMorfologici = em.getTipo_ENG();
+                                                    }%>
+                                            <input type="checkbox" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
+                                            <%}%>
                                         </p>
                                         <br><div class="row">
                                             <div class="col-xs-6 col-md-6">
@@ -303,13 +314,13 @@
                                                 <input type="hidden" id="idProprietaTermiche" name="idProprietaTermiche" />
                                             </div>
                                         </div>
-                                            <div class="row">
+                                        <div class="row">
                                             <div class="col-xs-6 col-md-6">
                                                 <label for="${locale.getWord("statoFrattura")}">${locale.getWord("statoFratturazione")} </label>
                                                 <select type="text" id="${locale.getWord("statoFrattura")}" name="${locale.getWord("statoFrattura")}" class="form-control" placeholder="${locale.getWord("statoFratturazione")}"></select>
                                                 <input type="hidden" id="idStatoFratturazione" name="idStatoFratturazione" />
                                             </div>
-                                            
+
                                         </div>
                                     </div> </div>
 

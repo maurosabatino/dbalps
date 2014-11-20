@@ -5,10 +5,6 @@
  */
 $(document).ready(function () {
 
-
-
-
-
     $("#buttonIT").click(function () {
         $.ajax({
             url: 'Servlet',

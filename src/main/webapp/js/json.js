@@ -20,8 +20,8 @@ $(document).ready(function () {
     autocompleti.push(new Dati('servletJson?op=sitoProcesso', "#caratteristicaSito_IT", "#idsito", 'idSito', 'caratteristicaSito_IT', 'caratteristicaSito_IT', 'caratteristicaSito_IT'));
     autocompleti.push(new Dati('servletJson?op=sitoProcesso', "#caratteristicaSito_ENG", "#idsito", 'idSito', 'caratteristicaSito_ENG', 'caratteristicaSito_ENG', 'caratteristicaSito_ENG'));
     autocompleti.push(new Dati('servletJson?op=classeVolume', "#intervallo", "#idclasseVolume", 'idClasseVolume', 'intervallo', 'intervallo', 'intervallo'));
-    autocompleti.push(new Dati('servletJson?op=sitoStazione', "#caratteristiche_IT", "#idsitostazione", 'idsitostazione', 'caratteristiche_IT', 'caratteristiche_IT', 'caratteristiche_IT'));
-    autocompleti.push(new Dati('servletJson?op=sitoStazione', "#caratteristiche_ENG", "#idsitostazione", 'idsitostazione', 'caratteristiche_ENG', 'caratteristiche_ENG', 'caratteristiche_ENG'));
+    autocompleti.push(new Dati('servletJson?op=sitoStazione', "#caratteristiche_IT", "#idsitostazione", 'idSitoStazioneMetereologica', 'caratteristiche_IT', 'caratteristiche_IT', 'caratteristiche_IT'));
+    autocompleti.push(new Dati('servletJson?op=sitoStazione', "#caratteristiche_ENG", "#idsitostazione", 'idSitoStazioneMetereologica', 'caratteristiche_ENG', 'caratteristiche_ENG', 'caratteristiche_ENG'));
     autocompleti.push(new Dati('servletJson?op=ente', "#ente", "#idEnte", 'idEnte', 'ente', 'ente', 'ente'));
     
     $.each(autocompleti, function (index, value) {
