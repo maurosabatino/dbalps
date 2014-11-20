@@ -2112,7 +2112,7 @@ public class ControllerDatabase {
      */
     public static Utente salvaUtente(Utente user, StrongPasswordEncryptor passwordEncryptor) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
-        String sql = "insert into utente(nome,cognome,username,password,ruolo,email,datacreazione,dataultimoaccesso) values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into utente(nome,cognome,username,password,ruolo,email,datacreazione,dataultimoaccesso,attivo) values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, user.getNome());
         ps.setString(2, user.getCognome());
@@ -2123,6 +2123,8 @@ public class ControllerDatabase {
         ps.setString(6, user.getEmail());
         ps.setTimestamp(7, user.getDataCreazione());
         ps.setTimestamp(8, user.getDataUltimoAccesso());
+        ps.setBoolean(9, true);
+
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         while (rs.next()) {
@@ -2145,7 +2147,7 @@ public class ControllerDatabase {
             user.setIdUtente(rs.getInt("idutente"));
             user.setCognome(rs.getString("cognome"));
             user.setDataCreazione(rs.getTimestamp("datacreazione"));
-            user.setDataUltimoaccesso(rs.getTimestamp("dataultimoaccesso"));
+            user.setDataUltimoAccesso(rs.getTimestamp("dataultimoaccesso"));
             user.setEmail(rs.getString("email"));
             user.setNome(rs.getString("nome"));
             user.setPassword(rs.getString("password"));
@@ -2215,17 +2217,17 @@ public class ControllerDatabase {
             Utente user = new Utente();
             user.setCognome(rs.getString("cognome"));
             user.setDataCreazione(rs.getTimestamp("datacreazione"));
-            user.setDataUltimoaccesso(rs.getTimestamp("dataultimoaccesso"));
+            user.setDataUltimoAccesso(rs.getTimestamp("dataultimoaccesso"));
             user.setEmail(rs.getString("email"));
             user.setIdUtente(rs.getInt("idutente"));
             user.setNome(rs.getString("nome"));
             user.setPassword(rs.getString("password"));
             switch (rs.getString("ruolo")) {
-                case "amministratore": {
+                case "AMMINISTRATORE": {
                     user.setRuolo(Role.AMMINISTRATORE);
                     break;
                 }
-                case "avanzato": {
+                case "AVANZATO": {
                     user.setRuolo(Role.AVANZATO);
                     break;
                 }
@@ -2242,10 +2244,30 @@ public class ControllerDatabase {
         return part;
     }
     
-    public static Utente prendiUtente() throws SQLException {
-        Utente u=new Utente();
-        
-        return u;
+    public static ArrayList<OperazioneUtente> prendiOperazioniUtente(int idutente) throws SQLException{
+        ArrayList<OperazioneUtente> operazioni=new ArrayList<OperazioneUtente>();
+        Connection conn = DriverManager.getConnection(url, usr, pwd);
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery("select * from tracciautente where idutente="+idutente+"");
+        while (rs.next()) {
+            OperazioneUtente o=new OperazioneUtente();
+            o.setData(rs.getTimestamp("data"));
+            o.setData(rs.getTimestamp("datafine"));
+            o.setData(rs.getTimestamp("datainizio"));
+            o.setIdProcesso(rs.getInt("idprocesso"));
+            o.setIdStazione(rs.getInt("idstazione"));
+            o.setOperazione(rs.getString("operazione"));
+            o.setTabella(rs.getString("tabella"));
+            o.setIdUtente(rs.getInt("idutente"));
+            o.setIdTraccia(rs.getInt("idtraccia"));
+            
+            operazioni.add(o);
+
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return operazioni;
     }
     
     

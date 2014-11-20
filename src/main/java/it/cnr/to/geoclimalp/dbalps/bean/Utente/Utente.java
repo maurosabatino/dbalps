@@ -13,8 +13,9 @@ public class Utente {
 	String email;
 	Role ruolo;
 	Timestamp dataCreazione;
-	Timestamp dataultimoAccesso;
+	Timestamp dataUltimoAccesso;
         ArrayList<OperazioneUtente> operazioni;
+        boolean attivo;
 	
 	public Utente(){
 		idUtente=0;
@@ -25,8 +26,9 @@ public class Utente {
 		email="";
 		ruolo = Role.BASE;
 		dataCreazione=new Timestamp(0);
-		dataultimoAccesso=new Timestamp(0);
+		dataUltimoAccesso=new Timestamp(0);
                 operazioni=new ArrayList<OperazioneUtente>();
+                attivo=false;
 	}
 	
 	public void setIdUtente(int id){
@@ -88,11 +90,11 @@ public class Utente {
 	}
 
 	public Timestamp getDataUltimoAccesso() {
-		return dataultimoAccesso;
+		return dataUltimoAccesso;
 	}
 
 	public void setDataUltimoAccesso(Timestamp ultimoAccesso) {
-		this.dataultimoAccesso = ultimoAccesso;
+		this.dataUltimoAccesso = ultimoAccesso;
 	}
 	
 	public String getstampautente(){
@@ -101,17 +103,7 @@ public class Utente {
 		return s;
 	}
 
-  public void setDataUltimoaccesso(Timestamp dataUltimoAccesso) {
-    this.dataultimoAccesso = dataUltimoAccesso;
-  }
-
-    public Timestamp getDataultimoAccesso() {
-        return dataultimoAccesso;
-    }
-
-    public void setDataultimoAccesso(Timestamp dataultimoAccesso) {
-        this.dataultimoAccesso = dataultimoAccesso;
-    }
+  
 
     public ArrayList<OperazioneUtente> getOperazioni() {
         return operazioni;
@@ -120,5 +112,14 @@ public class Utente {
     public void setOperazioni(ArrayList<OperazioneUtente> operazioni) {
         this.operazioni = operazioni;
     }
+
+    public boolean getAttivo() {
+        return attivo;
+    }
+
+    public void setAttivo(boolean attivo) {
+        this.attivo = attivo;
+    }
 	
+    
 }

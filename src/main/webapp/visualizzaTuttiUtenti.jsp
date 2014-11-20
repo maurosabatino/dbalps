@@ -60,7 +60,7 @@
 
       <table class="table" >
          <thead>
-             <tr> <th>Nome</th> <th>Cognome</th> <th>email</th> <th>Username</th> <th> ruolo</th> <th>data creazione</th> <th>data ultimo accesso</th></tr>
+             <tr> <th>Nome</th> <th>Cognome</th>  <th>Username</th> <th> Ruolo</th> <th> Attivo</th> <th> Dettagli</th> </tr>
 	</thead>
        
         <tbody> 
@@ -68,11 +68,12 @@
             ArrayList<Utente> utenti = (ArrayList<Utente>) request.getAttribute("utenti");
              for(Utente u: utenti ){ %>
 			<tr>
-                        <td>"+u.getNome()+" </td> <td> "+u.getCognome()+"</td> <td> "+p.getEmail()+"</td>
-			<td>"+p.getUsername()+"</td> 
-			<td>"+p.getRuolo()+"</td>
-			<td>"+dateFormat.format(p.getDataCreazione())+"</td>
-			<td>"+dateFormat.format(p.getDataUltimoAccesso())+"</td>
+                        <td><%=u.getNome()%> </td> <td> <%=u.getCognome()%></td>
+			<td><%=u.getUsername()%></td> 
+			<td><%=u.getRuolo()%></td>
+			<td><%=u.getAttivo()%></td>
+                        <td><%=u.getRuolo()%></td>
+                        <td> <a href="Servlet?operazione=mostraUtente&username=<%=u.getUsername()%>">Dettagli</a> </td>
 			</tr>
                         <%}%>
 		</tbody>
