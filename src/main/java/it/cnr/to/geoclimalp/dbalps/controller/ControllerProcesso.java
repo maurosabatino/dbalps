@@ -138,17 +138,17 @@ public class ControllerProcesso {
         ap.setVolumeAccumulo(Double.parseDouble(request.getParameter("volumeaccumulo")));
         }
       }
-    if (!(request.getParameter("supeficieaccumulo") == null)) {
-        if (!(request.getParameter("supeficieaccumulo").equals(""))) {
-        ap.setSuperficieAccumulo(Double.parseDouble(request.getParameter("supeficieaccumulo")));
+    if (!(request.getParameter("superficieaccumulo") == null)) {
+        if (!(request.getParameter("superficieaccumulo").equals(""))) {
+        ap.setSuperficieAccumulo(Double.parseDouble(request.getParameter("superficieaccumulo")));
         }
       }
     if (!(request.getParameter("fonte") == null)) {
         ap.setFonte(request.getParameter("fonte"));
       }
-    if (!(request.getParameter("pubblico") == null)) {
-        ap.setPubblico(false);
-      }else ap.setPubblico(true);
+    if (!(request.getParameterValues("pubblico") == null)) {
+        ap.setPubblico(true);
+      }else ap.setPubblico(false);
     
     SitoProcesso sp = creaSito(request, loc);
     ClasseVolume cv = creaClasseVolume(request);
