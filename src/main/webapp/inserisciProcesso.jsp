@@ -83,8 +83,8 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-xs-6 col-md-4">
-                                            <label for="supeficieaccumulo">${locale.getWord("supeficieaccumulo")}</label>
-                                            <input type="text" name="supeficieaccumulo" id="supeficieaccumulo" class="form-control" placeholder="${locale.getWord("supeficieaccumulo")}"/>
+                                            <label for="supeficieaccumulo">${locale.getWord("superficieaccumulo")}</label>
+                                            <input type="text" name="superficieaccumulo" id="superficieaccumulo" class="form-control" placeholder="${locale.getWord("superficieaccumulo")}"/>
                                         </div>
                                         <div class="col-xs-6 col-md-4">
                                             <label for="volumeaccumulo"> ${locale.getWord("volumeaccumulo")}</label>
@@ -346,7 +346,7 @@
                                                     <div class="col-md-4">
                                                     <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="pubblico"/>${locale.getWord("pubblico")}
+                                                    <input type="checkbox" name="pubblico" checked="true"/>${locale.getWord("pubblico")}
                                                 </label>
                                             </div>
                                                 </div>

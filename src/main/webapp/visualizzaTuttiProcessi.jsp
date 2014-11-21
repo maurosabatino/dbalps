@@ -55,10 +55,9 @@
 <body>
   <div class ="container">
 <jsp:include page="header.jsp"></jsp:include>
-   <div class ="content">
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
-     <div class="col-md-9 col-md-offset-3 col-lg-9 col-lg-offset-3 main">
+     <div class="col-md-8">
      <table class="table" >
          <thead>
              <tr> <th>Nome </th>
@@ -113,7 +112,7 @@
     </div>
     
  
-</div>
+
     <jsp:include page="footer.jsp"></jsp:include>
   </div>
 

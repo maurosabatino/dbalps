@@ -75,21 +75,21 @@
 <body>
   <div class ="container">
 <jsp:include page="header.jsp"></jsp:include>
-   <div class ="content">
+  
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
-     <div class="col-md-9 col-md-offset-3 col-lg-9 col-lg-offset-3 main">
+     <div class="col-md-8  main">
      
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      
   
  <div class="container-fluid">
   <div class="row">
     <div class="row">
-        <div class="col-md-9 col-md-push-2"><h1> <%=processo.getNome()%> </h1></div>
+        <div class="col-md-9 col-md-push-3"><h1> <%=processo.getNome()%> </h1></div>
       <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("dettagliEvento")}</h1> </div>
     </div>
     <div class="row">
-      <div class="col-md-9 col-md-push-2"><h1><%= processo.getData() %> <!--<small> 0.57.00</small>--></h1></div>
+      <div class="col-md-9 col-md-push-3"><h1><%= processo.getData() %> <!--<small> 0.57.00</small>--></h1></div>
       <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("data")} </h1> </div>
     </div>
   </div>
@@ -197,16 +197,16 @@
       <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("classeVolume")}</strong> </div>
     </div>
        <div class="row">
-      <div class="col-md-6 col-md-push-4"><p></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("distanzaPropagazione")}</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getRunout()%></p> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("runout")}</strong> </div>
     </div>
       <div class="row">
-      <div class="col-md-6 col-md-push-4"><p></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("volumeAccumulo")}</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getVolumeAccumulo()%></p> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("volumeaccumulo")}</strong> </div>
     </div>
       <div class="row">
-      <div class="col-md-6 col-md-push-4"><p></p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("superficieAccumulo")}</strong> </div>
+      <div class="col-md-6 col-md-push-4"><p></p><%=processo.getAttributiProcesso().getSuperficieAccumulo()%></div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("superficieaccumulo")}</strong> </div>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
     </div>
     <div class="row">
       <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getProprietaTermiche().getProprieta_termiche_IT() %> </p> </div>
-      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("proprietaTermiche")}</strong> </div>
+      <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("propTermiche")}</strong> </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-md-push-4"><p> <%=processo.getAttributiProcesso().getStatoFratturazione().getStato_fratturazione_IT() %></p> </div>
@@ -377,11 +377,11 @@
 
 </div> <!--fine parte centrale-->
 
-      </div>
+  
     </div>
     
  
-</div>
+<br/>
     <jsp:include page="footer.jsp"></jsp:include>
   </div>
 
