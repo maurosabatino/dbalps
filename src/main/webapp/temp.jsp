@@ -7,7 +7,8 @@
 
  <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
         <jsp:setProperty  name="partecipante" property="*"/>
-         
+         <jsp:useBean id="utente" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="request" />
+        <jsp:setProperty  name="partecipante" property="*"/>
 
 <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
  <jsp:setProperty  name="locale" property="*"/>
@@ -23,7 +24,7 @@
 
    
     <!--JAVASCRIPT-->
-    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/globalize.js"></script>
     <script src="js/globalize.culture.de-DE.js"></script>
@@ -33,42 +34,11 @@
     <script src="js/bootstrapValidator.min.js"></script>
     <script src="js/jquery.sticky-kit.min.js"></script>
     <script src="js/jquery.stickyfooter.min.js"></script>
-    <script type="text/javascript" src="js/jquery-latest.js"></script>
-    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-    <script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
     
     <!--Google Maps-->
-
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
     <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
     
-     <script type="text/javascript">
-	$(function() {
-		$("table")
-			.tablesorter({debug: true
-                            })
-			.tablesorterPager({container: $("#pager")});
-                        
-                
-	});
-	</script>
-    
-    <script>
-        $(document).ready(function () {
-         $("#abilitato").click(function () {
-        $.ajax({            
-            url: 'Servlet',
-            type: 'POST',   
-            <%Utente ut=(Utente)request.getAttribute("utente");
-    boolean b=ut.getAttivo();
-    int id=ut.getIdUtente(); %>
-            data: {operazione: 'abilitaUtente', abilitato:'<%=b%>', id:'<%=id %>'},
-            success: function () {
-               window.location.reload();
-            }
-        });
-    });  });</script>
-   
 <title>${locale.getWord("utente")}</title>
 </head>
 <body>
@@ -79,58 +49,53 @@
       <jsp:include page="barraLaterale.jsp"></jsp:include>
      <div class="col-md-8">
      
-         <% Utente u= (Utente)request.getAttribute("utente");%>
+         
  <div class="container-fluid">
-     
   <div class="row">
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getNome()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("nome")}</h3> </div>
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getNome()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("nome")}</h1> </div>
     </div>
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getCognome()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("cognome")}</h3> </div>
-    </div>
-  </div>
-    <div class="row">
-    <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getUsername()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>Username</h3> </div>
-    </div>
-    <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getEmail()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>Email</h3> </div>
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getCognome()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("cognome")}</h1> </div>
     </div>
   </div>
     <div class="row">
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getRuolo()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("ruolo")}</h3> </div>
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getUsername()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>Username</h1> </div>
     </div>
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getAttivo()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("attivo")}</h3> </div>
-      <button id="abilitato" class="img-circle">
-         abilita
-      </button>
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getEmail()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>Email</h1> </div>
     </div>
   </div>
     <div class="row">
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getDataCreazione()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("dataCreazione")}</h3> </div>
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getRuolo()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("ruolo")}</h1> </div>
     </div>
     <div class="row">
-        <div class="col-md-9 col-md-push-3"><h3> <%=u.getDataUltimoAccesso()%> </h3></div>
-      <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("ultimoAccesso")}</h3> </div>
+        <div class="col-md-9 col-md-push-2"><h1> <%=partecipante.getAttivo()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("attivo")}</h1> </div>
+    </div>
+  </div>
+    <div class="row">
+    <div class="row">
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getDataCreazione()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("datacreazione")}</h1> </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-md-push-2"><h1> <%=utente.getDataUltimoAccesso()%> </h1></div>
+      <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("ultimoAccesso")}</h1> </div>
     </div>
   </div>
   </div>
 
 
 
-    <br>
-    <br>
+
 <div class="container-fluid">
  <table class="table" >
          <thead>
@@ -139,7 +104,7 @@
        
         <tbody> 
              <%       
-             for(OperazioneUtente op: u.getOperazioni() ){ %>
+             for(OperazioneUtente op: utente.getOperazioni() ){ %>
 			<tr>
                         <td><%= op.getOperazione() %> </td> <td> <%= op.getTabella() %></td>
 			

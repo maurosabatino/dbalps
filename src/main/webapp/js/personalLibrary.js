@@ -29,6 +29,8 @@ $(document).ready(function () {
             }
         });
     });
+    
+   
 
     /*Google Maps*/
     var map;

@@ -30,6 +30,9 @@
     <script src="js/bootstrapValidator.min.js"></script>
     <script src="js/jquery.sticky-kit.min.js"></script>
     <script src="js/jquery.stickyfooter.min.js"></script>
+    <script type="text/javascript" src="js/jquery-latest.js"></script>
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
     
     <!--Google Maps-->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
@@ -55,7 +58,7 @@
 <jsp:include page="header.jsp"></jsp:include>
    <div class ="content">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
-     <div class="col-md-9 col-md-offset-3 main">
+     <div class="col-md-8">
      <%if (partecipante.getRuolo().equals(Role.AMMINISTRATORE)){%>
 
       <table class="table" >
@@ -73,7 +76,7 @@
 			<td><%=u.getRuolo()%></td>
 			<td><%=u.getAttivo()%></td>
                         <td><%=u.getRuolo()%></td>
-                        <td> <a href="Servlet?operazione=mostraUtente&username=<%=u.getUsername()%>">Dettagli</a> </td>
+                        <td> <a href="Servlet?operazione=mostraUtente&user=<%=u.getUsername()%>">Dettagli</a> </td>
 			</tr>
                         <%}%>
 		</tbody>

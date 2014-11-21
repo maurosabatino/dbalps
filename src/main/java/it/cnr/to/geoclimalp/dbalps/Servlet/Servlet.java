@@ -131,15 +131,9 @@ public class Servlet extends HttpServlet {
             
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
-            OperazioneUtente op=new OperazioneUtente();
-            op.setData(null);
-            op.setIdProcesso(p.getIdProcesso());
-            int idutente=user.getIdUtente();
-            op.setIdUtente(idutente);
-            op.setTabella("processo");
-            op.setNomeProcesso(p.getNome());
-            op.setOperazione("inserito processo");
-            int t=ControllerDatabase.aggiornaTracciaUtente(op);
+            String op="inserito processo";
+            ControllerUtente.aggiornaTracciaProcesso(user,p,op);
+            
             String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
@@ -258,10 +252,12 @@ public class Servlet extends HttpServlet {
             Utente part = (Utente) session.getAttribute("partecipante");
             Ubicazione u = ControllerUbicazione.nuovaUbicazione(request);
             //ControllerDatabase.salvaUbicazione(u);
-
+            
             StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
             ControllerDatabase.salvaStazione(s, part);
             String content = HTMLStazioneMetereologica.mostraStazioneMetereologica(s.getIdStazioneMetereologica(), locale);
+            String op="inserita stazione";
+            ControllerUtente.aggiornaTracciaStazione(part, s, op);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -646,10 +642,17 @@ public class Servlet extends HttpServlet {
             request.setAttribute("utenti", utenti);
             forward(request, response, "/visualizzaTuttiUtenti.jsp");
         }else if(operazione.equals("mostraUtente")){
-            Utente utente=ControllerDatabase.prendiUtente(request.getParameter("username"));
+            Utente utente=ControllerDatabase.prendiUtente(request.getParameter("user"));
             utente.setOperazioni(ControllerDatabase.prendiOperazioniUtente(utente.getIdUtente()));
             request.setAttribute("utente",utente);
             forward(request,response, "/visualizzaUtente.jsp");
+        }else if(operazione.equals("abilitaUtente")){
+            Utente u=new Utente();
+            u.setIdUtente(Integer.parseInt(request.getParameter("id")));
+            
+            u.setAttivo(Boolean.parseBoolean(request.getParameter("abilitato")));
+            System.out.println("nella servlet "+u.getAttivo());
+            ControllerDatabase.abilita(u);
         }
         //query
         else if (operazione.equals("queryClimatiche")) {

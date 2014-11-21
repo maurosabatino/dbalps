@@ -1,10 +1,15 @@
 package it.cnr.to.geoclimalp.dbalps.controller;
 
+import it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
+import it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,4 +51,34 @@ public class ControllerUtente {
 		partecipante=ControllerDatabase.salvaUtente(partecipante,passwordEncryptor);
 		return partecipante;
 	}
+
+    public static void aggiornaTracciaProcesso(Utente user,Processo p, String operazione) throws SQLException {
+        OperazioneUtente op=new OperazioneUtente();
+              Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime(); 
+        Timestamp t = new Timestamp(now.getTime());
+            op.setData(t);
+            op.setIdProcesso(p.getIdProcesso());
+            int idutente=user.getIdUtente();
+            op.setIdUtente(idutente);
+            op.setTabella("processo");
+            op.setNomeProcesso(p.getNome());
+            op.setOperazione(operazione);
+            int ok=ControllerDatabase.aggiornaTracciaUtente(op);
+    }
+    public static void aggiornaTracciaStazione(Utente user,StazioneMetereologica s, String operazione) throws SQLException {
+        OperazioneUtente op=new OperazioneUtente();
+        
+        Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime(); 
+        Timestamp t = new Timestamp(now.getTime());
+            op.setData(t);
+            op.setIdStazione(s.getIdStazioneMetereologica());
+            int idutente=user.getIdUtente();
+            op.setIdUtente(idutente);
+            op.setTabella("stazione_metereologica");
+            op.setNomeProcesso(s.getNome());
+            op.setOperazione(operazione);
+            int ok=ControllerDatabase.aggiornaTracciaUtente(op);
+    }
 }

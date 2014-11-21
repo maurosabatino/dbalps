@@ -2150,6 +2150,7 @@ public class ControllerDatabase {
             user.setDataUltimoAccesso(rs.getTimestamp("dataultimoaccesso"));
             user.setEmail(rs.getString("email"));
             user.setNome(rs.getString("nome"));
+            user.setAttivo(rs.getBoolean("attivo"));
             user.setPassword(rs.getString("password"));
             switch (rs.getString("ruolo")) {
 
@@ -2221,6 +2222,8 @@ public class ControllerDatabase {
             user.setEmail(rs.getString("email"));
             user.setIdUtente(rs.getInt("idutente"));
             user.setNome(rs.getString("nome"));
+             user.setAttivo(rs.getBoolean("attivo"));
+
             user.setPassword(rs.getString("password"));
             switch (rs.getString("ruolo")) {
                 case "AMMINISTRATORE": {
@@ -2248,20 +2251,27 @@ public class ControllerDatabase {
         ArrayList<OperazioneUtente> operazioni=new ArrayList<OperazioneUtente>();
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("select * from tracciautente where idutente="+idutente+"");
+        ResultSet rs = st.executeQuery("select *,t.data as tdata, t.datainzio as tdatainzio, t.datafine as tdatafine, p.nome as processonome,s.nome as stazionenome from tracciautente as t left join"+ 
+                                        " processo p on (p.idprocesso=t.idprocesso)"+
+                                        " left join stazione_metereologica s on (s.idstazionemetereologica=t.idstazione)"+
+                                            "where t.idutente="+idutente+"" );
         while (rs.next()) {
             OperazioneUtente o=new OperazioneUtente();
-            o.setData(rs.getTimestamp("data"));
-            o.setData(rs.getTimestamp("datafine"));
-            o.setData(rs.getTimestamp("datainzio"));
+            o.setData(rs.getTimestamp("tdata"));
+            o.setDataFine(rs.getTimestamp("tdatafine"));
+            o.setDataInizio(rs.getTimestamp("tdatainzio"));
             o.setIdProcesso(rs.getInt("idprocesso"));
             o.setIdStazione(rs.getInt("idstazione"));
             o.setOperazione(rs.getString("operazione"));
             o.setTabella(rs.getString("tabella"));
             o.setIdUtente(rs.getInt("idutente"));
             o.setIdTraccia(rs.getInt("idtraccia"));
+            o.setNomeProcesso(rs.getString("processonome"));
+            o.setNomeStazione(rs.getString("stazionenome"));
             
             operazioni.add(o);
+            
+            
 
         }
         rs.close();
@@ -2293,6 +2303,22 @@ public class ControllerDatabase {
          ps.executeUpdate();
         conn.close();
         return traccia;
+    }
+    
+    public static void abilita(Utente u) throws SQLException{
+         Connection conn = DriverManager.getConnection(url, usr, pwd);
+         
+         boolean b=u.getAttivo();
+         System.out.println(" prima b"+b);
+        if(b==true) b=false;
+        else if(b==false) b=true;
+        System.out.println("update utente set attivo="+b+" where idutente="+u.getIdUtente()+"");
+        String sql = "update utente set attivo=? where idutente="+u.getIdUtente()+"";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setBoolean(1, b);
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
     }
     
     
