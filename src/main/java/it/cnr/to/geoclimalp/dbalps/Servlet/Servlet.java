@@ -209,11 +209,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("mostraProcessiMaps")) {
-            String content = HTMLProcesso.mostraProcessiMaps();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            forward(request, response, "/mappaProcessi.jsp");
         } else if (operazione.equals("formRicercaSingola")) {
             String attributi = request.getParameter("attributi");
             String content = HTMLProcesso.formCercaSingola(attributi, path, loc);
@@ -333,11 +329,8 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/stazione.jsp");
 		}
 		else if(operazione.equals("mostraStazioniMaps")){	
-			String content=HTMLStazioneMetereologica.mostraStazioniMaps();
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/stazione.jsp");
+			
+            forward(request, response, "/mappaStazioni.jsp");
 		}
 
 		//elaborazioni

@@ -262,7 +262,7 @@ public class ControllerDatabase {
         Statement st = conn.createStatement();
         StringBuilder sb = new StringBuilder();
         int idprocesso = 0;
-        sb.append("select * from processo as proc "
+        sb.append("select *,st_x(coordinate::geometry) as x ,st_y(coordinate::geometry) as y from processo as proc "
                 + "  left join ubicazione u on (proc.idubicazione=u.idubicazione)"
                 + "left join comune c on (c.idcomune=u.idcomune)"
                 + "left join caratteristiche_processo ca on (ca.idprocesso=proc.idprocesso)"
@@ -288,6 +288,9 @@ public class ControllerDatabase {
                 idprocesso = rs.getInt("idProcesso");
                 Ubicazione u = new Ubicazione();
                 Coordinate coord = new Coordinate();
+                coord.setX(rs.getDouble("x"));
+                coord.setY(rs.getDouble("y"));
+                u.setCoordinate(coord);
                 LocazioneAmministrativa locAmm = new LocazioneAmministrativa();
                 AttributiProcesso ap = new AttributiProcesso();
                 p.setIdProcesso(rs.getInt("idProcesso"));

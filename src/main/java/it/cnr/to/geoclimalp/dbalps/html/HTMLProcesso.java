@@ -1070,7 +1070,6 @@ public class HTMLProcesso {
     public static String mostraProcessiMaps() throws SQLException {
         ArrayList<Processo> p = ControllerDatabase.prendiTuttiProcessi();
         StringBuilder sb = new StringBuilder();
-
         sb.append("<div id=\"gmap\" style=\"width:400px;height:500px\"></div>");
         sb.append("<script>");
         sb.append("var map_center = new google.maps.LatLng(0.1700235000, 20.7319823000);");
