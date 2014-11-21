@@ -7,7 +7,6 @@ import it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
