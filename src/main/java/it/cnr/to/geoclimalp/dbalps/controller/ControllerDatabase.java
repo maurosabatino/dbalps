@@ -744,6 +744,19 @@ public class ControllerDatabase {
         psu.close();
         conn.close();
     }
+    public static void eliminaStazione(int idStazione, int idUbicazione) throws SQLException {
+        Connection conn = DriverManager.getConnection(url, usr, pwd);
+        PreparedStatement pss = conn.prepareStatement("delete from sensore_stazione where idstazionemetereologica="+idStazione+ "");
+        PreparedStatement psst = conn.prepareStatement("delete from stazione_metereologica where idstazionemetereologica="+idStazione+"");
+        PreparedStatement psu = conn.prepareStatement("delete from ubicazione where idubicazione=" + idUbicazione + "");
+        pss.executeUpdate();
+        psst.executeUpdate();
+        psu.executeUpdate();
+        pss.close();
+        psst.close();
+        psu.close();
+        conn.close();
+    }
 
     /*
      * caratteristiche del processo

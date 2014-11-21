@@ -346,6 +346,14 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
 		}
+                else if(operazione.equals("eliminaStazione")){
+                    
+                    int id=Integer.parseInt(request.getParameter("idstazione"));
+                    System.out.println(request.getParameter("idstazione"));
+                    StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(id);
+                    ControllerDatabase.eliminaStazione(id, s.getUbicazione().getIdUbicazione());
+                    
+                }
 
 		//elaborazioni
 
