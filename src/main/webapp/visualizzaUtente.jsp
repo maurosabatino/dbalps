@@ -54,20 +54,17 @@
 	</script>
     
     <script>
-        $(document).ready(function () {
-         $("#abilitato").click(function () {
+         function abilita(ab,idu) {
         $.ajax({            
             url: 'Servlet',
             type: 'POST',   
-            <%Utente ut=(Utente)request.getAttribute("utente");
-    boolean b=ut.getAttivo();
-    int id=ut.getIdUtente(); %>
-            data: {operazione: 'abilitaUtente', abilitato:'<%=b%>', id:'<%=id %>'},
+            
+            data: {operazione: 'abilitaUtente', abilitato:ab, id:idu},
             success: function () {
                window.location.reload();
             }
         });
-    });  });</script>
+    };  </script>
    
 <title>${locale.getWord("utente")}</title>
 </head>
@@ -110,7 +107,7 @@
     <div class="row">
         <div class="col-md-9 col-md-push-3"><h3> <%=u.getAttivo()%> </h3></div>
       <div class="col-md-3 col-md-pull-9"><h3>${locale.getWord("attivo")}</h3> </div>
-      <button id="abilitato" class="img-circle">
+      <button id="abilitato" class="img-circle" onclick="abilita(<%=u.getAttivo()%>,<%=u.getIdUtente()%>);">
          abilita
       </button>
     </div>
