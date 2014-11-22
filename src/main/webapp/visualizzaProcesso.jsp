@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
 
@@ -48,7 +50,7 @@
         <script src="js/jquery.stickyfooter.min.js"></script>
 
         <!--Google Maps-->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxQdKCfe6zedCyb4DOxEQU2J2KKLZ95oc"></script>
         <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
         <title>${locale.getWord("evento")}</title>
@@ -75,20 +77,21 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-9 col-md-push-4"><p>
+                            <div class="col-md-9 col-md-push-4"><h2>
                                     <%
-                                        StringBuilder tipologia = new StringBuilder();
-                                        if (processo.getAttributiProcesso().getTipologiaProcesso().size() != 0) {
-                                            tipologia.append(processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT());
-                                            for (int i = 1; i < processo.getAttributiProcesso().getTipologiaProcesso().size(); i++) {
-                                                tipologia.append("," + processo.getAttributiProcesso().getTipologiaProcesso().get(0).getNome_IT());
-                                            }
-
+                                        String tipologia = "";
+                                        ArrayList<TipologiaProcesso> tp = processo.getAttributiProcesso().getTipologiaProcesso();
+                                        for(int i = 0 ;i < tp.size();i++){
+                                            if(locale.getLanguage().equals("it"))
+                                                tipologia+=tp.get(i).getNome_IT();
+                                            else tipologia+=tp.get(i).getNome_ENG();
+                                          if(i+1 < tp.size() && tp.get(i+1)!=null ) tipologia+=",";
                                         }
+                                            
                                     %>
-                                    <%=tipologia.toString()%>
-                                </p> </div>
-                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("tipologia")}</strong> </div>
+                                    <%=tipologia%>
+                                </h2> </div>
+                                    <div class="col-md-3 col-md-pull-9"><h2><strong>${locale.getWord("tipologia")}</strong></h2> </div>
                         </div>
                         <div class="row">
                             <h2>${locale.getWord("descrizione")}</h2>
@@ -369,40 +372,44 @@
             <jsp:include page="footer.jsp"></jsp:include>
             </div>
             <script>
-                        $(document).ready(function(){
-                var map;
-                
-                        function initialize() {
+                $(document).ready(function () {
+
+
+                    function initialize() {
+                        var lati = <%=processo.getUbicazione().getCoordinate().getX()%>;
+                        var long = <%=processo.getUbicazione().getCoordinate().getY()%>;
+                        var coord = new google.maps.LatLng(lati, long);
+
                         var mapOptions = {
-                        zoom: 11,
-                                center: new google.maps.LatLng(<%=processo.getUbicazione().getCoordinate().getX()%>,<%=processo.getUbicazione().getCoordinate().getY()%>),
-                                panControl: false,
-                                zoomControl: false,
-                                mapTypeControl: false,
-                                scaleControl: false,
-                                streetViewControl: false,
-                                overviewMapControl: false
+                            zoom: 11,
+                            center: coord,
+                            panControl: false,
+                            zoomControl: false,
+                            mapTypeControl: false,
+                            scaleControl: false,
+                            streetViewControl: false,
+                            overviewMapControl: false
                         };
-                                var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-                                map.setMapTypeId(google.maps.MapTypeId.HYBRYD);
-                                var pos = new google.maps.LatLng(<%=processo.getUbicazione().getCoordinate().getX()%>,<%=processo.getUbicazione().getCoordinate().getY()%>);
-                                var marker = new google.maps.Marker({
-                                        position: pos,
-                                        map: map,
-                                        title: 'Stazioni',
-                                        icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
-                                });
-                                /*var infowindow = new google.maps.InfoWindow();
-                                google.maps.event.addListener(marker, 'click', (function (marker, index) {
-                                return function () {
-                                infowindow.setContent"nome: "<%=processo.getNome()%>" <br> comune: "<%=processo.getUbicazione().getLocAmm().getComune()%>"<br> data: "<%=processo.getData()%>"<br> \n\
-                                                      <a href=\"Servlet?operazione=mostraProcesso&idProcesso="<%=processo.getIdProcesso()%>"\">Report</a>";
-                                        infowindow.open(map, marker);
-                                };
-                                }));*/
-                        };
-                        google.maps.event.addDomListener(window, 'load', initialize);
+                        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+                        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+
+                        var marker = new google.maps.Marker({
+                            position: coord,
+                            map: map,
+                            title: 'stazione',
+                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
                         });
+                        var contentString = "nome:<%=processo.getNome()%> <br> comune: <%=processo.getUbicazione().getLocAmm().getComune()%> <br> data: <%=processo.getData()%><br><a href=\"Servlet?operazione=mostraProcesso&idProcesso=<%=processo.getIdProcesso()%>\">Report</a>";
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        google.maps.event.addListener(marker, 'click', function () {
+                            infowindow.open(map, marker);
+                        });
+                    }
+                    ;
+                    google.maps.event.addDomListener(window, 'load', initialize);
+                });
         </script>
     </body>
 </html>

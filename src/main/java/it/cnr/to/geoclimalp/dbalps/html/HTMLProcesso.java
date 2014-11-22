@@ -1141,6 +1141,7 @@ public class HTMLProcesso {
         sb.append("  			<a href=\"Servlet?operazione=formRicercaSingola&attributi=\" class=\"list-group-item\">ricerca sulla mappa(da implementare)</a>");
         sb.append("       <a href=\"Servlet?operazione=mostraTuttiProcessi\" class=\"list-group-item\"> mostra tutti i processi</a>");
         sb.append("			  <a href=\"Servlet?operazione=mostraProcessiMaps\" class=\"list-group-item\"> mostra processi sulla mappa</a>");
+        sb.append("			  <a href=\"mappaProcessiStazioni.jsp\" class=\"list-group-item\"> Mappa con processi e stazioni</a>");
         sb.append(" 			<a href=\"Servlet?operazione=formCercaProcessi\" class=\"list-group-item\"> ricerca processo</a>");
         sb.append("  		</div>");
         sb.append("  		</div>	");
