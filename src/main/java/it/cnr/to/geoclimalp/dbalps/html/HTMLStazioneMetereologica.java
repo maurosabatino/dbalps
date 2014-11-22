@@ -705,7 +705,10 @@ public class HTMLStazioneMetereologica {
 		sb.append("  	<div class=\"row\">");
 		sb.append("  	<div class=\"col-xs-6 col-md-4  col-md-push-1\"><a href=\"Servlet?operazione=formRicercaStazione\" class=\"list-group-item\"> ricerca stazione</a></div>");
 		sb.append("  	</div>");
+                sb.append("  	<div class=\"row\">");
+                sb.append("	<div class=\"col-xs-6 col-md-4  col-md-push-1\"> <a href=\"mappaProcessiStazioni.jsp\" class=\"list-group-item\"> Mappa con processi e stazioni</a></div>");
 		sb.append("  	</div>");
+                sb.append("  	</div>");
 		return sb.toString();
 	}
 	public static String caricaDatiMetereologici() throws SQLException {

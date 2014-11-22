@@ -45,7 +45,9 @@ public class servletJson extends HttpServlet {
             giveProcessi(response);
         } else if (op.equals("processo")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-        } else if (op.equals("litologia")) {
+        }else if (op.equals("stazioni")){
+            giveStazioni(response);
+        }else if (op.equals("litologia")) {
             giveLitologia(response, path);
         } else if (op.equals("statoFratturazione")) {
             giveStatoFratturazione(response, path);
@@ -125,6 +127,7 @@ public class servletJson extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         ArrayList<Processo> processi = ControllerDatabase.prendiTuttiProcessi();
+        System.out.println(new Gson().toJson(processi));
         response.getWriter().write(new Gson().toJson(processi));
     }
 
@@ -200,6 +203,14 @@ public class servletJson extends HttpServlet {
         }.getType());
         response.getWriter().write(new Gson().toJson(ente));
 
+    }
+
+    private void giveStazioni(HttpServletResponse response) throws SQLException, IOException {
+       response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ArrayList<StazioneMetereologica> stazioni = ControllerDatabase.prendiTutteStazioniMetereologiche();
+        System.out.println(new Gson().toJson(stazioni));
+        response.getWriter().write(new Gson().toJson(stazioni));
     }
 
 }

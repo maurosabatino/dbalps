@@ -34,6 +34,8 @@ public class TipologiaProcesso {
 	public void setNome_ENG(String nome_ENG) {
 		this.nome_ENG = nome_ENG;
 	}
+
 	
+        
 	
 }

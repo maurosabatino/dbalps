@@ -28,22 +28,5 @@ $(document).ready(function () {
     
    
 
-    /*Google Maps*/
-    var map;
-    function initialize() {
-        var mapOptions = {
-            zoom: 11,
-            center: new google.maps.LatLng(45.912586, 7.040834, 12),
-            panControl: false,
-            zoomControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            streetViewControl: false,
-            overviewMapControl: false
-        };
-        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-        map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
-    }
-    ;
-    google.maps.event.addDomListener(window, 'load', initialize);
+    
 });
