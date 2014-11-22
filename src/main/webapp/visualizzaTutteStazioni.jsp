@@ -51,6 +51,17 @@
                 
 	});
 	</script>
+        <script>
+        function elimina(arg) {
+        $.ajax({            
+            url: 'Servlet',
+            type: 'POST',   
+            data: {operazione: 'eliminaStazione', idstazione:arg},
+            success: function () {
+               window.location.reload();
+            }
+        });}
+    </script>
        
     <!--Google Maps-->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
@@ -68,7 +79,7 @@
          <table class="table" >
          <thead>
              <tr> <th>Nome </th>
-                    <th>Comune </th> <th>Quota </th> <th> Dettagli</th> <th> Modifica</th>    </tr>
+                    <th>Comune </th> <th>Quota </th> <th> Dettagli</th> <th> Modifica</th>   <th> Elimina</th> </tr>
 	</thead>
        
         <tbody>
@@ -83,6 +94,10 @@
                 <% Utente part = (Utente) session.getAttribute("partecipante");
                         if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && s.getIdUtente()==part.getIdUtente()) )){%>
                 <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>">Modifica</a></td>
+                <td> <button  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);">
+                            <img alt="Brand" src="img/delete.gif">
+                        </button></td>
+
                  <%}%>  
            </tr>
             <%}%>              

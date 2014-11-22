@@ -1,6 +1,8 @@
 package it.cnr.to.geoclimalp.dbalps.bean.Utente;
 
+import it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Utente {
 	int idUtente;
@@ -11,7 +13,9 @@ public class Utente {
 	String email;
 	Role ruolo;
 	Timestamp dataCreazione;
-	Timestamp dataultimoAccesso;
+	Timestamp dataUltimoAccesso;
+        ArrayList<OperazioneUtente> operazioni;
+        boolean attivo;
 	
 	public Utente(){
 		idUtente=0;
@@ -22,7 +26,9 @@ public class Utente {
 		email="";
 		ruolo = Role.BASE;
 		dataCreazione=new Timestamp(0);
-		dataultimoAccesso=new Timestamp(0);
+		dataUltimoAccesso=new Timestamp(0);
+                operazioni=new ArrayList<OperazioneUtente>();
+                attivo=false;
 	}
 	
 	public void setIdUtente(int id){
@@ -84,11 +90,11 @@ public class Utente {
 	}
 
 	public Timestamp getDataUltimoAccesso() {
-		return dataultimoAccesso;
+		return dataUltimoAccesso;
 	}
 
 	public void setDataUltimoAccesso(Timestamp ultimoAccesso) {
-		this.dataultimoAccesso = ultimoAccesso;
+		this.dataUltimoAccesso = ultimoAccesso;
 	}
 	
 	public String getstampautente(){
@@ -97,8 +103,23 @@ public class Utente {
 		return s;
 	}
 
-  public void setDataUltimoaccesso(Timestamp dataUltimoAccesso) {
-    this.dataultimoAccesso = dataUltimoAccesso;
-  }
+  
+
+    public ArrayList<OperazioneUtente> getOperazioni() {
+        return operazioni;
+    }
+
+    public void setOperazioni(ArrayList<OperazioneUtente> operazioni) {
+        this.operazioni = operazioni;
+    }
+
+    public boolean getAttivo() {
+        return attivo;
+    }
+
+    public void setAttivo(boolean attivo) {
+        this.attivo = attivo;
+    }
 	
+    
 }
