@@ -53,6 +53,9 @@
 	</script>
         <script>
         function elimina(arg) {
+            var domanda = confirm("Sei sicuro di voler cancellare?");
+            if (domanda === true) {
+     
         $.ajax({            
             url: 'Servlet',
             type: 'POST',   
@@ -60,7 +63,7 @@
             success: function () {
                window.location.reload();
             }
-        });}
+        });}}
     </script>
        
     <!--Google Maps-->
