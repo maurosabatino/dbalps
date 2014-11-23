@@ -5,8 +5,8 @@
 <!DOCTYPE html >
  
 
- <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
-        <jsp:setProperty  name="partecipante" property="*"/>
+ <jsp:useBean id="utente" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
+        <jsp:setProperty  name="utente" property="*"/>
          
 
 <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
@@ -53,21 +53,7 @@
 	});
 	</script>
     
-    <script>
-        $(document).ready(function () {
-         $("#abilitato").click(function () {
-        $.ajax({            
-            url: 'Servlet',
-            type: 'POST',   
-            <%Utente ut=(Utente)request.getAttribute("utente");
-    boolean b=ut.getAttivo();
-    int id=ut.getIdUtente(); %>
-            data: {operazione: 'abilitaUtente', abilitato:'<%=b%>', id:'<%=id %>'},
-            success: function () {
-               window.location.reload();
-            }
-        });
-    });  });</script>
+    
    
 <title>${locale.getWord("utente")}</title>
 </head>
@@ -206,6 +192,17 @@
 
     <jsp:include page="footer.jsp"></jsp:include>
   </div>
-
+<script>
+        $(document).ready(function () {
+         $("#abilitato").click(function () {
+        $.ajax({            
+            url: 'Servlet',
+            type: 'POST',   
+            data: {operazione: 'abilitaUtente', abilitato:'${utente.attivo}', id:'${utente.idUtente}'},
+            success: function () {
+               window.location.reload();
+            }
+        });
+    });  });</script>
 </body>
 </html>
