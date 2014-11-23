@@ -1,5 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
+import com.google.gson.Gson;
 import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
 
@@ -100,6 +101,7 @@ public class Servlet extends HttpServlet {
         }
     }
 
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String operazione = request.getParameter("operazione");
@@ -620,12 +622,9 @@ public class Servlet extends HttpServlet {
                 HTMLContent c = new HTMLContent();
                 Utente utente = ControllerDatabase.prendiUtente(username);
                 session.setAttribute("partecipante", utente);
-                String content = "<h3>Login Utente effettuato</h3>";
-                content += "<h5>Informazione sull'utente</h5>";
-                content += HTMLUtente.visualizzaUtente(utente);
-                c.setContent(content);
-                request.setAttribute("HTMLc", c);
-                forward(request, response, "/index.jsp");
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(new Gson().toJson(true));
             } else {
                 String content = "<h2>spiacente, il login non  è corretto</h2>";
                 HTMLContent c = new HTMLContent();

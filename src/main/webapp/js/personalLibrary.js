@@ -26,6 +26,40 @@ $(document).ready(function () {
         });
     });
     
+    $("#home").click(function (){
+        window.location = 'index.jsp';
+    });
+    
+    $("#loginButton").click(function(){
+        var usr =  $("#username").val();
+        var pwd =$("#password").val();
+         $.ajax({
+            url: 'Servlet',
+            type: 'GET',
+            data: {operazione: 'login', username: usr,password : pwd},
+            dataType: "json",
+            success: function (data) {
+                if(data==true){
+                     window.location.reload();
+                }
+                else {
+                    alert("Error Login");
+                    window.location = 'index.jsp';
+                }
+            }
+        });
+    });
+    
+    $("#logout").click(function(){
+        $.ajax({
+            url: 'Servlet',
+            type: 'POST',
+            data: {operazione: 'logout'},
+            success: function () {
+               window.location = 'index.jsp';
+            }
+        });
+    });
    
 
     

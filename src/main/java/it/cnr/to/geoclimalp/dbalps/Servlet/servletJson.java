@@ -119,7 +119,6 @@ public class servletJson extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         Processo p = ControllerDatabase.prendiProcesso(idProcesso);
         String json = new Gson().toJson(p);
-        System.out.println("json: " + json);
         response.getWriter().write(new Gson().toJson(p));
     }
 
