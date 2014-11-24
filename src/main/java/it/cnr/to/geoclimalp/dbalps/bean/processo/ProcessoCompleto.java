@@ -117,10 +117,7 @@ public class ProcessoCompleto implements Processo {
     this.ubicazione = ubicazione;
   }
   
-  @Override
-  public boolean isWarning(){
-    return false;
-  }
+ 
   
 
 }

@@ -64,46 +64,37 @@
                         <div class="panel panel-default"> 
                             <div class="panel-body"> 
                                 <h4> ${locale.getWord("titoloProcesso")} </h4>
-
-                                <div class="form-group" >
+                                    <div class="form-group" >
                                     <div class="row">
                                         <div class="col-xs-6 col-md-6">
                                             <label for="nome"> ${locale.getWord("nome")}</label>
                                             <input type="text" name="nome" id="nome" class="form-control" placeholder="${locale.getWord("nome")}" value="${processo.nome}"/>
                                         </div>
-                                    
+                                    </div>
                                     <br>
-                                    <%int a = cal.get(Calendar.YEAR);%>
+                                   
                                     <div class="row">
                                         <div class="col-xs-6 col-md-2">
                                             <label for="anno">Anno</label>
-                                            <input type="text" id="anno" name="anno" class="form-control" value="<%=a%>">
+                                            <input type="text" id="anno" name="anno" class="form-control" value="<%=cal.get(Calendar.YEAR)%>">
                                         </div>
 
                                         <div class="col-xs-6 col-md-2">
                                             <label for="mese">Mese</label> 
                                             <select id="mese" name="mese" class="form-control" >
                                                 <option value="vuoto"> </option>
-                                                <%for (int i = 1; i <= 12; i++) {
-                                            if (cal.get(Calendar.MONTH) != i) {%>
-                                                <option value="<%=i%>"><%=i%></option>
-                                                <%} else { %>
-                                                <option selected="selected" value="<%=i%>">" + i + "</option>
-                                                <%}
-                                            }%>
+                                                <%for (int i = 1; i <= 12; i++) {%>
+                                                   <option value="<%=i%>"><%=i%></option>
+                                                <%}%>
                                             </select>
                                         </div>
                                         <div class="col-xs-6 col-md-2">
                                             <label for="giorno">Giorno</label>
                                             <select id="giorno" name="giorno" class="form-control" >
                                                 <option value="vuoto"> </option>
-                                                <% for (int i = 1; i <= 31; i++) {
-                                            if (cal.get(Calendar.DAY_OF_MONTH) != i) {%>
+                                                <% for (int i = 1; i <= 31; i++){%>
                                                 <option value="<%=i%>"><%=i%></option>
-                                                <%} else {%>
-                                                <option selected="selected" value="<%=i%>"><%=i%></option>
-                                                <% }
-                                            }%>
+                                               <%}%>
                                             </select>
                                         </div>
                                             <div class="col-xs-6 col-md-3">
@@ -116,26 +107,28 @@
                                     <div class="row">
                                         <div class="col-xs-6 col-md-4">
                                             <label for="superficie">${locale.getWord("superficie")}</label>
-                                            <input type="text" name="superficie" id="superficie" class="form-control" placeholder="${locale.getWord("superficie")}"/>
+                                            <input type="text" name="superficie" id="superficie" class="form-control" placeholder="${locale.getWord("superficie")}" value="${processo.attributiProcesso.superficie}"/>
                                         </div>
                                         <div class="col-xs-6 col-md-4">
                                             <label for="larghezza"> ${locale.getWord("larghezza")}</label>
-                                            <input type="text" name="larghezza" id="larghezza" class="form-control" placeholder="${locale.getWord("larghezza")}">
+                                            <input type="text" name="larghezza" id="larghezza" class="form-control" placeholder="${locale.getWord("larghezza")}" value="${processo.attributiProcesso.larghezza}">
                                         </div>
                                         <div class="col-xs-6 col-md-4">
                                             <label for="altezza">${locale.getWord("altezza")}</label>
-                                            <input type="text" name="altezza" id="altezza" class="form-control" placeholder="${locale.getWord("altezza")}">
+                                            <input type="text" name="altezza" id="altezza" class="form-control" placeholder="${locale.getWord("altezza")}" value="${processo.attributiProcesso.altezza}">
                                         </div>
                                     </div>
                                     <br/>
                                     <div class="row">
                                         <div class="col-xs-6 col-md-6">
                                             <label for="volumeSpecifico">${locale.getWord("volumeSpecifico")}</label>
-                                            <input type="text" name=volumespecifico id="volumeSpecifico" onkeypress="return numberOnly(event)" class="form-control" placeholder=" ${locale.getWord("volumeSpecifico")} " >
+                                            <input type="text" name=volumespecifico id="volumeSpecifico" onkeypress="return numberOnly(event)" class="form-control" placeholder=" ${locale.getWord("volumeSpecifico")} "  value="${processo.attributiProcesso.volume_specifico}">
                                         </div>
                                         <div class="col-xs-6 col-md-6">
                                             <label for="intervallo">${locale.getWord("intervallo")}</label>
                                             <select id="intervallo" name=intervallo class="form-control">
+                                                <option value="${processo.attributiProcesso.classeVolume.idClasseVolume}" selected></option>
+                                            </select>
                                                 <input type="hidden" id="idclasseVolume" name="idclasseVolume"/>
                                         </div>
 
@@ -147,7 +140,7 @@
                                             <label for="descrizione"> ${locale.getWord("descrizione")} </label>
                                         </div>
                                         <div class="content-secondary">
-                                            <textarea rows="5" cols="100" name="descrizione" id="descrizione" class="textarea" placeholder=" ${locale.getWord("descrizione")} "></textarea>
+                                            <textarea rows="5" cols="100" name="descrizione" id="descrizione" class="textarea" placeholder=" ${locale.getWord("descrizione")} ">${processo.attributiProcesso.descrizione}</textarea>
                                         </div>
                                     </div>
                                     <br>
@@ -176,12 +169,14 @@
                                             <div class="form-group" >
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="sottobacino">${locale.getWord("sottobacino")}</label>
-                                                    <select type="text" id="sottobacino" name="sottobacino" class="form-control" placeholder=" ${locale.getWord("sottobacino")}"></select>
+                                                    <select type="text" id="sottobacino" name="sottobacino" class="form-control" placeholder=" ${locale.getWord("sottobacino")}">
+                                                        <option value="${processo.ubicazione.locIdro.idSottobacino}" selected></option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="bacino">${locale.getWord("bacino")}</label>
-                                                    <input readonly="readonly" type="text" id="bacino" name="bacino" class="form-control" placeholder=" ${locale.getWord("bacino")} ">
-                                                    <input type="hidden" id="idSottobacino" name="idSottobacino"/>
+                                                    <input readonly="readonly" type="text" id="bacino" name="bacino" class="form-control" placeholder=" ${locale.getWord("bacino")} " value="${processo.ubicazione.locIdro.bacino}">
+                                                    <input type="hidden" id="idSottobacino" name="idSottobacino" value="${processo.ubicazione.locIdro.idSottobacino}"/>
                                                 </div> 
                                             </div>
                                         </div>
@@ -189,20 +184,22 @@
                                         <div class="row">
                                             <div class="col-xs-6 col-md-3">
                                                 <label for="comune">${locale.getWord("comune")}</label>
-                                                <select id="comune" name="comune" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
-                                                <input type="hidden" id="idcomune" name="idcomune" />
+                                                <select id="comune" name="comune" class="form-control">
+                                                    <option  value="${processo.ubicazione.locAmm.idComune}" selected></option>
+                                                </select>
+                                                <input type="hidden" id="idcomune" name="idcomune"  value="${processo.ubicazione.locAmm.idComune}"/>
                                             </div>
 
                                             <div class="col-xs-6 col-md-3">
                                                 <label for="provincia"> ${locale.getWord("provincia")} </label>
-                                                <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} "/>
+                                                <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} " value="${processo.ubicazione.locAmm.provincia}"/>
                                             </div>
                                             <div class="col-xs-6 col-md-3">
                                                 <label for="regione"> ${locale.getWord("regione")} </label>
-                                                <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " />
+                                                <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " value="${processo.ubicazione.locAmm.regione}" />
                                             </div>
                                             <div class="col-xs-6 col-md-3"><label for="nazione"> ${locale.getWord("nazione")} </label>
-                                                <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " />
+                                                <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " value="${processo.ubicazione.locAmm.nazione}"/>
                                             </div>
                                         </div>
 
@@ -211,11 +208,11 @@
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-4">
                                                     <label for="latitudine">${locale.getWord("latitudine")}</label>
-                                                    <input type="text" id="latitudine" name="latitudine" class="form-control" placeholder=" ${locale.getWord("latitudine")} "/>
+                                                    <input type="text" id="latitudine" name="latitudine" class="form-control" placeholder=" ${locale.getWord("latitudine")} " value="${processo.ubicazione.coordinate.x}"/>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4">
                                                     <label for="longitudine"> ${locale.getWord("longitudine")} </label>
-                                                    <input type="text" id="longitudine" name="longitudine" class="form-control" placeholder=" ${locale.getWord("longitudine")} "/>
+                                                    <input type="text" id="longitudine" name="longitudine" class="form-control" placeholder=" ${locale.getWord("longitudine")} " value="${processo.ubicazione.coordinate.y}"/>
                                                 </div>
                                                 <div class="col-xs-6 col-md-4">
                                                     <button type="button" class="round-button" name="showMap" id="showMap">
@@ -245,7 +242,7 @@
                                         <div class="row">
                                             <div class="col-xs-6 col-md-6">
                                                 <label for="quota"> ${locale.getWord("quota")} </label>
-                                                <input type="text" id="quota" name="quota" class="form-control" placeholder=" ${locale.getWord("quota")} "/>
+                                                <input type="text" id="quota" name="quota" class="form-control" placeholder=" ${locale.getWord("quota")} " value="${processo.ubicazione.quota}"/>
                                             </div>
                                             <div class="col-xs-6 col-md-6">
                                                 <label for="esposizione"> ${locale.getWord("esposizione")} </label> 
@@ -259,6 +256,7 @@
                                                     <option value=" ${locale.getWord("so")} "> ${locale.getWord("so")} </option>
                                                     <option value=" ${locale.getWord("o")} "> ${locale.getWord("o")} </option>
                                                     <option value=" ${locale.getWord("no")} "> ${locale.getWord("no")} </option>
+                                                    
                                                 </select>
                                             </div>
                                         </div>
@@ -337,7 +335,7 @@
                                                 <select id="${locale.getWord("proprietaTermiche")}" name="${locale.getWord("proprietaTermiche")}">
                                                     <option value="${processo.attributiProcesso.proprietaTermiche.idProprieta_termiche}" selected></option>
                                                 </select>
-                                                <input type="hidden" id="idProprietaTermiche" name="idProprietaTermiche" value="${processo.attributiProcesso.proprietaTermiche.idProprieta_termiche}"/>
+                                                <input type="hidden" id="idProprietaTermiche"  value="${processo.attributiProcesso.proprietaTermiche.idProprieta_termiche}" name="idProprietaTermiche"/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -376,6 +374,14 @@
 
         </div>
 
+            
+            <script>
+                $(document).ready(function(){
+                    $("#mese").val(${processo.data.month});
+                    $("#giorno").val(${processo.data.day});
+                });
+                
+            </script>      
     </body>
 </html>
 

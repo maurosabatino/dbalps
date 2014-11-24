@@ -302,12 +302,11 @@
                             <ol>
                                 <div class="col-md-12">
                                     <div class="row" >
-
                                         <div class="col-md-6 col-md-push-4"><p ></p> </div>
                                         <div class="col-md-5 col-md-pull-6"><li><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getTitolo()%></strong></li></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-md-push-4"><a href="C:\Users\daler\Desktop\dario" > link </a> </div>
+                                        <div class="col-md-6 col-md-push-4"><a href="<%= processo.getAttributiProcesso().getAllegati().get(i).getLinkFile() %>"> link </a> </div>
                                         <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getAnno()%></strong> </div>
                                     </div>
                                     <div class="row">

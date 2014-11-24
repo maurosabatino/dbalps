@@ -1,3 +1,4 @@
+<%@page import="java.lang.Object"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,9 +8,8 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
  
-<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
-<jsp:setProperty  name="HTMLc" property="*"/>
-<jsp:setProperty  name="HTMLc" property="*"/>
+<jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
+        <jsp:setProperty  name="partecipante" property="*"/>
 
 <html>
 
