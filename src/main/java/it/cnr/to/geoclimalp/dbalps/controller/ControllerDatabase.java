@@ -716,8 +716,8 @@ public class ControllerDatabase {
         ps.setDouble(19, p.getAttributiProcesso().getVolumeAccumulo());
         ps.setDouble(20, p.getAttributiProcesso().getSuperficieAccumulo());
         ps.setBoolean(21, p.getAttributiProcesso().isPubblico());
-        ps.setString(23, p.getAttributiProcesso().getFonte());
-        ps.setInt(24, p.getIdProcesso());
+        ps.setString(22, p.getAttributiProcesso().getFonte());
+        ps.setInt(23, p.getIdProcesso());
         System.out.println("query Processo: " + ps.toString());
         ps.executeUpdate();
 
@@ -748,10 +748,14 @@ public class ControllerDatabase {
 
     public static void eliminaProcesso(int idProcesso, int idUbicazione) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
+        conn.setAutoCommit(false);
+        PreparedStatement psa = conn.prepareStatement("delete from allegati_processo where idprocesso = "+idProcesso+"");
         PreparedStatement psp = conn.prepareStatement("delete from processo where idprocesso=" + idProcesso + "");
         PreparedStatement psu = conn.prepareStatement("delete from ubicazione where idubicazione=" + idUbicazione + "");
+        psa.executeUpdate();
         psp.executeUpdate();
         psu.executeUpdate();
+        conn.commit();
         psp.close();
         psu.close();
         conn.close();

@@ -207,14 +207,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("eliminaProcesso")) {
-            int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Processo p = ControllerDatabase.prendiProcesso(idProcesso);
-            ControllerDatabase.eliminaProcesso(p.getIdProcesso(), p.getUbicazione().getIdUbicazione());
-            String content = "ho eliminato il processo " + p.getNome() + "";
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            ControllerProcesso.eliminaProcesso(request);
         } else if (operazione.equals("mostraProcessiMaps")) {
             forward(request, response, "/mappaProcessi.jsp");
         } else if (operazione.equals("formRicercaSingola")) {

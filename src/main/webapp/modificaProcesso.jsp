@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -21,32 +22,8 @@
         <jsp:setProperty  name="partecipante" property="*"/>
         <jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.ProcessoCompleto" scope="session" />
         <jsp:setProperty  name="processo" property="*"/>
-        <!--CSS-->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="css/selectize.bootstrap3.css"/>
-        <link rel="stylesheet" type="text/css" href="css/layout.css"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
-
-        <!--JAVASCRIPT-->
-        <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/globalize.js"></script>
-        <script src="js/globalize.culture.de-DE.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrapValidator.min.js"></script>
-        <script src="js/jquery.sticky-kit.min.js"></script>
-        <script src="js/jquery.stickyfooter.min.js"></script>
-        <script src="js/selectize.js"></script>
-        <script src="js/json.js"></script>
-        <script src="js/mappe.js"></script>
-        <script src="js/validator.js"></script>
-
-        <!--Google Maps-->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
-        <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-        <title>dbalps</title>
+        
+        <jsp:include page="import.jsp"></jsp:include>
     </head>
     <body>
 
@@ -57,10 +34,33 @@
                 <jsp:include page="barraLaterale.jsp"></jsp:include>
                     <div class="col-md-8">
                     <%if (partecipante != null && (partecipante.getRuolo().equals(Role.AMMINISTRATORE) || partecipante.getRuolo().equals(Role.AVANZATO))) {
-                            Calendar cal = new GregorianCalendar();
-                            cal.setTime(processo.getData());
+                            Calendar cal = Calendar.getInstance();
+                            Processo p  = (Processo)request.getAttribute("processo");
+                            cal.setTimeInMillis(p.getData().getTime());
                     %>
-                    <form action="Servlet" id="insertProcesso"  method="POST" role="form">
+                    <script>
+                $(document).ready(function(){
+                    $("#giorno").val(<%=cal.get(Calendar.DAY_OF_MONTH)%>);
+                    $("#mese").val(<%=cal.get(Calendar.MONTH)+1%>);
+                    $("#esposizione").val('${processo.ubicazione.esposizione}');
+                    $("#attendibilita").val('${processo.ubicazione.attendibilita}');
+                    $("#gradoDanno").val('${processo.attributiProcesso.gradoDanno}');
+                    
+                    <%for(TipologiaProcesso tpp : p.getAttributiProcesso().getTipologiaProcesso()){%>
+                           $("#<%=tpp.getNome_IT()%>").prop('checked', true);
+                          
+                    <%}%>
+                     <%for(Danni  danni: p.getAttributiProcesso().getDanni()){%>
+                          $("#<%=danni.getTipo_IT()%>").prop('checked', true);
+                    <%}%>
+                        <%for(EffettiMorfologici  ef: p.getAttributiProcesso().getEffetti()){%>
+                          $("#<%=ef.getTipo_IT()%>").prop('checked', true);
+                    <%}%>
+                        
+                });
+                
+            </script>
+                    <form id="insertProcesso" action="Servlet" id="insertProcesso"  method="POST" role="form">
                         <div class="panel panel-default"> 
                             <div class="panel-body"> 
                                 <h4> ${locale.getWord("titoloProcesso")} </h4>
@@ -74,12 +74,12 @@
                                     <br>
                                    
                                     <div class="row">
-                                        <div class="col-xs-6 col-md-2">
+                                        <div class="col-xs-6 col-md-3">
                                             <label for="anno">Anno</label>
                                             <input type="text" id="anno" name="anno" class="form-control" value="<%=cal.get(Calendar.YEAR)%>">
                                         </div>
 
-                                        <div class="col-xs-6 col-md-2">
+                                        <div class="col-xs-6 col-md-3">
                                             <label for="mese">Mese</label> 
                                             <select id="mese" name="mese" class="form-control" >
                                                 <option value="vuoto"> </option>
@@ -88,7 +88,7 @@
                                                 <%}%>
                                             </select>
                                         </div>
-                                        <div class="col-xs-6 col-md-2">
+                                        <div class="col-xs-6 col-md-3">
                                             <label for="giorno">Giorno</label>
                                             <select id="giorno" name="giorno" class="form-control" >
                                                 <option value="vuoto"> </option>
@@ -99,7 +99,7 @@
                                         </div>
                                             <div class="col-xs-6 col-md-3">
                                                 <label for="ora"> ${locale.getWord("ora")} </label>
-                                                <input type="text" id="ora" name="ora"  class="form-control" placeholder=" ${locale.getWord("ora")} "/>
+                                                <input type="text" id="ora" name="ora"  class="form-control" placeholder=" ${locale.getWord("ora")} " value="<%=cal.get(Calendar.HOUR_OF_DAY)%>:<%=cal.get(Calendar.MINUTE)%>"/>
                                             </div> 
                                        
                                     </div>
@@ -122,7 +122,7 @@
                                     <div class="row">
                                         <div class="col-xs-6 col-md-6">
                                             <label for="volumeSpecifico">${locale.getWord("volumeSpecifico")}</label>
-                                            <input type="text" name=volumespecifico id="volumeSpecifico" onkeypress="return numberOnly(event)" class="form-control" placeholder=" ${locale.getWord("volumeSpecifico")} "  value="${processo.attributiProcesso.volume_specifico}">
+                                            <input type="text" name=volumespecifico id="volumeSpecifico" class="form-control" placeholder=" ${locale.getWord("volumeSpecifico")} "  value="${processo.attributiProcesso.volume_specifico}">
                                         </div>
                                         <div class="col-xs-6 col-md-6">
                                             <label for="intervallo">${locale.getWord("intervallo")}</label>
@@ -155,7 +155,11 @@
                                                         } else {
                                                             tipoProc = tp.getNome_ENG();
                                                         }%>
-                                                <input type="checkbox" name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>"/><%=tipoProc%> 
+                                                <input type="checkbox" id="<%=tp.getNome_IT()%>"  name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>"
+                                                       data-bv-choice="true"
+                                                       data-bv-choice-min="1"
+                                                       data-bv-choice-max="10"
+                                                       data-bv-choice-message="you must insert al least one process tipology"/><%=tipoProc%> 
                                                 <%}%>
                                             </p>
 
@@ -272,7 +276,9 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="${locale.getWord("caratteristicaSito")}">${locale.getWord("sito")}</label>
-                                                <select id="${locale.getWord("caratteristicaSito")}" name="${locale.getWord("caratteristicaSito")}" class="form-control" placeholder="${locale.getWord("sito")}"></select>
+                                                <select id="${locale.getWord("caratteristicaSito")}" name="${locale.getWord("caratteristicaSito")}" class="form-control" placeholder="${locale.getWord("sito")}">
+                                                    <option value="${processo.attributiProcesso.sitoProcesso.idSito}" selected></option>
+                                                </select>
                                                 <input type="hidden" id="idsito" name="idsito"/>
                                             </div>
                                         </div>
@@ -289,7 +295,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" name=" ${locale.getWord("tipoDanno")} " value="<%=tipoDanno%> "/>  <%=tipoDanno%>  
+                                            <input type="checkbox" id="<%=tipoDanno%> " name=" ${locale.getWord("tipoDanno")} " value="<%=tipoDanno%> "/>  <%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
@@ -302,7 +308,7 @@
                                                     } else {
                                                         effMorfologici = em.getTipo_ENG();
                                                     }%>
-                                            <input type="checkbox" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
+                                            <input type="checkbox" id="<%=effMorfologici%>" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
                                             <%}%>
                                         </p>
                                         <br><div class="row">
@@ -310,7 +316,7 @@
                                                 <label for="gradoDanno"> ${locale.getWord("gradoDanno")} </label> 
                                                 <select class="form-control" name="gradoDanno" id="gradoDanno">
                                                     <option value=""></option>
-                                                    <option value="${processo.attributiProcesso.gradoDanno}" selected></option>
+                                                    
                                                     <option value=" ${locale.getWord("danneggiato")} "> ${locale.getWord("danneggiato")} </option>
                                                     <option value=" ${locale.getWord("distrutto")} "> ${locale.getWord("distrutto")} </option>
                                                     <option value=" ${locale.getWord("minacciato")} "> ${locale.getWord("minacciato")} </option>
@@ -360,7 +366,7 @@
                                 </div>
                                 <input type="hidden" name="idProcesso" value="${processo.idProcesso}"/>
                                 <input type="hidden" name="operazione" value="modificaProcesso">
-                                <button type="submit" class="btn btn-default">Inserisci il processo</button>
+                                <button type="submit" class="btn btn-default"> ${locale.getWord("modificaProc")} </button>
                             </div> </div>
                     </form>
                     <%} else { %>
@@ -375,13 +381,7 @@
         </div>
 
             
-            <script>
-                $(document).ready(function(){
-                    $("#mese").val(${processo.data.month});
-                    $("#giorno").val(${processo.data.day});
-                });
-                
-            </script>      
+                  
     </body>
 </html>
 
