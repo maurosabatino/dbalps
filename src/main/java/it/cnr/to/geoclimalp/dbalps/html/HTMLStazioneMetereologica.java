@@ -36,7 +36,7 @@ public class HTMLStazioneMetereologica {
 		StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica);
 		System.out.println("dopo");
 		StringBuilder sb = new StringBuilder();
-		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> </tr>");
+		sb.append("<table class=\"table\"> <tr> <th>Nome</th>  <th>comune</th> </tr>");
 		sb.append(" <tr> <td>"+s.getNome()+" </td>  <td> "+s.getUbicazione().getLocAmm().getComune()+"</td></tr>");
 		sb.append("</table>");
 		return sb.toString();
@@ -393,69 +393,63 @@ public class HTMLStazioneMetereologica {
 
 	
 	public static String scegliStazioniMetereologicheDeltaT() throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+	String tabella="where idstazionemetereologica in(select distinct(idstazionemetereologica) from temperatura_avg)";	
+		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.scriptFilter());
-		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
+		sb.append("<table class=\"table\"> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
-			sb.append("<form action=\"/DBAlps/Servlet\" name=\"dati\" method=\"POST\">");
+			sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
 			sb.append(" <tr> <td>"+s.getNome()+" </td>  <td> "+s.getUbicazione().getLocAmm().getComune()+"</td> <td> <input type=\"checkbox\" name=\"id\" value=\""+s.getIdStazioneMetereologica()+"\" > </td> </tr>");
 			
 		}
 		sb.append("</table>");
-		sb.append("<p>finestra in giorni:<input type=\"text\" name=\"finestra\" \"></p>");
-		sb.append("<p>aggregazione in giorni:<input type=\"text\" name=\"aggregazione\" \"></p>");
-		sb.append("<p> data  <input type=\"text\" id=\"data\" name=\"data\" \"></p>");
-		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\"eleborazioniDeltaT\">");
+		
+		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\"stazioniDeltaT\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" +
 				"		</form>");
 		return sb.toString();
 	}
 	
 	public static String scegliStazioniMetereologicheT(String op) throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+            String tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
+                            " UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+            ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.scriptFilter());
-		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
+		sb.append("<table class=\"table\"> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
-			sb.append("<form action=\"/DBAlps/Servlet\" name=\"dati\" method=\"POST\">");
+			sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
 			sb.append(" <tr> <td>"+s.getNome()+" </td>  <td> "+s.getUbicazione().getLocAmm().getComune()+"</td> <td> <input type=\"checkbox\" name=\"id\" value=\""+s.getIdStazioneMetereologica()+"\" > </td> </tr>");
 			
 		}
 		sb.append("</table>");
-		sb.append("<p>aggregazione in giorni:<input type=\"text\" name=\"aggregazione\" \"></p>");
-		sb.append("<p> data  <input type=\"text\" id=\"data\" name=\"data\" \"></p>");
-		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\""+op+"\">");
+		
+		sb.append("<input type=\"hidden\" name=\"operazione\" value=\"stazioniTemperature\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" +
 				"		</form>");
 		return sb.toString();
 	}
 	
 	public static String scegliStazioniMetereologichePrecipitazioni() throws SQLException{
-		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
+	String tabella="where idstazionemetereologica in(select distinct(idstazionemetereologica) from precipitazione)";	
+            ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.scriptFilter());
-		sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
+		
+                sb.append("<table class=\"table\"> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
+
 		for(StazioneMetereologica s: ap){
-			sb.append("<form action=\"/DBAlps/Servlet\" name=\"dati\" method=\"POST\">");
+			sb.append(" <form action=\"Servlet\" id=\"scegliStazioni\"  method=\"POST\" role=\"form\">");
 			sb.append(" <tr> <td>"+s.getNome()+" </td>  <td> "+s.getUbicazione().getLocAmm().getComune()+"</td> <td> <input type=\"checkbox\" name=\"id\" value=\""+s.getIdStazioneMetereologica()+"\" > </td> </tr>");
 			
 		}
 		
 		sb.append("</table>");
-		sb.append("<p>aggregazione in giorni:<input type=\"text\" name=\"aggregazione\" \"></p>");
-		sb.append("<p>finestra in giorni:<input type=\"text\" name=\"finestra\" \"></p>");
-		sb.append("<p> data  <input type=\"text\" id=\"data\" name=\"data\" \"></p>");
-		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\"precipitazioni\">");
+		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\"stazioniPrecipitazioni\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" +
 				"		</form>");
 		return sb.toString();
@@ -560,8 +554,10 @@ public class HTMLStazioneMetereologica {
 		data.add(Calendar.MONTH, 1);
 		sb.append(HTMLScript.scriptData("data"));
 		sb.append(HTMLScript.controlloCampi());
-		sb.append("<form action=\"/DBAlps/Servlet\" onSubmit=\"return verificaInserisci(this);\" name=\"dati\" method=\"POST\">");
-		sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
+		sb.append("<form action=\"Servlet\" id=\"insertStazione\" name=\"dati\" method=\"POST\">");
+                    				sb.append("<div class=\"form-group\" >");
+
+                sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td>     </tr>");
 		}
@@ -576,22 +572,58 @@ public class HTMLStazioneMetereologica {
 		sb.append("</div>");
 		sb.append("<div class=\"row\">");
 
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"data\" name=\"data\" class=\"form-control\" ></div>");
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"datafine\" name=\"data\" class=\"form-control\" ></div>");
 		sb.append("</div>");
 		
 	
 		sb.append("<input type=\"hidden\" name=\"idProcesso\" value=\""+idProcesso+"\">");
-		sb.append("	<input type=\"hidden\" name=\"operazione\" value=\"temperatureDaProcesso\">");
+		sb.append("<input type=\"hidden\" name=\"operazione\" value=\"temperatureDaProcesso\">");
 		sb.append("media <input type=\"checkbox\" name=\"temperature\" value=\"avg\"  >");
 		sb.append("min <input type=\"checkbox\" name=\"temperature\" value=\"min\"  >");
 		sb.append("max <input type=\"checkbox\" name=\"temperature\" value=\"max\"  ><br>");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
-		sb.append(		"		</form>");
+                    		sb.append("</div>");
+
+                sb.append("</form>");
 		
 		sb.append("</div>");
+
+		return sb.toString();
+	}
+        
+        public static String temperatureDati(ArrayList<StazioneMetereologica> s){ 
+		StringBuilder sb = new StringBuilder();
+		Calendar data = new GregorianCalendar();
+		data.add(Calendar.MONTH, 1);
+		sb.append(HTMLScript.scriptData("data"));
+		sb.append(HTMLScript.controlloCampi());
+		sb.append("<form action=\"Servlet\" id=\"insertStazione\" name=\"dati\" method=\"POST\">");
+				sb.append("<div class=\"form-group\" >");
+
+                sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
+		for(StazioneMetereologica stazione: s){
+			sb.append(" <tr> <td>"+stazione.getNome()+" </td>     </tr>");
+		}
+		sb.append("</table>");
+		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati elaborazione</h4>");
+		sb.append("<div class=\"row\">");
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"aggregazione\">aggregazione in giorni<input type=\"text\" id=\"aggregazione\" name=\"aggregazione\" class=\"form-control\" ></div>");
+		sb.append("</div>");
 		
-		
-		
+		sb.append("<div class=\"row\">");
+
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"datafine\" name=\"data\" class=\"form-control\" ></div>");
+		sb.append("</div>");
+		sb.append("<input type=\"hidden\" name=\"operazione\" value=\"eleborazioniTemperatura\">");
+		sb.append("media <input type=\"checkbox\" name=\"temperature\" value=\"avg\"  >");
+		sb.append("min <input type=\"checkbox\" name=\"temperature\" value=\"min\"  >");
+		sb.append("max <input type=\"checkbox\" name=\"temperature\" value=\"max\"  ><br>");
+		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+				sb.append("</div>");
+
+                sb.append("</form>");		
+		sb.append("</div>");
+
 		return sb.toString();
 	}
 	public static String deltaTDaProcesso(ArrayList<StazioneMetereologica> s){	 
@@ -606,7 +638,8 @@ public class HTMLStazioneMetereologica {
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td>     </tr>");
 		}
 		sb.append("</table>");
-		sb.append("<form action=\"/DBAlps/Servlet\" onSubmit=\"return verificaInserisci(this);\" name=\"dati\" method=\"POST\">");
+		sb.append("<form action=\"Servlet\" id=\"insertStazione\" name=\"dati\" method=\"POST\">");
+                    		sb.append("<div class=\"form-group\" >");
 
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati elaborazione</h4>");
 		sb.append("<div class=\"row\">");
@@ -616,14 +649,14 @@ public class HTMLStazioneMetereologica {
 		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"finestra\">finestra in giorni:<input type=\"text\" id=\"finestra\" name=\"finestra\" class=\"form-control\" ></div>");
 		sb.append("</div>");
 		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"data\" name=\"data\" class=\"form-control\" ></div>");
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"datafine\" name=\"data\" class=\"form-control\" ></div>");
 		sb.append("</div>");
 		sb.append("	<input type=\"hidden\" name=\"operazione\" value=\"eleborazioniDeltaT\">");
 		/*sb.append("media <input type=\"checkbox\" name=\"temperature\" value=\"avg\"  >");
 		sb.append("min <input type=\"checkbox\" name=\"temperature\" value=\"min\"  >");
 		sb.append("max <input type=\"checkbox\" name=\"temperature\" value=\"max\"  ><br>");*/
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );		
-		sb.append(	"</form>");
+		sb.append(	" </div>  </form>");
 		sb.append("</div>");
 		return sb.toString();
 		
@@ -634,10 +667,10 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.controlloCampi());
-		sb.append("<form action=\"/DBAlps/Servlet\" onSubmit=\"return verificaInserisci(this);\" name=\"dati\" method=\"POST\">");
-		sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
+		
+		sb.append("<form action=\"Servlet\" id=\"insertStazione\"  name=\"dati\" method=\"POST\">");
+		sb.append("<div class=\"form-group\" >");
+                sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td>     </tr>");
 		}
@@ -650,11 +683,11 @@ public class HTMLStazioneMetereologica {
 		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"finestra\">finestra in giorni:<input type=\"text\" id=\"finestra\" name=\"finestra\" class=\"form-control\" ></div>");
 		sb.append("</div>");
 		sb.append("<div class=\"row\">");
-		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"data\" name=\"data\" class=\"form-control\" ></div>");
+		sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"data\"> data  <input type=\"text\" id=\"datafine\" name=\"data\" class=\"form-control\" ></div>");
 		sb.append("</div>");
 		sb.append("<input type=\"hidden\" name=\"operazione\" value=\"elaborazioniPrecipitazioni\">");
-		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" +
-				"		</form>");
+		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+		sb.append(		" </div> </form>");
 		sb.append("</div>");
 		return sb.toString();
 	}
@@ -663,7 +696,7 @@ public class HTMLStazioneMetereologica {
 	public static String scegliStazioniQuery(String op,String tabella) throws SQLException{
 		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologicheConDati(tabella); 
 		StringBuilder sb = new StringBuilder();
-			sb.append("<table> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
+			sb.append("<table class=\"table\"> <tr> <th>Nome</th>  <th>comune</th> <th> seleziona</th> </tr>");
 		for(StazioneMetereologica s: ap){
 			sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
 			if(op.equals("datiTemperaturaEPrecipitazioneAnno"))
@@ -681,7 +714,7 @@ public class HTMLStazioneMetereologica {
 					sb.append("});");
 					sb.append("</script>");
 		sb.append("</table>");
-		sb.append("			<input type=\"hidden\" name=\"operazione\" value=\""+op+"\">");
+		sb.append("<input type=\"hidden\" name=\"operazione\" value=\""+op+"\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" +
 				"		</form>");
 		return sb.toString();

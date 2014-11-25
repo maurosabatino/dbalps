@@ -270,7 +270,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("ubicazione", ubicazione);
             stazione.setAllegati(allegati);
             request.setAttribute("stazione", stazione);
-            forward(request, response, "/s.jsp");
+            forward(request, response, "/visualizzaStazione.jsp");
         } else if (operazione.equals("mostraTutteStazioniMetereologiche")) {
             Utente part = (Utente) session.getAttribute("partecipante");
             ArrayList<StazioneMetereologica> stazione = ControllerDatabase.prendiTutteStazioniMetereologiche();
@@ -354,7 +354,7 @@ public class Servlet extends HttpServlet {
 
         else if (operazione.equals("scegliRaggio")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            session.setAttribute("idProcesso", idProcesso);
+            request.setAttribute("idProcesso", idProcesso);
             //Processo p  = ControllerDatabase.prendiProcesso(idProcesso);
             String content = HTMLProcesso.mostraCerchioProcesso(idProcesso, loc);
             HTMLContent c = new HTMLContent();
@@ -362,7 +362,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("mostraStazioniRaggio")) {
-            int idProcesso = (int) session.getAttribute("idProcesso");
+            int idProcesso = Integer.parseInt(request.getParameter("id"));
             //Integer.parseInt(request.getParameter("id"));
             Processo p = ControllerDatabase.prendiProcesso(idProcesso);
             int raggio = Integer.parseInt(request.getParameter("raggio"));
@@ -375,8 +375,7 @@ public class Servlet extends HttpServlet {
 
         } else if (operazione.equals("scegliTemperature") || operazione.equals("scegliDeltaT") || operazione.equals("scegliPrecipitazioni")) {
             String[] id = request.getParameterValues("id");
-            //int idProcesso= Integer.parseInt(request.getParameter("idProcesso"));
-            int idProcesso = (int) session.getAttribute("idProcesso");
+            int idProcesso= Integer.parseInt(request.getParameter("idProcesso"));
             ArrayList<StazioneMetereologica> stazione = new ArrayList<StazioneMetereologica>();
             String content = "";
 
@@ -415,6 +414,7 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/stazione.jsp");
 
         } else if (operazione.equals("scegliStazioniPrecipitazioni")) {
+            
             String content = HTMLStazioneMetereologica.scegliStazioniMetereologichePrecipitazioni();
             HTMLContent c = new HTMLContent();
             c.setContent(content);
@@ -433,9 +433,10 @@ public class Servlet extends HttpServlet {
             String ora = "00:00:00";
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
             String titolo = "DeltaT";
-            String unita = "(�C)";
+            String unita = "(°C)";
             ArrayList<Grafici> g = ProvaController.deltaT(stazione, finestra, aggregazione, data, locale);
-
+            if(g!=null){
+      
             for (int i = 0; i < g.size(); i++) {
                 if (g.get(i).getOk() == false) {
                     ok.add(g.get(i).getNome());
@@ -445,36 +446,46 @@ public class Servlet extends HttpServlet {
             content.append(HTMLElaborazioni.grafici(g, titolo, unita));
             c = new HTMLContent();
             c.setContent(content.toString());
+            }else{
+                content.append("errore");
+                c = new HTMLContent();
+                c.setContent(content.toString());
+               request.setAttribute("HTMLc", c);
 
+            }
             session.setAttribute("grafici", g);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/elaborazioni.jsp");
         } else if (operazione.equals("eleborazioniTemperatura")) {
+            HTMLContent c = new HTMLContent();
+
             ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) session.getAttribute("stazione");
-            //String [] id= request.getParameterValues("id");
-            ArrayList<String> ok = new ArrayList<String>();
-            StringBuilder content = new StringBuilder();
-            HTMLContent c;
-            String[] tipi = request.getParameterValues("temperature");
-            int aggregazione = Integer.parseInt(request.getParameter("aggregazione")) / 2;
+            System.out.println("staz size"+stazione.size());
+            String[] tipi = request.getParameterValues("temperature"); 
+                      
+                      
+            int aggregazione = Integer.parseInt(request.getParameter("aggregazione"));
             String ora = "00:00:00";
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
-            ArrayList<Grafici> g = ProvaController.mediaTemperatura(stazione, aggregazione, data, -9999, -9999, tipi, locale);
+            ArrayList<Grafici> g = ProvaController.mediaTemperaturaNoGradiente(stazione, aggregazione, data,  tipi, locale);
+                  if(g!=null){
             String titolo = "Temperatura";
-            String unita = "(�C)";
-            session.setAttribute("grafici", g);
-            ArrayList<Grafici> p = (ArrayList<Grafici>) session.getAttribute("grafici");
-            for (int i = 0; i < g.size(); i++) {
-                if (g.get(i).getOk() == false) {
-                    ok.add(g.get(i).getNome());
-                }
-            }
+            String unita = "(°C)";
+            String content = HTMLElaborazioni.grafici(g, titolo, unita);
+            c.setContent(content);
+             session.setAttribute("grafici", g);
 
-            content.append(HTMLElaborazioni.grafici(g, titolo, unita));
-            c = new HTMLContent();
-            c.setContent(content.toString());
+                        }  else{
+                             StringBuilder content =new StringBuilder();
+                content.append("errore");
+                c = new HTMLContent();
+                c.setContent(content.toString());
+               request.setAttribute("HTMLc", c);
 
+            }    
+                        
             request.setAttribute("HTMLc", c);
+
             forward(request, response, "/elaborazioni.jsp");
         } else if (operazione.equals("elaborazioniPrecipitazioni")) {
             //String [] id= request.getParameterValues("id");
@@ -482,11 +493,15 @@ public class Servlet extends HttpServlet {
             StringBuilder content = new StringBuilder();
             HTMLContent c;
             ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) session.getAttribute("stazione");
+            System.out.println("stazione size"+stazione.size());
             int finestra = Integer.parseInt(request.getParameter("finestra"));
             int aggregazione = Integer.parseInt(request.getParameter("aggregazione"));
             String ora = "00:00:00";
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
+            
             ArrayList<Grafici> g = ProvaController.mediaPrecipitazioni(stazione, finestra, aggregazione / 2, data);
+            if(g!=null){
+                System.out.println("diverso da null");
             String titolo = "Precipitazioni";
             String unita = "(mm)";
             for (int i = 0; i < g.size(); i++) {
@@ -508,6 +523,13 @@ public class Servlet extends HttpServlet {
             }
             session.setAttribute("grafici", g);
             request.setAttribute("HTMLc", c);
+            }else{
+                content.append("errore");
+                c = new HTMLContent();
+                c.setContent(content.toString());
+               request.setAttribute("HTMLc", c);
+
+            }
             forward(request, response, "/elaborazioni.jsp");
         } else if (operazione.equals("temperatureDaProcesso")) {
             ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) session.getAttribute("stazione");
@@ -521,20 +543,74 @@ public class Servlet extends HttpServlet {
                 gradiente = Double.parseDouble(request.getParameter("gradiente"));
             } else {
                 gradiente = -9999;
-            }
+            }            HTMLContent c = new HTMLContent();
+
             int aggregazione = Integer.parseInt(request.getParameter("aggregazione"));
             String ora = "00:00:00";
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
             ArrayList<Grafici> g = ProvaController.mediaTemperatura(stazione, aggregazione, data, gradiente, quota, tipi, locale);
+           if(g!=null){
             String titolo = "Temperatura";
             String unita = "(°C)";
             String content = HTMLElaborazioni.grafici(g, titolo, unita);
-            HTMLContent c = new HTMLContent();
             c.setContent(content);
             session.setAttribute("grafici", g);
+           } else{
+               StringBuilder content=new StringBuilder();
+                content.append("errore");
+                c = new HTMLContent();
+                c.setContent(content.toString());
+               request.setAttribute("HTMLc", c);
+
+            }
             request.setAttribute("HTMLc", c);
             forward(request, response, "/elaborazioni.jsp");
-        } else if (operazione.equals("elencocaricaDatiClimatici")) {
+            
+           }else if(operazione.equals("stazioniPrecipitazioni")){
+               String [] id= (String[]) request.getParameterValues("id");
+               ArrayList<StazioneMetereologica> stazione=new ArrayList<StazioneMetereologica>();
+               for(int i=0;i<id.length;i++){
+                   StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(id[i]));
+                   stazione.add(s);
+               }
+                session.setAttribute("stazione",stazione);
+                 String content = HTMLStazioneMetereologica.precipitazioniDaProcesso(stazione);
+            HTMLContent c = new HTMLContent();
+            c.setContent(content);
+            request.setAttribute("HTMLc", c);
+            forward(request, response, "/elaborazioni.jsp");
+           }else if(operazione.equals("stazioniTemperature")){
+               String [] id= (String[]) request.getParameterValues("id");
+               ArrayList<StazioneMetereologica> stazione=new ArrayList<StazioneMetereologica>();
+               for(int i=0;i<id.length;i++){
+                   StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(id[i]));
+                   stazione.add(s);
+               }
+                session.setAttribute("stazione",stazione);
+                 String content = HTMLStazioneMetereologica.temperatureDati(stazione);
+            HTMLContent c = new HTMLContent();
+            c.setContent(content);
+            request.setAttribute("HTMLc", c);
+            forward(request, response, "/elaborazioni.jsp");
+           }
+           else if(operazione.equals("stazioniDeltaT")){
+               String [] id= (String[]) request.getParameterValues("id");
+               ArrayList<StazioneMetereologica> stazione=new ArrayList<StazioneMetereologica>();
+               for(int i=0;i<id.length;i++){
+                   StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica(Integer.parseInt(id[i]));
+                   stazione.add(s);
+               }
+                session.setAttribute("stazione",stazione);
+                 String content = HTMLStazioneMetereologica.deltaTDaProcesso(stazione);
+            HTMLContent c = new HTMLContent();
+            c.setContent(content);
+            request.setAttribute("HTMLc", c);
+            forward(request, response, "/elaborazioni.jsp");
+           }
+                  
+
+// upload dati climatici
+         else if (operazione.equals("elencocaricaDatiClimatici")) {
             String content = HTMLStazioneMetereologica.caricaDatiMetereologici();
             HTMLContent c = new HTMLContent();
             c.setContent(content);
@@ -833,7 +909,7 @@ public class Servlet extends HttpServlet {
         else if (operazione.equals("download")) {
 
             ArrayList<Grafici> g = (ArrayList<Grafici>) session.getAttribute("grafici");
-
+            session.setAttribute("grafici",g);
             String titolo = request.getParameter("titolo");
             session.removeAttribute("grafici");
             String test = "/Users/daler/Desktop/" + titolo + ".csv";

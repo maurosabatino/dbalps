@@ -84,7 +84,7 @@ public class HTMLElaborazioni {
 			sb.append(	"</script>" );
 			sb.append(	"<div id=\"container\" style=\"min-width: 310px; height: 400px; margin: 0 auto\"></div> ");
 			sb.append("<a href=\"Servlet?operazione=download&grafici=grafici\">dettagli</a>");
-			sb.append("<form action=\"/DBAlps/Servlet\" name=\"download\" method=\"POST\" >");
+			sb.append("<form action=\"Servlet\" name=\"download\" method=\"POST\" >");
 	        sb.append(" <input type=\"submit\" name =\"submit\" value=\"download\" >");
 			sb.append(" <input type=\"hidden\" name=\"operazione\" value=\"download\">");
 			sb.append(" <input type=\"hidden\" name=\"titolo\" value=\""+titolo+"\">");
@@ -136,7 +136,7 @@ public class HTMLElaborazioni {
 		sb.append("	</script>");
 		sb.append(HTMLScript.controlloAnno());
 		
-		sb.append("<form action=\"/DBAlps/Servlet\" onSubmit=\"return verificaAnno(this);\" name=\"dati\" method=\"POST\">");
+		sb.append("<form action=\"Servlet\" onSubmit=\"return verificaAnno(this);\" name=\"dati\" method=\"POST\">");
 		sb.append("<table class=\"table\"> <tr> <th>nome</th> <th>scelto</th> </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td> <td> <input type=\"checkbox\" name=\"id\" value=\""+stazione.getIdStazioneMetereologica()+"\" checked=\"checked\" >  </td> </tr>");
@@ -155,7 +155,7 @@ public class HTMLElaborazioni {
 	public static String DatiTrimestre(ArrayList<StazioneMetereologica>s,String op){
 		StringBuilder sb=new StringBuilder();
 		
-		sb.append("<form action=\"/DBAlps/Servlet\" name=\"dati\" method=\"POST\">");
+		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
 		sb.append("<table class=\"table\"> <tr> <th>nome</th> <th>scelto</th> </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td> <td> <input type=\"checkbox\" name=\"id\" value=\""+stazione.getIdStazioneMetereologica()+"\" checked=\"checked\" >  </td> </tr>");

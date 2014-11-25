@@ -377,7 +377,8 @@
             
             <script>
                 $(document).ready(function(){
-                    $("#mese").val(${processo.data.month});
+        alert(${processo.data.month});            
+        $("#mese").val(${processo.data.month});
                     $("#giorno").val(${processo.data.day});
                 });
                 
