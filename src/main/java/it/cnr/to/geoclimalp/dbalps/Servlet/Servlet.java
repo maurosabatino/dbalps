@@ -50,8 +50,9 @@ import static java.lang.Integer.parseInt;
 /**
  * Servlet implementation class Servlet
  */
-@WebServlet("/Servlet")
+
 @MultipartConfig
+@WebServlet(name = "Servlet", urlPatterns = {"/Servlet"})
 public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -612,12 +613,12 @@ public class Servlet extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             if (ControllerDatabase.login(username, password, passwordEncryptor)) {
-                HTMLContent c = new HTMLContent();
+                
                 Utente utente = ControllerDatabase.prendiUtente(username);
                 session.setAttribute("partecipante", utente);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(new Gson().toJson(true));
+                response.getWriter().print(new Gson().toJson("ok"));
             } else {
                 String content = "<h2>spiacente, il login non  è corretto</h2>";
                 HTMLContent c = new HTMLContent();
@@ -642,9 +643,7 @@ public class Servlet extends HttpServlet {
         }else if(operazione.equals("abilitaUtente")){
             Utente u=new Utente();
             u.setIdUtente(Integer.parseInt(request.getParameter("id")));
-            
             u.setAttivo(Boolean.parseBoolean(request.getParameter("abilitato")));
-            System.out.println("nella servlet "+u.getAttivo());
             ControllerDatabase.abilita(u);
         }
         //query
@@ -998,7 +997,6 @@ public class Servlet extends HttpServlet {
             if (!(uploadFile.isEmpty())) {
                 for (File f : uploadFile) {
                     autore = request.getParameter("autore");
-                    System.out.println("autore:" + request.getParameter("autore"));
                     anno = request.getParameter("anno");
                     titolo = request.getParameter("titolo");
                     in = request.getParameter("in");
@@ -1049,9 +1047,7 @@ public class Servlet extends HttpServlet {
         for (Part part : parts) {
             if (part.getContentType() != null) {
                 try {
-                    System.out.println(path);
                     String fileName = getFilename(part);
-                    System.out.println("nome del file: " + fileName);
                     File file = new File(path + File.separator + fileName);
                     out = new FileOutputStream(file);
                     filecontent = part.getInputStream();
