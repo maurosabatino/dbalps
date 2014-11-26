@@ -9,8 +9,7 @@
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
 
-<jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
-<jsp:setProperty  name="partecipante" property="*"/>
+
 
 <html>
 
@@ -149,7 +148,7 @@
                                     <th> Elimina</th>
                                 </tr>
                                 <tr>
-                                    <th id="pager"colspan="8" class="form-horizontal">
+                                    <th id="pager" colspan="8" class="form-horizontal">
                                         <button type="button" class="btn first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i></button>
                                         <button type="button" class="btn prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i></button>
                                         <input type="text" class="pagedisplay"/> <!-- this can be any element, including an input -->

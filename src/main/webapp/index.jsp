@@ -3,6 +3,7 @@
 <html>
 
     <head>
+        <title>dbalps</title>
        <jsp:include page="import.jsp"></jsp:include>        
     </head>
 
@@ -14,7 +15,7 @@
                 <div class="row"> 
                 <jsp:include page="barraLaterale.jsp"></jsp:include>
                     <div class="col-md-8">
-                        <p>questa è la index</p>
+                        <p id = "loginStatus"></p>
                         
                     </div>
                 </div>

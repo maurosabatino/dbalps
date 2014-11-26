@@ -1,4 +1,5 @@
 
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*"%>
@@ -7,10 +8,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <jsp:include page="import.jsp"></jsp:include>
         <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
         <jsp:setProperty  name="locale" property="*"/>
-        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
-        <jsp:setProperty  name="partecipante" property="*"/>
+       <%Utente partecipante = (Utente) session.getAttribute("partecipante");%>
         
     </head>
     <body>
@@ -347,6 +348,6 @@
             </div>
 
         </div>
-<jsp:include page="import.jsp"></jsp:include>
+
     </body>
 </html>
