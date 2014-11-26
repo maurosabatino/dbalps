@@ -11,7 +11,7 @@
         <jsp:setProperty  name="locale" property="*"/>
         <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
         <jsp:setProperty  name="partecipante" property="*"/>
-        <jsp:include page="import.jsp"></jsp:include>
+        
     </head>
     <body>
 
@@ -347,6 +347,6 @@
             </div>
 
         </div>
-
+<jsp:include page="import.jsp"></jsp:include>
     </body>
 </html>
