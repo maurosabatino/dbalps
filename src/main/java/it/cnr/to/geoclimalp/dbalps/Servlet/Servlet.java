@@ -786,18 +786,19 @@ public class Servlet extends HttpServlet {
 		else if(operazione.equals("temperaturaAnno")){
                 op = "datiQueryTemperaturaAnno";
                     tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
-"                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+                    "                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
                 }
 		else if(operazione.equals("temperaturaTrimestre")){
                 op = "datiQueryTemperaturaTrimestre";
                     tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
-"                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+                    "                            UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
                 }
 
                 else{
                 op = "datiTemperaturaEPrecipitazioneAnno";
                     tabella="where staz.idstazionemetereologica in(Select distinct(idstazionemetereologica) as id from temperatura_max " +
-                    "        UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg)";
+                    "        UNION ALL Select distinct(idstazionemetereologica) as id From temperatura_min union all  select distinct (idstazionemetereologica) as id From temperatura_avg"+
+                            " UNION ALL Select distinct(idstazionemetereologica) as id From precipitazione)";
             }
             String content = HTMLStazioneMetereologica.scegliStazioniQuery(op,tabella);
             HTMLContent c = new HTMLContent();
