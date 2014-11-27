@@ -1,12 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.lang.Object"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.*"%>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
 <!DOCTYPE html >
 
 
@@ -40,7 +39,7 @@
                         "info": "Showing page _PAGE_ of _PAGES_",
                         "infoEmpty": "No process available",
                         "infoFiltered": "(filtered from _MAX_ total process)"
-        }
+                    }
                     });
                 });
                     
