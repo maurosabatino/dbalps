@@ -91,12 +91,12 @@
         
             <tr> 
                 <td><%=s.getNome()%></td>  <td><%= s.getUbicazione().getLocAmm().getComune() %> </td><td><%= s.getUbicazione().getQuota() %> </td>
-                <td> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><img alt="Brand" class="img-responsive" src="img/search-icon (32).png"></a></td>
+                <td> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-search" ></span></td>
                 
                 <% if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && s.getIdUtente()==part.getIdUtente()) )){%>
-                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><img alt="Brand" class="img-responsive" src="img/edit-validated-icon.png"></a></td>
+                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-wrench"></span></td>
                         <td> <a  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);" role="button">
-                        <img alt="Brand" class="img-responsive" src="img/delete-icon.png">
+                                <span class="fa fa-times"></span>
                         </a></td>
                  <%}%> 
                 

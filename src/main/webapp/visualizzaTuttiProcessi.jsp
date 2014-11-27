@@ -36,7 +36,7 @@
                         "language": {
                         "lengthMenu": "Display _MENU_ process per page",
                         "zeroRecords": "Nothing found - sorry",
-                        "info": "Showing page _PAGE_ of _PAGES_",
+                        "info": "Showing page _PAGE_ of _PAGES_ ",
                         "infoEmpty": "No process available",
                         "infoFiltered": "(filtered from _MAX_ total process)"
                     }
@@ -57,7 +57,7 @@
             <%Utente part = (Utente) session.getAttribute("partecipante");%>
 
                     <div class="col-md-8"> 
-                       
+                    
                         
                         <table id="tabella" class="table table-striped table-bordered">
                             <thead>
@@ -68,7 +68,7 @@
                                     <th>Comune</th>
                                     <th>Tipologia</th>
                                     <th> Dettagli</th>
-                                    <%if(part!=null && (part.getRuolo().equals("AMMINISTRATORE"))){%>
+                                    <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO)))){%>
                                     <th> Modifica</th>
                                     <th> Elimina</th>
                                     <%}%>

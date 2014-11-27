@@ -1,28 +1,31 @@
 
+<%@page import="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua"%>
+<%@page import="java.util.Locale"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente"%>
 
 
-
-
+<link rel="stylesheet" type="text/css" href="css/flag-icon.min.css"/>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="col-md-2 col-md-offset-1" id=login>
-
+    
     <ul class="nav nav-sidebar">
         <li>
-            <a><img class="" alt="HOME" src="img/home-icon .png"  id="home"></a>
+            <a>
+                <span class="fa fa-home fa-2x" id="home"></span>
+                <span class="flag-icon flag-icon-it" id="buttonIT"> </span>
+                <span class = "flag-icon flag-icon-gb" id="buttonENG" ></span>
+            </a>
         </li>
     </ul>
-    <ul class="nav nav-sidebar">
-        <li>
-            <a><img class="img-circle" id="buttonIT" alt="IT" src="img/italy-icon.png"> 
-
-                <img class = "img-circle" id="buttonENG" alt="ENG" src="img/uk-icon.png"></a>
-        </li>
-    </ul>  
-
+   
 
     <ul class="nav nav-sidebar">
-        <% Utente part = (Utente) session.getAttribute("partecipante");
+        <% if(session.getAttribute("locale")==null){
+        ControllerLingua locale = new ControllerLingua(Locale.forLanguageTag("en-US"));
+            session.setAttribute("locale", locale);
+    }
+            Utente part = (Utente) session.getAttribute("partecipante");
             if (part == null) {
         %>	
         <li><button class="btn btn-info navbar-btn " data-toggle="modal" data-target=".login-form">Login</button></li>

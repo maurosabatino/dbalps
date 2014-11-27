@@ -110,7 +110,7 @@ public class Servlet extends HttpServlet {
         ControllerLingua locale;
         HttpSession session = request.getSession();
         if (session.getAttribute("loc") == null || session.getAttribute("loc").equals("")) {
-            loc = "it-IT";
+            loc = "en-US";
             locale = new ControllerLingua(Locale.forLanguageTag(loc));
             session.setAttribute("locale", locale);
             session.setAttribute("loc", loc);
@@ -185,11 +185,9 @@ public class Servlet extends HttpServlet {
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             System.out.println("id ubicazione servlet" + u.getLocAmm().getIdComune());
             ArrayList<Processo> ap = ControllerDatabase.ricercaProcesso(p, u);
-            String content = HTMLProcesso.mostraCercaProcessi(ap);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            request.setAttribute("processo", ap);
+            forward(request, response, "/visualizzaTuttiProcessi.jsp");
+            
         } else if (operazione.equals("mostraModificaProcesso")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
             Processo p = ControllerDatabase.prendiProcesso(idProcesso);

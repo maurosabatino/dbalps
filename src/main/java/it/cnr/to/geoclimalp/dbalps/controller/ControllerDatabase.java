@@ -2874,7 +2874,7 @@ public class ControllerDatabase {
 
     public static void salvaAllegatoProcesso(int idProcesso, int idUtente, String autore, String anno, String titolo, String in, String fonte, String urlWeb, String note, String tipo, String absolutePath) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
-        int idAllegato = salvaAllegato(idUtente, tipo, tipo, tipo, tipo, tipo, tipo, tipo, tipo, absolutePath);
+        int idAllegato = salvaAllegato(idUtente,autore, anno,titolo,in,fonte,urlWeb,note,tipo,absolutePath);
         String query = "insert into allegati_processo(idprocesso,idallegati) values(?,?)";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, idProcesso);
