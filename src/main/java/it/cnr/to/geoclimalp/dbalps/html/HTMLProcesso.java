@@ -1308,7 +1308,7 @@ public class HTMLProcesso {
         sb.append("<option value=\"document\">Document</option>");
         sb.append("<option value=\"map\">Map </option>");
         sb.append("<option value=\"image\">Image</option>");
-        sb.append("<option value=\"photo\">Photo</option>");
+        sb.append("<option value=\"Link\">Link</option>");
         sb.append("</select>");
         sb.append("</div>");
         sb.append("</div>");
