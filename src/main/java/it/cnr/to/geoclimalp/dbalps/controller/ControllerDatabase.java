@@ -2447,17 +2447,12 @@ public class ControllerDatabase {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
         ResultSet rs;
-        if (a == true) {
+      
             rs = st.executeQuery("select sum(quantita),month from (select sum(quantita) as quantita,EXTRACT(month FROM data) as month from precipitazione"
                     + "				 where idstazionemetereologica=" + id + " and quantita<>-9999 and EXTRACT(year FROM data)=" + anno + " "
                     + "				 group by EXTRACT(month FROM data),EXTRACT(year FROM data) having (count(quantita)>20) "
                     + "				 order by EXTRACT(month FROM data), EXTRACT(year FROM data) ) as media group by month");
-        } else {
-            rs = st.executeQuery("select sum(quantita),month from (select sum(quantita) as quantita,EXTRACT(month FROM data) as month from precipitazione"
-                    + "				 where idstazionemetereologica=" + id + " and quantita<>-9999 "
-                    + "				 group by EXTRACT(month FROM data),EXTRACT(year FROM data) having (count(quantita)>20) "
-                    + "				 order by EXTRACT(month FROM data), EXTRACT(year FROM data) ) as media group by month");
-        }
+        
 
         while (rs.next()) {
             double d = rs.getInt("sum");
@@ -2491,16 +2486,20 @@ public class ControllerDatabase {
         return g;
     }
 
-    public static ArrayList<Double> prendiPrecipitazioniMeseMensile(String id, String anno, String mese) throws SQLException {
-        ArrayList<Double> precipitazioni = new ArrayList<Double>();
+    public static Dati prendiPrecipitazioniMeseMensile(String id, String anno, String mese) throws SQLException {
+        Dati precipitazioni = new Dati();
 
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
+        int cont=0;
         ResultSet rs;
         rs = st.executeQuery("select quantita,data from precipitazione where idstazionemetereologica=" + id + " and EXTRACT(Year FROM data)=" + anno + " and EXTRACT(month FROM data)=" + mese + " order by data");
         while (rs.next()) {
-            precipitazioni.add(rs.getDouble("quantita"));
+            precipitazioni.getDati().add(rs.getDouble("quantita"));
+            if(rs.getDouble("quantita")==-9999) cont++;
+            
         }
+        if(cont>20) precipitazioni.setOk(false);
         rs.close();
         st.close();
         conn.close();
@@ -2535,11 +2534,9 @@ public class ControllerDatabase {
 
         ResultSet rs;
 
-        if (a) {
+        
             rs = st.executeQuery("SELECT avg(temperatura" + tipo + ") as " + tipo + ",EXTRACT(MONTH FROM data) FROM temperatura_" + tipo + " WHERE extract(year FROM data)=" + anno + " and idstazionemetereologica=" + id + " and temperatura" + tipo + "<>-9999 group by EXTRACT(MONTH FROM data) order by EXTRACT(MONTH FROM data)");
-        } else {
-            rs = st.executeQuery("SELECT avg(temperatura" + tipo + ") as " + tipo + ",EXTRACT(MONTH FROM data) FROM temperatura_" + tipo + " WHERE  idstazionemetereologica=" + id + " and temperatura" + tipo + "<>-9999 group by EXTRACT(MONTH FROM data) order by EXTRACT(MONTH FROM data)");
-        }
+        
         while (rs.next()) {
             tem.add(rs.getDouble("" + tipo + ""));
 
@@ -2551,22 +2548,46 @@ public class ControllerDatabase {
 
     }
 
-    public static ArrayList<Double> temperatureAnno(String id, String anno, boolean a, String tipo) throws SQLException {
+    public static ArrayList<Dati> temperatureAnno(String id, String anno, boolean a, String tipo) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
-        ArrayList<Double> tem = new ArrayList<Double>();
+        ArrayList<Dati> dati = new ArrayList<Dati>();
 
         ResultSet rs;
-
-        rs = st.executeQuery("SELECT data,temperatura" + tipo + " as " + tipo + " FROM temperatura_" + tipo + " WHERE extract(year FROM data)=" + anno + " and  idstazionemetereologica=" + id + " and temperatura" + tipo + "<>-9999 order by data");
+        int mese = 0;
+        int m = 0;
+        int cont=0;
+        Dati d = null;
+        rs = st.executeQuery("SELECT data,(EXTRACT(month FROM data)) as mese,temperatura" + tipo + " as " + tipo + " FROM temperatura_" + tipo + " WHERE extract(year FROM data)=" + anno + " and  idstazionemetereologica=" + id + " order by data");
+         
         while (rs.next()) {
-            tem.add(rs.getDouble("" + tipo + ""));
-
+             mese = Integer.parseInt(rs.getString("mese"));
+            if (dati.isEmpty()) {
+                d = new Dati();
+                d.getDati().add(rs.getDouble("" + tipo + ""));
+                if(rs.getDouble("" + tipo + "")==-9999) cont++;
+                m = mese;
+                //dati.set(mese, d);
+                dati.add(d);
+            } else {
+                if (mese != m) {
+                    if(cont>20) d.setOk(false);
+                    cont =0;
+                    d = new Dati();
+                    m = mese;
+                    d.getDati().add(rs.getDouble("" + tipo + ""));
+                    if(rs.getDouble("" + tipo + "")==-9999) cont++;
+                    dati.add(d);
+                } else {
+                    d.getDati().add(rs.getDouble("" + tipo + ""));
+                    if(rs.getDouble("" + tipo + "")==-9999) cont++;
+                }
+            }
         }
 
         rs.close();
         st.close();
-        return tem;
+        return dati;
 
     }
 
@@ -2594,29 +2615,54 @@ public class ControllerDatabase {
         return tem;
     }
 
-    public static ArrayList<Double> prendiPrecipitazioniTrimestreGiornaliero(String id, String anno, String mese) throws SQLException {
-        ArrayList<Double> precipitazioni = new ArrayList<Double>();
-        int mesefinale = Integer.parseInt(mese) + 2;
+    public static ArrayList<Dati> prendiPrecipitazioniTrimestreGiornaliero(String id, String anno, String mesei) throws SQLException {
+        int mesefinale = Integer.parseInt(mesei) + 2;
         Connection conn = DriverManager.getConnection(url, usr, pwd);
+        ArrayList<Dati> dati = new ArrayList<Dati>();
         Statement st = conn.createStatement();
         ResultSet rs;
-        rs = st.executeQuery("select quantita,data from precipitazione where idstazionemetereologica=" + id + " and (EXTRACT(MONTH FROM data))::int BETWEEN " + mese + " AND " + mesefinale + " and extract(year from data)=" + anno + "");
-
+        if(Integer.parseInt(mesei)<11)rs = st.executeQuery("select quantita,data,(EXTRACT(month FROM data)) as mese from precipitazione where idstazionemetereologica=" + id + " and (EXTRACT(MONTH FROM data))::int BETWEEN " + mesei + " AND " + mesefinale + " and extract(year from data)=" + anno + "");
+        else rs = st.executeQuery("SELECT quantita,data,(EXTRACT(month FROM data)) as mese FROM precipitazione "+
+                    "WHERE  EXTRACT(MONTH FROM data)  BETWEEN "+mesei+" AND 12 and idstazionemetereologica="+id+" and (EXTRACT(year FROM data))="+anno+" "+
+                "union all SELECT quantita,data,(EXTRACT(month FROM data)) as mese FROM precipitazione "+ 
+                "WHERE  (EXTRACT(MONTH FROM data))::int BETWEEN 1 AND "+(Integer.parseInt(mesei)+3-12)+" and EXTRACT(year FROM data)="+(Integer.parseInt(anno)+1)+""+
+                " and idstazionemetereologica="+id+"  order by data");
+        int mese = 0;
+        int m = 0;
+        int cont=0;
+        Dati d = null;
         while (rs.next()) {
-            if (rs.getDouble("quantita") == -9999) {
-                precipitazioni.add(0.0);
+             mese = Integer.parseInt(rs.getString("mese"));
+            if (dati.isEmpty()) {
+                d = new Dati();
+                d.getDati().add(rs.getDouble("quantita"));
+                if(rs.getDouble("quantita")==-9999) cont++;
+                m = mese;
+                //dati.set(mese, d);
+                dati.add(d);
             } else {
-                precipitazioni.add(rs.getDouble("quantita"));
+                if (mese != m) {
+                    if(cont>20) d.setOk(false);
+                    cont =0;
+                    d = new Dati();
+                    m = mese;
+                    d.getDati().add(rs.getDouble("quantita"));
+                    if(rs.getDouble("quantita")==-9999) cont++;
+                    dati.add(d);
+                } else {
+                    d.getDati().add(rs.getDouble("quantita"));
+                    if(rs.getDouble("quantita")==-9999) cont++;
+                }
             }
         }
         rs.close();
         st.close();
         conn.close();
 
-        return precipitazioni;
+        return dati;
     }
 
-    public static ArrayList<Dati> prendiSommaPrecipitazioniMeseGiornaliero(String id, String anno) throws SQLException {//ok
+    public static ArrayList<Dati> prendiPrecipitazioniAnno(String id, String anno) throws SQLException {//ok
         ArrayList<Dati> dati = new ArrayList<Dati>();
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
@@ -2624,23 +2670,29 @@ public class ControllerDatabase {
         rs = st.executeQuery("select quantita,data,(EXTRACT(month FROM data)) as mese from precipitazione where idstazionemetereologica=" + id + " and  extract(year from data)=" + anno + " order by data");
         int mese = 0;
         int m = 0;
+        int cont=0;
         Dati d = null;
         while (rs.next()) {
             mese = Integer.parseInt(rs.getString("mese"));
             if (dati.isEmpty()) {
                 d = new Dati();
                 d.getDati().add(rs.getDouble("quantita"));
+                if(rs.getDouble("quantita")==-9999) cont++;
                 m = mese;
                 //dati.set(mese, d);
                 dati.add(d);
             } else {
                 if (mese != m) {
+                    if(cont>20) d.setOk(false);
+                    cont =0;
                     d = new Dati();
                     m = mese;
                     d.getDati().add(rs.getDouble("quantita"));
+                    if(rs.getDouble("quantita")==-9999) cont++;
                     dati.add(d);
                 } else {
                     d.getDati().add(rs.getDouble("quantita"));
+                    if(rs.getDouble("quantita")==-9999) cont++;
                 }
             }
         }
@@ -2650,21 +2702,54 @@ public class ControllerDatabase {
         return dati;
     }
 
-    public static ArrayList<Double> temperatureTrimestre(String id, String anno, String mese, boolean a, String tipo) throws SQLException {
-        ArrayList<Double> temperature = new ArrayList<Double>();
-        int mesefinale = Integer.parseInt(mese) + 2;
+    
+    public static ArrayList<Dati> temperatureTrimestre(String id, String anno, String mesei, boolean a, String tipo) throws SQLException {
+        ArrayList<Dati> dati = new ArrayList<Dati>();
+        int mesefinale = Integer.parseInt(mesei) + 2;
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
         ResultSet rs;
-        rs = st.executeQuery("select temperatura" + tipo + ",data from temperatura_" + tipo + " where  idstazionemetereologica=" + id + " and (EXTRACT(MONTH FROM data))::int BETWEEN " + mese + " AND " + mesefinale + " and extract(year from data)=" + anno + " order by data");
-        while (rs.next()) {
-            temperature.add(rs.getDouble("temperatura" + tipo + ""));
-        }
+        int mese = 0;
+        int m = 0;
+        int cont=0;
+        Dati d = null;
+        if(Integer.parseInt(mesei)<11)
+        rs = st.executeQuery("select temperatura" + tipo + ",data,(EXTRACT(month FROM data)) as mese from temperatura_" + tipo + " where  idstazionemetereologica=" + id + " and (EXTRACT(MONTH FROM data))::int BETWEEN " + mesei + " AND " + mesefinale + " and extract(year from data)=" + anno + " order by data");
+        else rs=st.executeQuery("SELECT temperatura"+tipo+",data,(EXTRACT(month FROM data)) as mese FROM temperatura_"+tipo+" "+
+                    "WHERE  EXTRACT(MONTH FROM data)  BETWEEN "+mesei+" AND 12 and idstazionemetereologica="+id+" and (EXTRACT(year FROM data))="+anno+" "+
+                "union all SELECT temperatura"+tipo+",data,(EXTRACT(month FROM data)) as mese FROM temperatura_"+tipo+" "+ 
+                "WHERE  (EXTRACT(MONTH FROM data))::int BETWEEN 1 AND "+(Integer.parseInt(mesei)+3-12)+" and EXTRACT(year FROM data)="+(Integer.parseInt(anno)+1)+""+
+                " and idstazionemetereologica="+id+"  order by data");
+             
+           while (rs.next()) {
+             mese = Integer.parseInt(rs.getString("mese"));
+            if (dati.isEmpty()) {
+                d = new Dati();
+                d.getDati().add(rs.getDouble("temperatura" + tipo + ""));
+                if(rs.getDouble("temperatura" + tipo + "")==-9999) cont++;
+                m = mese;
+                //dati.set(mese, d);
+                dati.add(d);
+            } else {
+                if (mese != m) {
+                    if(cont>20) d.setOk(false);
+                    cont =0;
+                    d = new Dati();
+                    m = mese;
+                    d.getDati().add(rs.getDouble("temperatura" + tipo + ""));
+                    if(rs.getDouble("temperatura" + tipo + "")==-9999) cont++;
+                    dati.add(d);
+                } else {
+                    d.getDati().add(rs.getDouble("temperatura" + tipo + ""));
+                    if(rs.getDouble("temperatura" + tipo + "")==-9999) cont++;
+                }
+            }
+           }
         rs.close();
         st.close();
         conn.close();
 
-        return temperature;
+        return dati;
     }
 
     public static ArrayList<Processo> prendiTuttiProcessiStagioni(String stagione) throws SQLException {

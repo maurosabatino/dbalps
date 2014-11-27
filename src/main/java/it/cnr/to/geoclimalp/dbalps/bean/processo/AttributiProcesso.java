@@ -42,6 +42,7 @@ public class AttributiProcesso {
         SitoProcesso = new SitoProcesso();
         effetti = new ArrayList<>();
         danni = new ArrayList<>();
+        allegati = new ArrayList<>();
         gradoDanno="";
         tipologiaProcesso = new ArrayList<>();
         idUtente=0;

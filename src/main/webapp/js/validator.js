@@ -162,6 +162,30 @@ var d = new Date();
                      message: ''
                 }
             }
+        },
+        raggio : {
+            validators: {
+                    notEmpty: {
+                        message: 'The radius is required'
+                    }
+                    
+                }
+        },
+        finestra : {
+            validators: {
+                    notEmpty: {
+                        message: 'The windows is required'
+                    }
+                    
+                }
+        },
+        aggregazione : {
+            validators: {
+                    notEmpty: {
+                        message: 'The radius is required'
+                    }
+                    
+                }
         }
             
         }

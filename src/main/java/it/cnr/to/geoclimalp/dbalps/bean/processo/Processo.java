@@ -23,7 +23,6 @@ public interface Processo {
   void setUbicazione(Ubicazione ubicazione);
   Ubicazione getUbicazione();
   
-  boolean isWarning();
   
 }
    

@@ -84,7 +84,7 @@ public class HTMLElaborazioni {
 			sb.append(	"</script>" );
 			sb.append(	"<div id=\"container\" style=\"min-width: 310px; height: 400px; margin: 0 auto\"></div> ");
 			sb.append("<a href=\"Servlet?operazione=download&grafici=grafici\">dettagli</a>");
-			sb.append("<form action=\"/DBAlps/Servlet\" name=\"download\" method=\"POST\" >");
+			sb.append("<form action=\"Servlet\" name=\"download\" method=\"POST\" >");
 	        sb.append(" <input type=\"submit\" name =\"submit\" value=\"download\" >");
 			sb.append(" <input type=\"hidden\" name=\"operazione\" value=\"download\">");
 			sb.append(" <input type=\"hidden\" name=\"titolo\" value=\""+titolo+"\">");
@@ -132,11 +132,12 @@ public class HTMLElaborazioni {
 		sb.append("	document.getElementById('mesi').disabled = stato2;");
 		sb.append("	document.getElementById('anni').disabled = stato3;");
 */
-		sb.append("}");
+		
 		sb.append("	</script>");
 		sb.append(HTMLScript.controlloAnno());
 		
-		sb.append("<form action=\"/DBAlps/Servlet\" onSubmit=\"return verificaAnno(this);\" name=\"dati\" method=\"POST\">");
+           
+		sb.append("<form action=\"Servlet\" onSubmit=\"return verificaAnno(this);\" name=\"dati\" method=\"POST\">");
 		sb.append("<table class=\"table\"> <tr> <th>nome</th> <th>scelto</th> </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td> <td> <input type=\"checkbox\" name=\"id\" value=\""+stazione.getIdStazioneMetereologica()+"\" checked=\"checked\" >  </td> </tr>");
@@ -144,10 +145,14 @@ public class HTMLElaborazioni {
 		sb.append("</table>");
 		//sb.append("serie <input type=\"radio\" name=\"aggregazione\" value=\"serie\" onClick=\"Disabilita(true,false,false);\"/>");
 		//sb.append(" anno<input type=\"radio\" name=\"aggregazione\" value=\"anno\" onClick=\"Disabilita(false,true,true);\"/>");
-		sb.append("<p>anno:<input type=\"text\" id=\"anno\" name=\"anno\"   \"></p>");
+		 sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati elaborazione</h4>");
+		sb.append("<div class=\"row\">");
+                sb.append("<p>anno:<input type=\"text\" id=\"anno\" name=\"anno\"   \"></p>");
 		
 		sb.append("<input type=\"hidden\" name=\"operazione\" value=\""+op+"\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+                sb.append("</div>");
+		sb.append("<div class=\"row\">");
 		sb.append("</form>");
 		return sb.toString();	
 		}
@@ -155,12 +160,14 @@ public class HTMLElaborazioni {
 	public static String DatiTrimestre(ArrayList<StazioneMetereologica>s,String op){
 		StringBuilder sb=new StringBuilder();
 		
-		sb.append("<form action=\"/DBAlps/Servlet\" name=\"dati\" method=\"POST\">");
+		sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
 		sb.append("<table class=\"table\"> <tr> <th>nome</th> <th>scelto</th> </tr>");
 		for(StazioneMetereologica stazione: s){
 			sb.append(" <tr> <td>"+stazione.getNome()+" </td> <td> <input type=\"checkbox\" name=\"id\" value=\""+stazione.getIdStazioneMetereologica()+"\" checked=\"checked\" >  </td> </tr>");
 		}
 		sb.append("</table>");
+                 sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Dati elaborazione</h4>");
+		sb.append("<div class=\"row\">");
 		sb.append("<select name=\"mese\" >" );
 		sb.append("<option value=0> Seleziona un'opzione</option>");
 		sb.append("<option value='1'> JAN </option>");
@@ -179,6 +186,8 @@ public class HTMLElaborazioni {
 		sb.append("<p>anno:<input type=\"text\" id=\"anno\" name=\"anno\"  \"></p>");
 		sb.append("<input type=\"hidden\" name=\"operazione\" value=\""+op+"\">");
 		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );
+                 sb.append("</div>");
+		sb.append("<div class=\"row\">");
 		sb.append("</form>");
 		return sb.toString();	
 		}
@@ -236,7 +245,10 @@ public class HTMLElaborazioni {
 			    sb.append("  name: '"+gra.getNome()+"'," );
 	    		sb.append("      data:[");
 	    		for(int j=0;j<gra.getY().size();j++){
-	    			sb.append(""+gra.getY().get(j)+",");
+                            if(gra.getY().get(j)!=-9999){
+                                 sb.append(""+gra.getY().get(j)+",");
+                            }else sb.append("null,");
+                           
 	    		}
 	    		sb.append("],");
 	    		if(titolo.equals("temperatura")) {
@@ -257,12 +269,13 @@ public class HTMLElaborazioni {
 	}
 	
 	public static String graficiMultipliPrecipitazioni(ArrayList<Grafici> g,String tipo,String titolo,String unita,String unita2,String titolo1,String titolo2,String anno,String mese,ArrayList<Dati> d){
-		StringBuilder sb=new StringBuilder();
-		sb.append("<script src=\"http://code.highcharts.com/highcharts.js\"></script>");
-		sb.append("<script src=\"http://code.highcharts.com/modules/exporting.js\"></script>");
-		sb.append("<script >");
+            StringBuilder sb=new StringBuilder();
+		sb.append(		"		<script src=\"js/Charts/highcharts.js\"></script>" );
+		sb.append(		"		<script src=\"js/Charts/modules/exporting.js\"></script>");
+		sb.append(		"		<script type=\"text/javascript\">" );
+		
 		sb.append("$(function () {");
-		sb.append(" $('#container').highcharts({");
+		sb.append(" $('#grafico').highcharts({");
 		sb.append(" chart: {");
         sb.append("    zoomType: 'xy'");
         sb.append("},");
@@ -324,7 +337,8 @@ public class HTMLElaborazioni {
              sb.append(" yAxis: 0,");
              sb.append(" data: [");
                for(int j=0;j<g.get(i).getY().size();j++){
-            	   sb.append(""+g.get(i).getY().get(j)+",");
+            	   if(g.get(i).getY().get(j)==-9999) sb.append("null,");
+                   else sb.append(""+g.get(i).getY().get(j)+",");
                }
             	   
               sb.append("],");
@@ -342,7 +356,8 @@ public class HTMLElaborazioni {
             sb.append(" yAxis: 1,");
             sb.append(" data: [");
                for(int j=0;j<g.get(i).getY().size();j++){
-            	   sb.append(""+g.get(i).getY().get(j)+",");
+                   if(g.get(i).getY().get(j)==-9999) sb.append("null,");
+                   else sb.append(""+g.get(i).getY().get(j)+",");
                }
             	   
              sb.append("],");
@@ -358,7 +373,7 @@ public class HTMLElaborazioni {
         sb.append(" });");
         sb.append("});");
         sb.append("</script>"); 
-        sb.append("<div id=\"container\" style=\"min-width: 400px; height: 400px; margin: 0 auto\"></div>");
+			sb.append(	"<div id=\"grafico\" style=\"min-width: 100%; height: 100%; margin: 0 auto\"></div> ");
         int i=0;
         for(Dati da:d){
         	if(da.getOk()==false) sb.append("<p>dati in "+da.getAnno()+" non attendibile </p>");     //controllare
@@ -479,6 +494,7 @@ public class HTMLElaborazioni {
         sb.append("  type: 'line',");
         sb.append(" yAxis: 0,");
         sb.append("color: 'blue',");
+        sb.append(" data: [");
         for(int j=0;j<g.get(2).getY().size();j++){
            	   sb.append(""+g.get(2).getY().get(j)+",");
         }

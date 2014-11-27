@@ -14,6 +14,7 @@ import java.util.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Dati;
 import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import javax.websocket.Session;
 
 
 public class ControllerDatiClimatici {
@@ -443,7 +444,7 @@ public class ControllerDatiClimatici {
 			gra.setNome(nome);
 				ArrayList<String> categorie=new ArrayList<String>();
 				gra.setCategorie(categorie);
-				 d=ControllerDatabase.prendiSommaPrecipitazioniMeseGiornaliero(id[i],anno);
+				 d=ControllerDatabase.prendiPrecipitazioniAnno(id[i],anno);
 				d=(controlloPrecipitazioni(d));
 				gra.setY( datiADouble(d));
 				g.add(gra);			
@@ -481,7 +482,7 @@ public class ControllerDatiClimatici {
 		ArrayList<Double> v=new ArrayList<Double>();
 		for(Dati da:d){
 			for(Double a:da.getDati()){
-				if(da.getOk()==false) v.add(0.0);
+				if(da.getOk()==false) v.add(a);
 				else if(a!=-9999)v.add(a);
 				else v.add(0.0);
 			}
@@ -489,6 +490,7 @@ public class ControllerDatiClimatici {
 		return v;
 	}
 	
+       
 	
 	public static String precipitazioniQueryMese(String mese,String anno,String[]id) throws SQLException{
 		StringBuilder sb=new StringBuilder();
@@ -508,7 +510,10 @@ public class ControllerDatiClimatici {
 				giorni.add(""+(j+1));
 			}
 			gra.setCategorie(giorni);
-			d.setDati(ControllerDatabase.prendiPrecipitazioniMeseMensile(id[i],anno,mese));
+			d=(ControllerDatabase.prendiPrecipitazioniMeseMensile(id[i],anno,mese));
+                        if(d.getOk()==true){
+                            
+                        
 			dati.add(d);
 			dati=(controlloPrecipitazioni(dati));
 			
@@ -525,6 +530,8 @@ public class ControllerDatiClimatici {
 			cumulata.setY(cumulataY);
 			g.add(cumulata);
 		}
+                        else return "dati non attendbili per la stazione "+nome;
+                }
 		String titolo="precipitazioni";
 		String unita="mm";
 		sb.append(""+HTMLElaborazioni.graficiMultipliPrecipitazioni( g, tipo, titolo,unita, unita, titolo,"cumulata",anno,mese,dati));
@@ -552,7 +559,8 @@ public class ControllerDatiClimatici {
 			ArrayList<String> giorni=new ArrayList<String>();
 			int m=Integer.parseInt(mese);
 			int a=Integer.parseInt(anno);
-			gra.setY(ControllerDatabase.prendiPrecipitazioniTrimestreGiornaliero(id[i],anno,mese));
+                        ArrayList<Dati> da=ControllerDatabase.prendiPrecipitazioniTrimestreGiornaliero(id[i],anno,mese);
+			gra.setY(datiADouble(da));
 			
 			Calendar c=new GregorianCalendar();
 			c.set(a, m-1, 1);
@@ -568,8 +576,11 @@ public class ControllerDatiClimatici {
 			double somma=0;
 			cumulata.setNome(""+nome+"-cumulata");
 			for(int j=0;j<gra.getY().size();j++){
-				somma+=gra.getY().get(j);
-				cumulataY.add(somma);
+				if(gra.getY().get(j)!=-9999){ somma+=gra.getY().get(j);
+				cumulataY.add(somma);}
+                                else{
+                                    cumulataY.add(gra.getY().get(j));
+                                }
 			}
 			cumulata.setY(cumulataY);
 			g.add(gra);
@@ -578,6 +589,34 @@ public class ControllerDatiClimatici {
 		
 		return g;
 	}
+        
+        public static ArrayList<Dati> mediaValori(ArrayList<Dati> dati){
+             ArrayList<Dati> nuovo=new  ArrayList<Dati>();
+            double somma=0;
+            int cont=0;
+             for(Dati d:dati){
+                Dati dato=new Dati();
+                 if(d.getOk()==true){
+                    for(Double a:d.getDati()){
+                        if(a!=-9999){
+                            somma=somma+a;
+                            cont++;
+                        }
+                        
+                    }
+                    dato.setOk(true);
+                        dato.getDati().add(somma/cont);
+                        nuovo.add(dato);
+                        cont=0;
+                        somma=0;
+                }else{
+                    dato.setOk(false);
+                    dato.getDati().add(-9999.0);
+                    nuovo.add(dato);
+                }
+            }
+            return nuovo;
+        }
 	
 	
 	public static String precipitazioniTemperaturaQueryAnno(String anno,String[]id) throws SQLException{
@@ -597,16 +636,24 @@ public class ControllerDatiClimatici {
 				}
 				gra.setCategorie(categorie);
 				boolean a=true;
-				gra.setY(ControllerDatabase.prendiSommaPrecipitazioniMese(id[i],anno,a));
+                                 ArrayList<Dati> dati=ControllerDatabase.prendiPrecipitazioniAnno(id[i],anno);
+				dati=mediaValori(dati);
+                                 gra.setY(datiADouble(dati));
 				g.add(gra);	
 			Grafici avg=new Grafici();
-			avg.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"avg"));
+                       dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"avg");
+                       dati=mediaValori(dati);
+			avg.setY(datiADouble(dati));
 			g.add(avg);
 			Grafici min=new Grafici();
-			min.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"min"));
+                        dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"min");
+                       dati=mediaValori(dati);
+			min.setY(datiADouble(dati));
 			g.add(min);
 			Grafici max=new Grafici();
-			max.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"max"));
+                        dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"max");
+                       dati=mediaValori(dati);
+			max.setY(datiADouble(dati));
 			g.add(max);
 			Grafici maxMax=new Grafici();
 			maxMax.setY(ControllerDatabase.prendiMM(id[i],anno,a,"max"));
@@ -615,41 +662,7 @@ public class ControllerDatiClimatici {
 			minMin.setY(ControllerDatabase.prendiMM(id[i],anno,a,"min"));
 			g.add(maxMax);
 			g.add(minMin);
-			//}
-			/*else{//se serie
-				
-					ArrayList<String> categorie=new ArrayList<String>();
-				String[] mesi={ "Jan",  "Feb", "Mar", "Apr", "May" ,"Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-				for(int j=0;j<12;j++){
-						categorie.add(mesi[j]);
-					}
-					gra.setCategorie(categorie);
-					boolean a=false;
-					gra.setY(ControllerDatabase.prendiSommaPrecipitazioniMese(id[i],anno,a));
-					g.add(gra);	
-					
-					Grafici avg=new Grafici();
-					avg.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"avg"));
-					g.add(avg);
-					Grafici min=new Grafici();
-					min.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"min"));
-					g.add(min);
-					Grafici max=new Grafici();
-					max.setY(ControllerDatabase.prendiTemperatureAnno(id[i],anno,a,"max"));
-					g.add(max);
-					Grafici maxMax=new Grafici();
-					maxMax.setY(ControllerDatabase.prendiMM(id[i],anno,a,"max"));
-					
-					Grafici minMin=new Grafici();
-					minMin.setY(ControllerDatabase.prendiMM(id[i],anno,a,"min"));
-					g.add(maxMax);
-					g.add(minMin);
-				
-			}
-			*/
-			
-			}
-		
+			}		
 		String titolo="precipitazioni e temperatura";
 		String unita="mm";
 		String unita2="C";
@@ -669,18 +682,21 @@ public class ControllerDatiClimatici {
 			boolean a=true;
 			
 		Grafici avg=new Grafici();
-		avg.setY(ControllerDatabase.temperatureAnno(id[i],anno,a,"avg"));
+                ArrayList<Dati> dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"avg");
+		avg.setY(datiADouble(dati));
 		avg.setNome("avg");
 		System.out.println("avg size="+avg.getY().size());
 		g.add(avg);
 		Grafici min=new Grafici();
-		min.setY(ControllerDatabase.temperatureAnno(id[i],anno,a,"min"));
+                dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"min");
+		min.setY(datiADouble(dati));
 		System.out.println("min size="+min.getY().size());
 
 		min.setNome("min");
 		g.add(min);
 		Grafici max=new Grafici();
-		max.setY(ControllerDatabase.temperatureAnno(id[i],anno,a,"max"));
+                dati=ControllerDatabase.temperatureAnno(id[i],anno,a,"max");
+		max.setY(datiADouble(dati));
 		System.out.println("max size="+max.getY().size());
 
 		max.setNome("max");
@@ -702,16 +718,18 @@ public class ControllerDatiClimatici {
 			boolean a=true;
 			
 			Grafici avg=new Grafici();
-			avg.setY(ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"avg"));
+                        ArrayList<Dati> dati=ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"avg");
+			avg.setY(datiADouble(dati));
 			avg.setNome("avg");
-			System.out.println("PROVA="+avg.getY().size());
 			g.add(avg);
 			Grafici min=new Grafici();
-			min.setY(ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"min"));
+                        dati=ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"min");
+			min.setY(datiADouble(dati));
 			min.setNome("min");
 			g.add(min);
 			Grafici max=new Grafici();
-			max.setY(ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"max"));
+                        dati=ControllerDatabase.temperatureTrimestre(id[i],anno,mese,a,"max");
+			max.setY(datiADouble(dati));
 			max.setNome("max");
 			g.add(max);
 		

@@ -14,6 +14,8 @@ import java.util.GregorianCalendar;
 import it.cnr.to.geoclimalp.dbalps.bean.Dati;
 import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProvaController {
 	
@@ -182,7 +184,10 @@ public class ProvaController {
 			int anno=ControllerDatiClimatici.annoRiferimento(t, s.getIdStazioneMetereologica());
 			Grafici gra=new Grafici();
 			ArrayList<Dati> temperature = ProvaController.prendiTDelta(t, aggregazione,s.getIdStazioneMetereologica());
-			String nome=s.getNome();
+			if(temperature.size()!=0){
+                            
+                       
+                        String nome=s.getNome();
 				ArrayList<Double> deltaT=ProvaController.mediaMobileDeltaT(temperature,finestra,aggregazione,anno);
 				deltarif=deltaT.get(deltaT.size()-1);
 				deltaT.remove(deltaT.size()-1);
@@ -195,7 +200,9 @@ public class ProvaController {
 				gra.setY(probabilita);
 				gra.setOk(true);
 				g.add(gra);
-		}
+		 }else {
+                            return null;
+                        }}
 		return g;
 	}
 	
@@ -307,82 +314,85 @@ public class ProvaController {
 	
 	/*---------------precipitazioni--------------------*/
 	
-	public static ArrayList<Dati> prendiPrec(Timestamp t,int limite,int id) throws SQLException{// limite = intervallo a dx/sx es 15 su aggregazione 30 giorni
-		Connection conn = DriverManager.getConnection(url,user,pwd);
-		Statement st = conn.createStatement();
-		ArrayList<Dati> prec= new ArrayList<Dati>();
-		int limiteinf=ProvaController.dataLimite(t,-limite);
-		int limitesup=ProvaController.dataLimite(t,limite);
-		int anno=0;
-		Dati d=null;
-		ResultSet rs;
-		if(limitesup>limiteinf){
-			System.out.println(	("SELECT quantita,EXTRACT(year FROM data) as anno FROM precipitazione WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND "+limitesup+" and idstazionemetereologica="+id+" order by data"));	
-
-			rs =st.executeQuery("SELECT quantita,EXTRACT(year FROM data) as anno FROM precipitazione WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND "+limitesup+" and idstazionemetereologica="+id+" order by data");	
-		  while(rs.next()){
-			int a=Integer.parseInt(rs.getString("anno"));
-			if(prec.isEmpty()){
-				d=new Dati(a);
-				d.getDati().add(rs.getDouble("quantita"));
-				prec.add(d);
-			}
-			else{
-				if(a==d.getAnno()){
-					d.getDati().add(rs.getDouble("quantita"));
-
-				}
-				else{
-					d=new Dati(a);
-					d.getDati().add(rs.getDouble("quantita"));
-					prec.add(d);					
-				}				
-			}	
-		}
-		}else{
-			Calendar cal=new GregorianCalendar();
-			cal.setTime(t);
-			if(cal.get(Calendar.MONTH)<6){
-				rs =st.executeQuery("SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione"+ 
-					   " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND 1231 and idstazionemetereologica="+id+" and EXTRACT(year FROM data)>ANY(select min(EXTRACT(year FROM data)) from precipitazione where idstazionemetereologica="+id+") "+
-					   " union all SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione "+
-					   " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN 101 AND "+limitesup+" and idstazionemetereologica="+id+" order by data");
-			}
-			else {
-				rs =st.executeQuery("SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione"+ 
-						   " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND 1231 and idstazionemetereologica="+id+" "+
-						   " union all SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione "+
-						   " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN 101 AND "+limitesup+" and EXTRACT(year FROM data)>ANY(select min(EXTRACT(year FROM data)) from precipitazione where idstazionemetereologica="+id+") and idstazionemetereologica="+id+" order by data");
-			}
-			 while(rs.next()){
-				 String controllo=(rs.getString("data"));
-				 Timestamp c;
-				 c=Timestamp.valueOf(controllo);
-				 int datac=ProvaController.dataNuova(c);
-				 if(prec.isEmpty()){
-						d=new Dati();
-						d.getDati().add(rs.getDouble("quantita"));
-						anno=Integer.parseInt(rs.getString("anno"));
-						d.setAnno(anno);
-						prec.add(d);
-					}
-				 else{ 
-					 if(datac==limiteinf){
-						 d=new Dati();
-						 anno=Integer.parseInt(rs.getString("anno"));
-						 d.setAnno(anno);
-						 d.getDati().add(rs.getDouble("quantita"));
-						 prec.add(d);
-					 }
-					 else{
-						 d.getDati().add(rs.getDouble("quantita"));
-					 }
-				 }
-			 }
-		}
-		rs.close();
-		st.close();
-		return prec;
+	public static ArrayList<Dati> prendiPrec(Timestamp t,int limite,int id) {   // limite = intervallo a dx/sx es 15 su aggregazione 30 giorni           
+            try{
+            Connection conn = DriverManager.getConnection(url,user,pwd);
+            Statement st = conn.createStatement();
+            ArrayList<Dati> prec= new ArrayList<Dati>();
+            int limiteinf=ProvaController.dataLimite(t,-limite);
+            int limitesup=ProvaController.dataLimite(t,limite);
+            int anno=0;
+            Dati d=null;
+            ResultSet rs;
+                if(limitesup>limiteinf){                   
+                    rs =st.executeQuery("SELECT quantita,EXTRACT(year FROM data) as anno FROM precipitazione WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND "+limitesup+" and idstazionemetereologica="+id+" order by data");
+                    while(rs.next()){
+                        int a=Integer.parseInt(rs.getString("anno"));
+                        if(prec.isEmpty()){
+                            d=new Dati(a);
+                            d.getDati().add(rs.getDouble("quantita"));
+                            prec.add(d);
+                        }
+                        else{
+                            if(a==d.getAnno()){
+                                d.getDati().add(rs.getDouble("quantita"));                          
+                            }
+                            else{
+                                d=new Dati(a);
+                                d.getDati().add(rs.getDouble("quantita"));
+                                prec.add(d);
+                            }
+                        }
+                    }
+                }else{
+                    Calendar cal=new GregorianCalendar();
+                    cal.setTime(t);
+                    if(cal.get(Calendar.MONTH)<6){
+                        rs =st.executeQuery("SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione"+
+                                " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND 1231 and idstazionemetereologica="+id+" and EXTRACT(year FROM data)>ANY(select min(EXTRACT(year FROM data)) from precipitazione where idstazionemetereologica="+id+") "+
+                                " union all SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione "+
+                                " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN 101 AND "+limitesup+" and idstazionemetereologica="+id+" order by data");
+                    }
+                    else {
+                        rs =st.executeQuery("SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione"+
+                                " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN "+limiteinf+" AND 1231 and idstazionemetereologica="+id+" "+
+                                " union all SELECT quantita,data,(EXTRACT(year FROM data)) as anno FROM precipitazione "+
+                                " WHERE  (EXTRACT(MONTH FROM data) * 100 + EXTRACT(DAY FROM data))::int BETWEEN 101 AND "+limitesup+" and EXTRACT(year FROM data)>ANY(select min(EXTRACT(year FROM data)) from precipitazione where idstazionemetereologica="+id+") and idstazionemetereologica="+id+" order by data");
+                    }
+                    while(rs.next()){
+                        String controllo=(rs.getString("data"));
+                        Timestamp c;
+                        c=Timestamp.valueOf(controllo);
+                        int datac=ProvaController.dataNuova(c);
+                        if(prec.isEmpty()){
+                            d=new Dati();
+                            d.getDati().add(rs.getDouble("quantita"));
+                            anno=Integer.parseInt(rs.getString("anno"));
+                            d.setAnno(anno);
+                            prec.add(d);
+                        }
+                        else{
+                            if(datac==limiteinf){
+                                d=new Dati();
+                                anno=Integer.parseInt(rs.getString("anno"));
+                                d.setAnno(anno);
+                                d.getDati().add(rs.getDouble("quantita"));
+                                prec.add(d);
+                            }
+                            else{
+                                d.getDati().add(rs.getDouble("quantita"));
+                            }
+                        }
+                    }
+                }
+                rs.close();
+            st.close();
+            return prec;
+        }
+                catch(SQLException | NumberFormatException|java.lang.ArrayIndexOutOfBoundsException ex){
+                    System.out.println("eccezione");
+                return null;
+                }
 	}
 	
 	public static ArrayList<Double> mediaMobilePrecipitazioni(ArrayList<Dati> dati, int finestra,int aggregazione,int annoriferimento){// riferimento la posizione della temperatura del giorno scelto
@@ -429,8 +439,12 @@ public class ProvaController {
 			int idStazione=stazione.get(i).getIdStazioneMetereologica();
 			double precrif=0;
 			int anno=ControllerDatiClimatici.annoRiferimento(t, idStazione);
+                        System.out.println("prima mediaPrecipitazioni");
 			ArrayList<Dati> precipitazioni=ProvaController.prendiPrec(t,aggregazione,idStazione);
-			//ok=ControllerDatiClimatici.controlloDati(precipitazioni.size(),aggregazione,"precipitazione",stazione.get(i).getIdStazioneMetereologica());
+                       System.out.println("dopo mediaPrecipitazioni");
+
+			if(precipitazioni.size()!=0){
+                        //ok=ControllerDatiClimatici.controlloDati(precipitazioni.size(),aggregazione,"precipitazione",stazione.get(i).getIdStazioneMetereologica());
 			String nomeStazione=stazione.get(i).getNome();
 			ArrayList<Double> somma=ProvaController.mediaMobilePrecipitazioni(precipitazioni,finestra,aggregazione,anno);			
 			precrif=somma.get(somma.size()-1);
@@ -444,7 +458,11 @@ public class ProvaController {
 			gra.setX(somma);
 			gra.setY(pro);
 			gra.setOk(true);
-			g.add(gra);	
+			g.add(gra);
+                        }else{
+                            System.out.println(" valore nullo");
+                            return null;
+                        }
 		}
 		return g;
 	}
@@ -546,7 +564,9 @@ public class ProvaController {
 			for(int k=0;k<tipi.length;k++){
 				Grafici gra=new Grafici();
 				ArrayList<Dati> da=ProvaController.prendiT(t,s.getIdStazioneMetereologica(),aggregazione,tipi[k]);
-				int anno=ControllerDatiClimatici.annoRiferimento(t, s.getIdStazioneMetereologica());
+				if(da.size()!=0){
+                                
+                                int anno=ControllerDatiClimatici.annoRiferimento(t, s.getIdStazioneMetereologica());
 				ArrayList<Double> temperature=mediaMobileTemperatura(da,anno);
 				//ok=ControllerDatiClimatici.controlloDati(temperature.size(),aggregazione,"temperatura_avg",s.getIdStazioneMetereologica());
 				String nomeStazione=s.getNome();				
@@ -582,7 +602,10 @@ public class ProvaController {
 				g.add(grad);
 
 			}		
-		}}//
+		    
+                                }else{
+                                    return null;
+                                }}}//
 		
 		return g;
 	}
@@ -594,11 +617,9 @@ public class ProvaController {
 		double riferimento=0;
 		for(Dati da:d){			
 			for(Double tem:da.getDati()){
-				System.out.println("dato="+da.getDati());
 				if(tem!=-9999){
 					med=med+tem;
 					cont++;
-					System.out.println("med="+med);
 				}
 			}
 			if(da.getAnno()==annoriferimento){
@@ -628,6 +649,41 @@ public class ProvaController {
 		
 	}
 	*/
+        
+        	public static ArrayList<Grafici> mediaTemperaturaNoGradiente(ArrayList<StazioneMetereologica> stazione,int aggregazione,Timestamp t,String[] tipi,ControllerLingua locale) throws SQLException{
+		double riferimentoG=0;
+		boolean ok=false;
+		ArrayList<Grafici> g=new ArrayList<Grafici>();
+		for(int i=0;i<stazione.size();i++){
+			StazioneMetereologica s=ControllerDatabase.prendiStazioneMetereologica((stazione.get(i).getIdStazioneMetereologica()));
+			for(int k=0;k<tipi.length;k++){
+				Grafici gra=new Grafici();
+				ArrayList<Dati> da=ProvaController.prendiT(t,s.getIdStazioneMetereologica(),aggregazione,tipi[k]);
+				if(da.size()!=0){                  
+                                int anno=ControllerDatiClimatici.annoRiferimento(t, s.getIdStazioneMetereologica());
+				ArrayList<Double> temperature=mediaMobileTemperatura(da,anno);
+				//ok=ControllerDatiClimatici.controlloDati(temperature.size(),aggregazione,"temperatura_avg",s.getIdStazioneMetereologica());
+				String nomeStazione=s.getNome();				
+				
+			double Triferimento=temperature.get(temperature.size()-1);
+			temperature.remove(temperature.size()-1);
+			ArrayList<Double> probabilita=ProvaController.distribuzioneFrequenzaCumulativa(temperature);
+			double interpolazione=ProvaController.interpolazione(temperature, probabilita,Triferimento);
+			gra.setX(temperature);
+			gra.setY(probabilita);
+			gra.setInterpolazione(interpolazione);
+			String nome=""+s.getNome()+"-"+tipi[k];
+			gra.setRiferimento(Triferimento);
+			gra.setNome(nome);
+			g.add(gra);
+				
+                                }else{
+                                    return null;
+                                }}}//
+		
+		return g;
+	}
+
 	
 	
 	

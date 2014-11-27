@@ -44,8 +44,8 @@
     <script type="text/javascript">
 	$(function() {
 		$("table")
-			.tablesorter({debug: true
-                            })
+			.tablesorter({debug: true,
+                                        sortList:[[0,0]]})
 			.tablesorterPager({container: $("#pager")});
                         
                 
@@ -78,7 +78,7 @@
    <div class ="content">
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
-     <div class="col-md-9 col-md-offset-3 col-lg-9 col-lg-offset-3 main">
+     <div class="col-md-8 ">
          <table class="table" >
          <thead>
              <tr> <th>Nome </th>
@@ -107,7 +107,6 @@
 	</tbody>
      </table>
         <div id="pager" class="pager">
-	
 		<img src="img/first.png" class="first"/>
 		<img src="img/prev.png" class="prev"/>
 		<input type="text" class="pagedisplay"/>

@@ -1027,11 +1027,14 @@ public class HTMLProcesso {
             throws SQLException {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">"
-                + "raggio<input type=\"text\" name=\"raggio\" > <br>"
+        sb.append("<form action=\"Servlet\" id=\"insertStazione\"  name=\"dati\" method=\"POST\">"
+                +"<div class=\"form-group\" >"
+                + "raggio<input type=\"text\" name=\"raggio\" id=\"raggio\" class=\"form-control\" > <br>"
                 + "<input type=\"hidden\" name=\"operazione\" value=\"mostraStazioniRaggio\">"
                 + "  <input type=\"hidden\" name=\"id\" value=\"" + id + "\"  />"
-                + "<input type=\"submit\" name =\"submit\" value=\"OK\">" + "</form>");
+                + "<input type=\"submit\" name =\"submit\" value=\"OK\">" + ""
+                +"    </div>"
+                + "</form>");
         return sb.toString();
     }
 
@@ -1040,18 +1043,51 @@ public class HTMLProcesso {
         StringBuilder sb = new StringBuilder();
         double x = p.getUbicazione().getCoordinate().getX();
         double y = p.getUbicazione().getCoordinate().getY();
-        ArrayList<StazioneMetereologica> s = ControllerDatabase
-                .prendiStazionidaRaggio(x, y, p, raggio);
-        sb.append("<table class=\"table\"> <tr> <th>distanza</th> <th>quota</th> <th>nome</th> </tr>");
-        sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
+        ArrayList<StazioneMetereologica> s = ControllerDatabase.prendiStazionidaRaggio(x, y, p, raggio);
+         sb.append("<form action=\"Servlet\" name=\"dati\" method=\"POST\">");
+         sb.append("<div class=\"form-group\">");
+        sb.append("<table class=\"table\"> <thead> <tr> <th>distanza</th> <th>quota</th> <th>nome</th> </tr> </thead>");
+        
+       
+         sb.append("<tbody>");
+         
         for (StazioneMetereologica stazione : s) {
+           
             sb.append(" <tr> <td>" + stazione.getDistanzaProcesso() + " </td> <td>"
                     + stazione.getUbicazione().getQuota() + "</td> <td>"
                     + stazione.getNome()
-                    + " </td> <td> <input type=\"checkbox\" name=\"id\" value=\""
-                    + stazione.getIdStazioneMetereologica() + "\" > </td></tr>");
+                    + " </td> <td>" );
+            sb.append("<div class=\"checkbox\">\n" +
+                "   <label>");
+            sb.append( "<input type=\"checkbox\" name=\"id\" value=\""
+                    + stazione.getIdStazioneMetereologica() + "\" "
+                    + "data-bv-choice=\"true\"\n" +
+                            " data-bv-choice-min=\"1\"\n" +
+                        "    data-bv-choice-max=\"10\"\n" +
+                    "   data-bv-choice-message=\"you must insert al least one process tipology\""
+                    + ""
+                    + ">");
+            sb.append("    </label>\n" +
+                      "    </div>");
+            sb.append("</td></tr>");
         }
+         sb.append("</tbody>");
         sb.append("</table>");
+        
+          
+        sb.append("<div id=\"pager\" class=\"pager\">"+
+		"<img src=\"img/first.png\" class=\"first\"/>"+
+		"<img src=\"img/prev.png\" class=\"prev\"/>"+
+		"<input type=\"text\" class=\"pagedisplay\"/>"+
+		"<img src=\"img/next.png\" class=\"next\"/>"+
+		"<img src=\"img/last.png\" class=\"last\"/>"+
+		"<select class=\"pagesize\">"+
+		"	<option selected=\"selected\"  value=\"10\">10</option>"+
+		"	<option value=\"20\">20</option>"+
+		"	<option value=\"30\">30</option>"+
+		"	<option  value=\"40\">40</option>"+
+		"</select>"+
+                "</div>");
         sb.append("<div class=\"row\">");
         if (s.size() != 0) {
             sb.append("<input type=\"hidden\" name=\"idProcesso\" value=\""
@@ -1063,6 +1099,7 @@ public class HTMLProcesso {
             sb.append("<div class=\"col-xs-6 col-md-4\"><input type=\"submit\" name =\"operazione\" value=\"scegliPrecipitazioni\"> </div>");
             sb.append("</div>");
         }
+            sb.append("</div>");
         sb.append("</form>");
         return sb.toString();
     }

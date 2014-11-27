@@ -1,3 +1,4 @@
+<%@page import="java.lang.Object"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,9 +8,8 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
  
-<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
-<jsp:setProperty  name="HTMLc" property="*"/>
-<jsp:setProperty  name="HTMLc" property="*"/>
+<jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
+        <jsp:setProperty  name="partecipante" property="*"/>
 
 <html>
 
@@ -36,9 +36,10 @@
     <script src="js/jquery.stickyfooter.min.js"></script>
     
     <!--table sorter-->
-    <script type="text/javascript" src="js/jquery-latest.js"></script>
+  <script type="text/javascript" src="js/jquery-latest.js"></script>
     <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
+    	<script src="js/jquery.tablesorter.widgets.js"></script>
     <script type="text/javascript">
 	$(function() {
 		$("table")
@@ -61,7 +62,7 @@
      <table class="table" >
          <thead>
              <tr> <th>Nome </th>
-                    <th>Data </th> <th>Comune </th><th>Tipologia </th>  <th> Dettagli</th> <th> Modifica</th> <th> Elimina</th> </tr>
+                    <th>Data </th> <th>Comune </th><th>Tipologia </th>  <th> Dettagli</th> <th> Modifica</th> <th> Elimina</th> <th> stazioni raggio</th> </tr>
 	</thead>
        
         <tbody>
@@ -87,6 +88,7 @@
                   <% 
                         if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente()==part.getIdUtente()) )){%>
                 <td> <a href="Servlet?operazione=eliminaProcesso&idProcesso=<%=p.getIdProcesso()%>">Elimina</a></td>
+                <td> <a href="Servlet?operazione=scegliRaggio&idProcesso=<%=p.getIdProcesso()%>">stazioni</a></td>
                 <%}%>
            </tr>
             <%}%>              

@@ -23,16 +23,13 @@
 
    
     <!--JAVASCRIPT-->
-    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/globalize.js"></script>
     <script src="js/globalize.culture.de-DE.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/SeparateDate.js"></script>
     <script src="js/personalLibrary.js"></script>
     <script src="js/bootstrapValidator.min.js"></script>
-    <script src="js/jquery.sticky-kit.min.js"></script>
-    <script src="js/jquery.stickyfooter.min.js"></script>
     <script type="text/javascript" src="js/jquery-latest.js"></script>
     <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>

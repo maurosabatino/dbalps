@@ -116,9 +116,6 @@ public class Segnalazione implements Processo{
     this.ubicazione = ubicazione;
   }
 
-  @Override
-  public boolean isWarning() {
-    return true;
-  }
+  
     
 }
