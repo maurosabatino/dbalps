@@ -376,7 +376,7 @@
                             title: 'stazione',
                             icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
                         });
-                        var contentString = "nome:<%=processo.getNome()%> <br> comune: <%=processo.getUbicazione().getLocAmm().getComune()%> <br> data: <%=processo.getData()%><br><a href=\"Servlet?operazione=mostraProcesso&idProcesso=<%=processo.getIdProcesso()%>\">Report</a>";
+                        var contentString = "nome:<%=processo.getNome()%> <br> comune: <%=processo.getUbicazione().getLocAmm().getComune()%> <br> data: <%=processo.getData()%><br><a href="Servlet?operazione=mostraProcesso&idProcesso=<%=processo.getIdProcesso()%>">Report</a>";
                         var infowindow = new google.maps.InfoWindow({
                             content: contentString
                         });
@@ -388,5 +388,13 @@
                     google.maps.event.addDomListener(window, 'load', initialize);
                 });
         </script>
+        
+        
+        <form action="Servlet" name="downloadPdf" method="POST" >
+                         <input type="submit" name ="submit"  value="downloadPdf" >
+			 <input type="hidden" name="operazione" value="mostraPdf">
+                         <input type="hidden" name="processoPdf" value="<%=processo.getIdProcesso()%>">
+			 </form>
+        
     </body>
 </html>

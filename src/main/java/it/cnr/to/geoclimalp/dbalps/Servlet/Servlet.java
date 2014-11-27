@@ -1,6 +1,9 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
 
@@ -38,14 +41,19 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import it.cnr.to.geoclimalp.dbalps.bean.Dati;
 import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
 import it.cnr.to.geoclimalp.dbalps.bean.HTMLContent;
-import it.cnr.to.geoclimalp.dbalps.bean.OperazioneUtente;
 import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
 
 import it.cnr.to.geoclimalp.dbalps.controller.*;
+import static it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso.dataFormattata;
+import static it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso.shortenUrl;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
 import static java.lang.Integer.parseInt;
+import javax.servlet.ServletOutputStream;
 
 /**
  * Servlet implementation class Servlet
@@ -427,7 +435,7 @@ public class Servlet extends HttpServlet {
             String ora = "00:00:00";
             Timestamp data = Timestamp.valueOf("" + request.getParameter("data") + " " + ora);
             String titolo = "DeltaT";
-            String unita = "(°C)";
+            String unita = "(Â°C)";
             ArrayList<Grafici> g = ProvaController.deltaT(stazione, finestra, aggregazione, data, locale);
             if(g!=null){
       
@@ -464,7 +472,7 @@ public class Servlet extends HttpServlet {
             ArrayList<Grafici> g = ProvaController.mediaTemperaturaNoGradiente(stazione, aggregazione, data,  tipi, locale);
                   if(g!=null){
             String titolo = "Temperatura";
-            String unita = "(°C)";
+            String unita = "(Â°C)";
             String content = HTMLElaborazioni.grafici(g, titolo, unita);
             c.setContent(content);
              session.setAttribute("grafici", g);
@@ -545,7 +553,7 @@ public class Servlet extends HttpServlet {
             ArrayList<Grafici> g = ProvaController.mediaTemperatura(stazione, aggregazione, data, gradiente, quota, tipi, locale);
            if(g!=null){
             String titolo = "Temperatura";
-            String unita = "(°C)";
+            String unita = "(Â°C)";
             String content = HTMLElaborazioni.grafici(g, titolo, unita);
             c.setContent(content);
             session.setAttribute("grafici", g);
@@ -674,7 +682,7 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/utente.jsp");
         } else if (operazione.equals("inserisciUtente")) {
             Utente utente = ControllerUtente.nuovoUtente(request, passwordEncryptor);
-            String content = "<h2> l'utente " + utente.getUsername() + " � stato creato correttamente</h2>";
+            String content = "<h2> l'utente " + utente.getUsername() + " ï¿½ stato creato correttamente</h2>";
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -696,7 +704,7 @@ public class Servlet extends HttpServlet {
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().print(new Gson().toJson("ok"));
             } else {
-                String content = "<h2>spiacente, il login non  è corretto</h2>";
+                String content = "<h2>spiacente, il login non  Ã¨ corretto</h2>";
                 HTMLContent c = new HTMLContent();
                 c.setContent(content);
                 request.setAttribute("HTMLc", c);
@@ -905,7 +913,7 @@ public class Servlet extends HttpServlet {
             session.setAttribute("grafici",g);
             String titolo = request.getParameter("titolo");
             session.removeAttribute("grafici");
-            String test = "/Users/daler/Desktop/" + titolo + ".csv";
+            String test = "/" + titolo + ".csv";
             FileWriter outFile = new FileWriter(test, false);
             PrintWriter out = new PrintWriter(outFile);
             int cont = 0;
@@ -928,17 +936,7 @@ public class Servlet extends HttpServlet {
                 cont = 0;
                 out.print("\n");
             }
-            /*	for(int i=0;i<g.size();i++){
-             out.print("\n");
-             out.print(""+g.get(i).getNome()+";\n");
-             for(int j=0;j<g.get(i).getX().size();j++){
-             out.println(""+g.get(i).getX().get(j)+";"+g.get(i).getY().get(j)+";\n");
-             }
-             out.println();
-				
-
-             }*/
-
+          
             out.close();
 
             File downloadFile = new File(test);
@@ -975,7 +973,40 @@ public class Servlet extends HttpServlet {
 
             inStream.close();
             outStream.close();
-        } else if (operazione.equals("scegliProcessoAllegato")) {
+        }
+         else if (operazione.equals("downloadPdf")) {
+          
+         String id=request.getParameter("processoPdf");
+         int idp=Integer.parseInt(id);
+	Processo p=ControllerDatabase.prendiProcesso(idp);
+		ServletOutputStream out = response.getOutputStream();
+                
+		
+                 ByteArrayOutputStream baos = HTMLProcesso.createPDFProcesso(p);
+           
+       
+ 
+            // setting some response headers
+            response.setHeader("Expires", "0");
+            response.setHeader("Cache-Control",
+                "must-revalidate, post-check=0, pre-check=0");
+            response.setHeader("Pragma", "public");
+            // setting the content type
+            response.setContentType("application/pdf");
+            // the contentlength
+            response.setContentLength(baos.size());
+            // write ByteArrayOutputStream to the ServletOutputStream
+            OutputStream os = response.getOutputStream();
+            baos.writeTo(out);
+            os.flush();
+            os.close();
+ 
+	  
+   
+        }
+        
+        
+        else if (operazione.equals("scegliProcessoAllegato")) {
             String content = HTMLProcesso.mostraTuttiProcessiAllega();
             HTMLContent c = new HTMLContent();
             c.setContent(content);

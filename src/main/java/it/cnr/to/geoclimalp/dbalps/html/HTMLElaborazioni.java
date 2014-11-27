@@ -82,10 +82,9 @@ public class HTMLElaborazioni {
 			sb.append(	"	    });" );
 			sb.append(	"		});" );
 			sb.append(	"</script>" );
-			sb.append(	"<div id=\"container\" style=\"min-width: 310px; height: 400px; margin: 0 auto\"></div> ");
-			sb.append("<a href=\"Servlet?operazione=download&grafici=grafici\">dettagli</a>");
+			sb.append(	"<div id=\"container\" style=\"min-width: 50%; height: 60%; margin: 0 auto\"></div> ");
 			sb.append("<form action=\"Servlet\" name=\"download\" method=\"POST\" >");
-	        sb.append(" <input type=\"submit\" name =\"submit\" value=\"download\" >");
+                        sb.append(" <input type=\"submit\" name =\"submit\"  value=\"download\" >");
 			sb.append(" <input type=\"hidden\" name=\"operazione\" value=\"download\">");
 			sb.append(" <input type=\"hidden\" name=\"titolo\" value=\""+titolo+"\">");
 			sb.append(" </form>");
@@ -397,7 +396,8 @@ public class HTMLElaborazioni {
         sb.append("xAxis: [{");
         sb.append("   categories: [");
          
-         for(int i=0;i<g.get(0).getCategorie().size();i++){   	 
+         for(int i=0;i<g.get(0).getCategorie().size();i++){   	
+              
         	 sb.append("'"+g.get(0).getCategorie().get(i)+"',"); 
          }
         
@@ -463,7 +463,8 @@ public class HTMLElaborazioni {
         sb.append(" yAxis: 1,");
         sb.append(" data: [");
         for(int j=0;j<g.get(0).getY().size();j++){
-            	   sb.append(""+g.get(0).getY().get(j)+",");
+            if(g.get(0).getY().get(j)==-9999) sb.append("null,");	  
+            else sb.append(""+g.get(0).getY().get(j)+",");
          }
             	   
         sb.append("],");
@@ -480,7 +481,8 @@ public class HTMLElaborazioni {
         sb.append("color: 'black',");
         sb.append(" data: [");
         for(int j=0;j<g.get(1).getY().size();j++){
-            	   sb.append(""+g.get(1).getY().get(j)+",");
+            if(g.get(1).getY().get(j)==-9999) 	  sb.append("null");
+            else sb.append(""+g.get(1).getY().get(j)+",");
          }
             	   
         sb.append("],");
@@ -496,7 +498,8 @@ public class HTMLElaborazioni {
         sb.append("color: 'blue',");
         sb.append(" data: [");
         for(int j=0;j<g.get(2).getY().size();j++){
-           	   sb.append(""+g.get(2).getY().get(j)+",");
+           if(g.get(2).getY().get(j)==-9999) sb.append("null");	   
+           else  sb.append(""+g.get(2).getY().get(j)+",");
         }
            	   
         sb.append("],");
@@ -512,7 +515,8 @@ public class HTMLElaborazioni {
         sb.append("color: 'red',");
         sb.append(" data: [");
         for(int j=0;j<g.get(3).getY().size();j++){
-       	   sb.append(""+g.get(3).getY().get(j)+",");
+       	   if(g.get(3).getY().get(j)==-9999) sb.append("null");
+           else sb.append(""+g.get(3).getY().get(j)+",");
         }       	   
         sb.append("],");
         sb.append("tooltip: {");

@@ -28,6 +28,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerJson;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.Map;
 import org.scribe.builder.ServiceBuilder;
@@ -1250,59 +1251,59 @@ public class HTMLProcesso {
         Processo p = ControllerDatabase.prendiProcesso(idprocesso);
 
         sb.append("<form class=\"form-horizontal\" action=\"Servlet\" name=\"dati\" method=\"POST\" enctype=\"multipart/form-data\" >");
-        sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Allega un file al processo " + p.getNome() + "</h4></div>");
+        sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>${locale.getWord(\"allegaFileAProcesso\")}" + p.getNome() + "</h4></div>");
         sb.append("<br>");
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"autore\" class=\"col-sm-2 control-label\">Autore</label>");
+        sb.append("<label for=\"autore\" class=\"col-sm-2 control-label\">${locale.getWord(\"autore\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"autore\" id=\"autore\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"anno\" class=\"col-sm-2 control-label\">Anno</label>");
+        sb.append("<label for=\"anno\" class=\"col-sm-2 control-label\">${locale.getWord(\"anno\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"anno\" id=\"anno\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"titolo\" class=\"col-sm-2 control-label\">Titolo</label>");
+        sb.append("<label for=\"titolo\" class=\"col-sm-2 control-label\">${locale.getWord(\"titolo\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"titolo\" id=\"titolo\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"in\" class=\"col-sm-2 control-label\">In:</label>");
+        sb.append("<label for=\"in\" class=\"col-sm-2 control-label\">${locale.getWord(\"in\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"in\" id=\"in\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"fonte\" class=\"col-sm-2 control-label\">Fonte</label>");
+        sb.append("<label for=\"fonte\" class=\"col-sm-2 control-label\">${locale.getWord(\"fonte\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"fonte\" id=\"fonte\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"urlWeb\" class=\"col-sm-2 control-label\">URL del sito</label>");
+        sb.append("<label for=\"urlWeb\" class=\"col-sm-2 control-label\">${locale.getWord(\"urlDelSito\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"urlWeb\" id=\"urlWeb\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"note\" class=\"col-sm-2 control-label\">Note</label>");
+        sb.append("<label for=\"note\" class=\"col-sm-2 control-label\">${locale.getWord(\"note\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"note\" id=\"note\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"tipo\" class=\"col-sm-2 control-label\">Tipo</label>");
+        sb.append("<label for=\"tipo\" class=\"col-sm-2 control-label\">${locale.getWord(\"tipo\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<select class=\"form-control\" name=\"tipo\" id=\"tipo\">");
         sb.append("<option value=\"document\">Document</option>");
@@ -1314,7 +1315,7 @@ public class HTMLProcesso {
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"uploadFile\" class=\"col-sm-2 control-label\">Carica il File</label>");
+        sb.append("<label for=\"uploadFile\" class=\"col-sm-2 control-label\">${locale.getWord(\"caricaFile\")}</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"file\" name=\"uploadFile\" id=\"uploadFile\" class=\"form-control\" >");
         sb.append("</div>");
@@ -1324,7 +1325,7 @@ public class HTMLProcesso {
         sb.append("<input type=\"hidden\" name=\"operazione\" value=\"uploadAllegatoProcesso\">");
         sb.append("<div class=\"form-group\">");
         sb.append("<div class=\"col-sm-10\">");
-        sb.append(" <button type=\"submit\" class=\"btn btn-default\">Allega</button>");
+        sb.append(" <button type=\"submit\" class=\"btn btn-default\">${locale.getWord(\"allega\")}</button>");
         sb.append("</div>");
         sb.append("</div>");
 
@@ -1334,19 +1335,21 @@ public class HTMLProcesso {
         return sb.toString();
     }
 
-    private static final String pdfFile = "C:\\Users\\Mauro\\Desktop\\pDFProceso\\processo.pdf";
+    private static final String pdfFile = "//Users//daler//Desktop//p.pdf";
     private static final Font TITOLO = FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD);
     private static final Font BOLD = FontFactory.getFont(FontFactory.TIMES_ROMAN, 17, Font.BOLD);
     private static final Font ATTRIBUTO = FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD);
 
-    public static void createPDFProcesso(Processo p) {
+    public static ByteArrayOutputStream createPDFProcesso(Processo p) {
+        System.out.println("sono dentro create con "+p.getNome());
         try {
+              ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document();
             document.setPageSize(PageSize.A4);
             float margin = Utilities.millimetersToPoints(20);
             float marginTop = Utilities.millimetersToPoints(25);
             document.setMargins(margin, margin, margin, margin);
-            PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
+            PdfWriter.getInstance(document, baos);
             document.open();
 
             Paragraph nome = new Paragraph();
@@ -1501,10 +1504,12 @@ public class HTMLProcesso {
             document.add(mappa);
 
             document.close();
-
+            return baos;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+        
     }
 
     public static String shortenUrl(String longUrl) {
@@ -1531,5 +1536,8 @@ public class HTMLProcesso {
 
         return responseMap.get("id");
     }
+    
+    
+  
 
 }
