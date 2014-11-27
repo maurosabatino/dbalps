@@ -5,7 +5,7 @@
 
 <jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
 <jsp:setProperty  name="HTMLc" property="*"/>
-<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.ProcessoCompleto" scope="request" />
+<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo" scope="request" />
 <jsp:setProperty  name="processo" property="*"/>
 <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
@@ -99,7 +99,7 @@
                                     <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("regione")}</strong> </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getRegione()%></p> </div>
+                                    <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getNazione()%></p> </div>
                                     <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("nazione")}</strong> </div>
                                 </div>
                                 <div class="row">

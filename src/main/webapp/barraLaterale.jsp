@@ -104,7 +104,7 @@
 <div class="modal login-form" tabindex="-6" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            
+
             <form method="POST" id="login_form" action="Servlet" >
                 <div class="form-group">
                     <br>
@@ -127,9 +127,9 @@
                         </div>
                     </div>
                 </div>
-                
-                    
-                
+
+
+
                 <div class="row">
                     <div class="col-md-10 col-md-offset-4">
                         <button id="loginButton" class="btn btn-default">Login</button>
@@ -137,37 +137,77 @@
                 </div>
                 <br>
                 <br>
-                
+
             </form>
         </div>
     </div>
 </div>
 <script>
-    $("#login_form").submit(function () {
-        //remove previous class and add new "myinfo" class
-        $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
+    $(document).ready(function () {
+        $("#login_form").submit(function () {
+            //remove previous class and add new "myinfo" class
+            $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
 
-        this.timer = setTimeout(function () {
+            this.timer = setTimeout(function () {
+                $.ajax({
+                    url: 'Servlet',
+                    data: 'operazione=login&username=' + $('#username').val() + '&password=' + $('#password').val(),
+                    type: 'post',
+                    success: function (msg) {
+                        if (msg === 'ok') {
+                            $("#msgbox").html('Login Verified, Logging in.....').addClass('text-success').fadeTo(900, 1,
+                                    function () {
+                                        location.reload();
+                                    });
+
+                        } else {
+                            $("#msgbox").fadeTo(200, 0.1,
+                                    function () {
+                                        $(this).html('Sorry, Wrong Combination Of Username And Password.').removeClass().addClass('text-danger').fadeTo(900, 1);
+                                    });
+                        }
+                    }
+                });
+            }, 200);
+            return false;
+        });
+
+        $("#buttonIT").click(function () {
             $.ajax({
                 url: 'Servlet',
-                data: 'operazione=login&username=' + $('#username').val() + '&password=' + $('#password').val(),
-                type: 'post',
-                success: function (msg) {
-                   if(msg==='ok'){
-                       $("#msgbox").html('Login Verified, Logging in.....').addClass('text-success').fadeTo(900,1,
-                       function(){
-                           location.reload();
-                        });
-                       
-                   }else{
-                      $("#msgbox").fadeTo(200,0.1,
-                      function(){
-                        $(this).html('Sorry, Wrong Combination Of Username And Password.').removeClass().addClass('text-danger').fadeTo(900,1);
-                      });
+                type: 'POST',
+                data: {operazione: 'changeLanguage', loc: 'it-IT'},
+                success: function () {
+                    window.location.reload();
                 }
-            }
             });
-        }, 200);
-        return false;
+        });
+        $("#buttonENG").click(function () {
+            $.ajax({
+                url: 'Servlet',
+                type: 'POST',
+                data: {operazione: 'changeLanguage', loc: 'en-US'},
+                success: function () {
+                    window.location.reload();
+                }
+            });
+        });
+
+        $("#home").click(function () {
+            window.location = 'index.jsp';
+        });
+
+        
+        $("#logout").click(function () {
+            $.ajax({
+                url: 'Servlet',
+                type: 'POST',
+                data: {operazione: 'logout'},
+                success: function () {
+                    window.location = 'index.jsp';
+                }
+            });
+        });
+
     });
 </script>
