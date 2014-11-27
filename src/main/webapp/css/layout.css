@@ -121,4 +121,49 @@ body {
         height: 100% !important;
 }
     
+/*
+table thead  th, table.tablesorter tfoot  th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 8pt;
+	padding: 4px;
+}
+table thead tr .header {
+	background-image: url(../img/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
 
+
+table thead tr .headerSortUp {
+	background-image: url(../img/asc.gif);
+}
+table thead tr .headerSortDown {
+	background-image: url(../img/desc.gif);
+}
+table thead  .headerSortDown, table.tablesorter thead  .headerSortUp {
+background-color: #B9B9B9;
+}
+div.tablesorterPager {
+	padding: 10px 0 10px 0;
+	background-color: #D6D2C2;
+	text-align: center;
+}
+div.tablesorterPager span {
+	padding: 0 5px 0 5px;
+}
+div.tablesorterPager input.prev {
+	width: auto;
+	margin-right: 10px;
+}
+div.tablesorterPager input.next {
+	width: auto;
+	margin-left: 10px;
+}
+div.tablesorterPager input {
+	font-size: 8px;
+	width: 50px;
+	border: 1px solid #330000;
+	text-align: center;
+}*/

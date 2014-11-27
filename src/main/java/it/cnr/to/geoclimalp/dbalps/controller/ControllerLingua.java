@@ -10,6 +10,9 @@ import java.util.ResourceBundle;
  */
 public class ControllerLingua {
   private  ResourceBundle translation;
+    public ControllerLingua(){
+       translation = ResourceBundle.getBundle("it.cnr.to.geoclimalp.dbalps.resources.string",Locale.forLanguageTag("en-US")); 
+    }
     public ControllerLingua(Locale locale){
       translation = ResourceBundle.getBundle("it.cnr.to.geoclimalp.dbalps.resources.string",locale);
     }

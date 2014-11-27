@@ -126,7 +126,6 @@ public class servletJson extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         ArrayList<Processo> processi = ControllerDatabase.prendiTuttiProcessi();
-        System.out.println(new Gson().toJson(processi));
         response.getWriter().write(new Gson().toJson(processi));
     }
 

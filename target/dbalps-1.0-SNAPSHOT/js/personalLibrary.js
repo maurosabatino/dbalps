@@ -30,25 +30,12 @@ $(document).ready(function () {
         window.location = 'index.jsp';
     });
     
-    $("#loginButton").click(function(){
-        var usr =  $("#username").val();
-        var pwd =$("#password").val();
-         $.ajax({
-            url: 'Servlet',
-            type: 'GET',
-            data: {operazione: 'login', username: usr,password : pwd},
-            dataType: "json",
-            success: function (data) {
-                if(data==true){
-                     window.location.reload();
-                }
-                else {
-                    alert("Error Login");
-                    window.location = 'index.jsp';
-                }
-            }
-        });
-    });
+    /*$("#login").submit(function(){
+      $.post('Servlet',$(this).serialize(),function (data) {
+                window.location = 'index.jsp';
+                $("#loginStatus").innerHTML=data;
+                });
+    });*/
     
     $("#logout").click(function(){
         $.ajax({
@@ -60,6 +47,7 @@ $(document).ready(function () {
             }
         });
     });
+   
    
 
     

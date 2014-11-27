@@ -1,4 +1,5 @@
 
+<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*"%>
@@ -7,38 +8,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <jsp:include page="import.jsp"></jsp:include>
         <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
         <jsp:setProperty  name="locale" property="*"/>
-        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
-        <jsp:setProperty  name="partecipante" property="*"/>
-        <!--CSS-->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="css/selectize.bootstrap3.css"/>
-        <link rel="stylesheet" type="text/css" href="css/layout.css"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrapValidator.min.css"/>
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
-
-        <!--JAVASCRIPT-->
-        <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/globalize.js"></script>
-        <script src="js/globalize.culture.de-DE.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrapValidator.min.js"></script>
-        <script src="js/jquery.sticky-kit.min.js"></script>
-        <script src="js/jquery.stickyfooter.min.js"></script>
-        <script src="js/selectize.js"></script>
-        <script src="js/json.js"></script>
-        <script src="js/personalLibrary.js"></script>
-        <script src="js/mappe.js"></script>
-        <script src="js/validator.js"></script>
-
-
-        <!--Google Maps-->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
-        <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-        <title>dbalps</title>
+       <%Utente partecipante = (Utente) session.getAttribute("partecipante");%>
+        
     </head>
     <body>
 
@@ -346,7 +320,7 @@
                                                     <div class="col-md-4">
                                                     <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="pubblico" checked="true"/>${locale.getWord("pubblico")}
+                                                    <input type="checkbox" name="pubblico"/>${locale.getWord("pubblico")}
                                                 </label>
                                             </div>
                                                 </div>
