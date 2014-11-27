@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getLocIdro().getSottobacino()%></p> </div>
-                                    <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("sottoBacino")}</strong> </div>
+                                    <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("sottobacino")}</strong> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getLocIdro().getBacino()%></p> </div>
