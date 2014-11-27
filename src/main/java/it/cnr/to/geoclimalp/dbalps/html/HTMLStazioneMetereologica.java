@@ -515,7 +515,6 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		if(part!=null && (part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO))) {
 			sb.append(HTMLScript.controlloData());
-		sb.append(""+HTMLScript.scriptData("data")+"");
 		
 		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>Upload</h4>");
 		sb.append("<form  action=\"Servlet\" method=\"POST\" onSubmit=\"return verificaData(this);\"  enctype=\"multipart/form-data\">");
@@ -595,8 +594,7 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.controlloCampi());
+		sb.append(HTMLScript.scriptData("datafine"));
 		sb.append("<form action=\"Servlet\" id=\"insertStazione\" name=\"dati\" method=\"POST\">");
 				sb.append("<div class=\"form-group\" >");
 
@@ -630,8 +628,7 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		Calendar data = new GregorianCalendar();
 		data.add(Calendar.MONTH, 1);
-		sb.append(HTMLScript.scriptData("data"));
-		sb.append(HTMLScript.controlloCampi());
+		sb.append(HTMLScript.scriptData("datafine"));
 
 		sb.append("<table class=\"table\"> <tr> <th>nome</th>  </tr>");
 		for(StazioneMetereologica stazione: s){
@@ -655,7 +652,7 @@ public class HTMLStazioneMetereologica {
 		/*sb.append("media <input type=\"checkbox\" name=\"temperature\" value=\"avg\"  >");
 		sb.append("min <input type=\"checkbox\" name=\"temperature\" value=\"min\"  >");
 		sb.append("max <input type=\"checkbox\" name=\"temperature\" value=\"max\"  ><br>");*/
-		sb.append("<input type=\"submit\" name =\"submit\" value=\"OK\">" );		
+		sb.append("<button type=\"submit\" class=\"btn btn-warning\">OK</button>" );		
 		sb.append(	" </div>  </form>");
 		sb.append("</div>");
 		return sb.toString();

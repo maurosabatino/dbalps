@@ -5,8 +5,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.*"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html >
 
 
@@ -14,9 +14,7 @@
 <html>
 
     <head>
-        
-
-            <!--CSS-->
+          <!--CSS-->
             <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
             <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
             <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css"/>
@@ -35,14 +33,14 @@
             <script>
                 $(document).ready(function () {
                     
-                    $('table').dataTable({
+                    $('#tabella').dataTable({
                         "language": {
                         "lengthMenu": "Display _MENU_ process per page",
                         "zeroRecords": "Nothing found - sorry",
                         "info": "Showing page _PAGE_ of _PAGES_",
                         "infoEmpty": "No process available",
                         "infoFiltered": "(filtered from _MAX_ total process)"
-                        }
+        }
                     });
                 });
                     
@@ -62,7 +60,7 @@
                     <div class="col-md-8"> 
                        
                         
-                        <table class="table  table-striped table-bordered">
+                        <table id="tabella" class="table table-striped table-bordered">
                             <thead>
                                 <tr> 
                                     <th>Nome</th>

@@ -92,34 +92,8 @@ public class HTMLScript {
 				+ "changeMonth: true,"
 				+ "changeYear: true,"
 				+ "dateFormat: \"yy-mm-dd\"});"
-				+ "});</script>"
-				+"<script>");
+				+ "});</script>");
 				
-				sb.append("$.widget( \"ui.timespinner\", $.ui.spinner, {"
-				+ "options: {"
-				+ "step: 60 * 1000,"
-				+ "page: 60"
-				+ "},"
-				+ "_parse: function( value ) {"
-				+ "if ( typeof value === \"string\" ) {"
-				+ "if ( Number( value ) == value ) {"
-				+ "return Number( value );"
-				+ "}"
-				+ "return +Globalize.parseDate( value );"
-				+ "}"
-				+ "return value;"
-				+ "},"
-				+ "_format: function( value ) {"
-				+ "return Globalize.format( new Date(value), \"t\" );"
-				+ "}"
-				+ "});"
-				+ "$(function() {"
-				+ "$( \"#ora\" ).timespinner();"
-				+ "var current = $( \"#ora\" ).timespinner( \"value\" );"
-				+ "Globalize.culture( \"de-DE\");"
-				+ "$( \"#ora\" ).timespinner( \"value\", current );"
-				+ "});"
-				+ "</script>");
 		return sb.toString();
 	}
 	

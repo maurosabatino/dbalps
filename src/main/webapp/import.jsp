@@ -13,7 +13,7 @@
 <script src ="js/jquery-1.11.1.min.js"></script>
 <script src ="js/jquery-ui.min.js"></script>
 <script src="js/bootstrap.js"></script>
-
+<script src="js/bootstrapValidator.min.js"></script>
 <script src="js/selectize.js"></script>
 <script src="js/json.js"></script>
 <script src="js/mappe.js"></script>

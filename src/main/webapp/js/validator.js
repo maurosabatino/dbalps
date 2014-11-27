@@ -167,6 +167,9 @@ var d = new Date();
             validators: {
                     notEmpty: {
                         message: 'The radius is required'
+                    },
+                    numeric :{
+                        message : 'must be a number'
                     }
                     
                 }
@@ -174,7 +177,12 @@ var d = new Date();
         finestra : {
             validators: {
                     notEmpty: {
-                        message: 'The windows is required'
+                        message: 'The window is required'
+                    },
+                    between: {
+                        min: 1,
+                        max: 90,
+                        message: 'must be between 1 and 90'
                     }
                     
                 }
@@ -182,7 +190,10 @@ var d = new Date();
         aggregazione : {
             validators: {
                     notEmpty: {
-                        message: 'The radius is required'
+                        message: 'The aggregation is required'
+                    },
+                    numeric :{
+                        message : 'must be a number'
                     }
                     
                 }

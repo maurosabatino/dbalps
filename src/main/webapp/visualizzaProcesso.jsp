@@ -14,7 +14,17 @@
 <html>
 
     
-
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+<link rel="stylesheet" type="text/css" href="css/layout.css"/>
+<script src ="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+<link rel="stylesheet" href="css/bootstrap-image-gallery.min.css">
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="js/bootstrap-image-gallery.min.js"></script>
 
         <style>
             .google-maps {
@@ -31,7 +41,12 @@
                 height: 100% !important;
             }
         </style>
-        <jsp:include page="import.jsp"></jsp:include>
+        <script>
+$( "a" ).click(function( event ) {
+  event.preventDefault();
+  window.location.href = this.href;
+});
+</script>
     </head>
     <body>
         <div class ="container">
@@ -250,15 +265,16 @@
                                 for (i = 0; i < processo.getAttributiProcesso().getAllegati().size(); i++) {
 
                                     if (processo.getAttributiProcesso().getAllegati().get(i).getTipoAllegato().equals("image")) {%>
-                            <ol>
+       
+                         
                                 <div class="col-md-12">
                                     <div class="row" >
-
-                                        <div class="col-md-6 col-md-push-4"><p ></p> </div>
-                                        <div class="col-md-5 col-md-pull-6"><li><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getTitolo()%></strong></li></div>
+                                        
+                                        <div class="col-md-6 col-md-push-4"><p ></p></div>
+                                        <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getTitolo()%></strong></li></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getAllegati().get(i).getLinkFile()%></p> </div>
+                                        <div class="col-md-6 col-md-push-4"><a href="Servlet?operazione=downloadAllegato&file=<%=processo.getAttributiProcesso().getAllegati().get(i).getLinkFile()%>">Apri</a> </div>
                                         <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getAnno()%></strong> </div>
                                     </div>
                                     <div class="row">
@@ -266,7 +282,7 @@
                                         <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getFonte()%></strong> </div>
                                     </div>
                                 </div>
-                            </ol>
+                            
                             <%}
                                 } %>
                         </div>
@@ -328,7 +344,7 @@
                             <p><%=processo.getAttributiProcesso().getNote()%>
                             </p>
                         </div>
-
+                            
                     </div>
                     <div class="col-md-5"> 
                         <h3>Map</h3>

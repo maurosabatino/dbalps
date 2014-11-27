@@ -2902,9 +2902,10 @@ public class ControllerDatabase {
         String query = "select * from allegati where idallegati in(select idallegati from allegati_stazione where idstazione=?)";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, idStazione);
-        Allegato allegato = new Allegato();
+       
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
+             Allegato allegato = new Allegato();
             allegato.setAnno(rs.getString("anno"));
             allegato.setAutore(rs.getString("autore"));
             allegato.setData(rs.getTimestamp("data"));
@@ -2932,10 +2933,10 @@ public class ControllerDatabase {
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, idProcesso);
 
-        Allegato allegato = new Allegato();
+        
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-
+            Allegato allegato = new Allegato();
             allegato.setAnno(rs.getString("anno"));
             allegato.setAutore(rs.getString("autore"));
             allegato.setData(rs.getTimestamp("data"));

@@ -143,8 +143,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $("#login_form").submit(function () {
+    $("#login_form").submit(function () {
             //remove previous class and add new "myinfo" class
             $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
 
@@ -171,6 +170,8 @@
             }, 200);
             return false;
         });
+   
+        
 
         $("#buttonIT").click(function () {
             $.ajax({
@@ -209,5 +210,5 @@
             });
         });
 
-    });
+  
 </script>
