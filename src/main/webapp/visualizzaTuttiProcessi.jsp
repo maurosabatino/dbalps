@@ -146,6 +146,7 @@
                                     <th> Dettagli</th>
                                     <th> Modifica</th>
                                     <th> Elimina</th>
+                                    <th> Allegati</th>
                                 </tr>
                                 <tr>
                                     <th id="pager" colspan="8" class="form-horizontal">
@@ -197,6 +198,7 @@
                                         <img alt="Brand" class="img-responsive" src="img/delete-icon.png">
                                     </a></td>
                                     <%}%>
+                                <td> <a href="Servlet?operazione=mostraAllegatiProcesso&idProcesso=<%=p.getIdProcesso()%>" >allegati</a></td>
                             </tr>
                             <%}%>   
 

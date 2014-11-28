@@ -25,6 +25,7 @@
                     <div class="col-md-8">
                     <%if (partecipante != null && (partecipante.getRuolo().equals(Role.AMMINISTRATORE) || partecipante.getRuolo().equals(Role.AVANZATO))) {%>
                     <form action="Servlet" id="insertStazione"  method="POST" role="form">
+                        
                         <div class="panel panel-default"> <div class="panel-body"> <h4> ${locale.getWord("titoloStazione")} </h4>
 
                                 <div class="form-group" >
@@ -39,9 +40,9 @@
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-xs-6 col-md-6"><label for="datainizio">${locale.getWord("dataInizio")} 
-                                                                    <input type="text"  id="datainizio" name="datainizio" class="form-control" placeholder="datainizio" >
+                                                                    <input type="text"  id="datainizio" name="datainizio" class="form-control" placeholder="${locale.getWord("dataInizio")}" >
                                                                     </div>
-                                                                    <div class="col-xs-6 col-md-6"><label for="datafine">${locale.getWord("dataFine")}<input type="text" id="datafine" name="datafine" class="form-control" placeholder="datafine"></div>
+                                                                    <div class="col-xs-6 col-md-6"><label for="datafine">${locale.getWord("dataFine")}<input type="text" id="datafine" name="datafine" class="form-control" placeholder="${locale.getWord("dataFine")}"></div>
                                                                             </div>
                                                                             <br>
                                                                             <div class="row">
@@ -190,7 +191,7 @@
                                                                     </div> </div></div>
                                                         </form>
                                                         <%} else { %>
-                                                        <h3>Spiacente non hai i privilegi sufficienti per inserire una stazione</h3>
+                                                        <h3>${locale.getWord("noDiritti")}</h3>
                                                         <% }%>    
                                                 </div>
                                         </div>

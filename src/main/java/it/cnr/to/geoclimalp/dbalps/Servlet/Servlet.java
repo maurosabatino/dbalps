@@ -1121,15 +1121,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/stazione.jsp");
 
-        } else if (operazione.equals("mostraAllegatiStazione")) {
-
-        } else if (operazione.equals("mostraAllegatiProcesso")) {
-            // da completare
-        } else if (operazione.equals("scegliStazioneAllegati")) {
-            //completare
-        } else if (operazione.equals("scegliProcessoAllegati")) {
-            // da completare
-        } else if (operazione.equals("ricaricaJson")) {
+        }  else if (operazione.equals("ricaricaJson")) {
             ControllerJson.creaJson(path);
             forward(request, response, "/index.jsp");
         }else if (operazione.equals("changeLanguage")){
@@ -1137,6 +1129,39 @@ public class Servlet extends HttpServlet {
             locale = new ControllerLingua(Locale.forLanguageTag(loc));
             session.setAttribute("loc", loc);
             session.setAttribute("locale", locale);
+        }
+        else if(operazione.equals("mostraAllegatiProcesso")){
+            int idProcesso=Integer.parseInt(request.getParameter("idProcesso"));
+            ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoProcesso(idProcesso);
+            request.setAttribute("allegati",allegati);
+             forward(request, response, "/allegatiProcesso.jsp");
+        }
+        else if(operazione.equals("modificaAllegato")){
+            int idAllegato=Integer.parseInt(request.getParameter("idAllegato"));
+            Allegato allegato=ControllerDatabase.cercaAllegato(idAllegato);
+            request.setAttribute("allegato",allegato);
+             forward(request, response, "/modificaAllegato.jsp");
+        }
+        else if(operazione.equals("modificaAllegatoSuDB")){
+            int idAllegato=Integer.parseInt(request.getParameter("idAllegato"));
+            Allegato a=new Allegato();
+                a.setAutore(request.getParameter("autore")); 
+                 a.setAnno(request.getParameter("anno"));
+                a.setTitolo(request.getParameter("titolo"));  
+                 a.setNella(request.getParameter("in")) ;
+                a.setFonte(request.getParameter("fonte"));
+               a.setUrlWeb(request.getParameter("urlWeb"));
+                a.setNote(request.getParameter("note")); 
+                a.setTipoAllegato(request.getParameter("tipo"));   
+                a.setId(idAllegato);
+                    ControllerDatabase.modificaAllegato(a);
+                
+           
+            String content = "<h5> modificato allegato </h5>";
+            HTMLContent c = new HTMLContent();
+            c.setContent(content);
+            request.setAttribute("HTMLc", c);
+            forward(request, response, "/processo.jsp");
         }
 
     }

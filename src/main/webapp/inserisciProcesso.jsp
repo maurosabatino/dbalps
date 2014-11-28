@@ -335,11 +335,11 @@
                                 </div>
 
                                 <input type="hidden" name="operazione" value="inserisciProcesso">
-                                <button type="submit" class="btn btn-default">Inserisci il processo</button>
+                                <button type="submit" class="btn btn-default">${locale.getWord("inserisciProcesso")}</button>
                             </div> </div>
                     </form>
                     <%} else { %>
-                    <h3>Spiacente non hai i privilegi sufficienti per inserire un processo</h3>
+                    <h3>${locale.getWord("noDiritti")}</h3>
                     <% }%>    
                 </div>
             </div>

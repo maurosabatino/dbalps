@@ -254,7 +254,6 @@ public class ControllerDatabase {
         conn.close();
         return p;
     }
-//modificato 18/11 da daler		
 
     public static ArrayList<Processo> prendiTuttiProcessi() throws SQLException {
         ArrayList<Processo> al = new ArrayList<Processo>();
@@ -2932,9 +2931,9 @@ public class ControllerDatabase {
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, idProcesso);
 
-        Allegato allegato = new Allegato();
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
+                    Allegato allegato = new Allegato();
 
             allegato.setAnno(rs.getString("anno"));
             allegato.setAutore(rs.getString("autore"));
@@ -2953,5 +2952,59 @@ public class ControllerDatabase {
         rs.close();
         conn.close();
         return a;
+    }
+    
+    public static Allegato cercaAllegato(int idAllegato) throws SQLException {
+        Connection conn = DriverManager.getConnection(url, usr, pwd);
+        Allegato a = new Allegato();
+        System.out.println("select * from allegati where idallegati ="+idAllegato+"");
+        String query = "select * from allegati where idallegati ="+idAllegato+"";
+        PreparedStatement ps = conn.prepareStatement(query);
+        
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                    
+
+            a.setAnno(rs.getString("anno"));
+            a.setAutore(rs.getString("autore"));
+            a.setData(rs.getTimestamp("data"));
+            a.setFonte(rs.getString("fonte"));
+            a.setId(rs.getInt("idallegati"));
+            a.setIdUtente(rs.getInt("idUtente"));
+            a.setLinkFile(rs.getString("linkfile"));
+            a.setNella(rs.getString("nella"));
+            a.setNote(rs.getString("note"));
+            a.setTipoAllegato(rs.getString("tipoallegato"));
+            a.setTitolo(rs.getString("titolo"));
+            a.setUrlWeb(rs.getString("urlweb"));
+            
+        }
+        rs.close();
+        conn.close();
+        return a;
+    }
+    
+    public static void modificaAllegato(Allegato a) throws SQLException {
+        Connection conn = DriverManager.getConnection(url, usr, pwd);        
+        
+            String sql = "update allegati set anno=?,fonte=?,linkfile=?,nella=?,note=?,tipoallegato=?,titolo=?,urlweb=?, autore=? where idallegati="+a.getId()+"";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,a.getAnno());
+        ps.setString(2,a.getFonte());
+        ps.setString(3,a.getLinkFile());
+        ps.setString(4,a.getNella());
+        ps.setString(5,a.getNote());
+        ps.setString(6,a.getTipoAllegato());
+        ps.setString(7,a.getTitolo());
+        ps.setString(8,a.getUrlWeb());
+        ps.setString(9,a.getAutore());
+
+           
+        ps.executeUpdate();
+        ps.close();
+        
+        conn.close();
+       
     }
 }
