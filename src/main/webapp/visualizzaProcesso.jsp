@@ -5,7 +5,7 @@
 
 <jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
 <jsp:setProperty  name="HTMLc" property="*"/>
-<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.ProcessoCompleto" scope="request" />
+<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo" scope="request" />
 <jsp:setProperty  name="processo" property="*"/>
 <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
@@ -14,6 +14,13 @@
 <html>
 
     
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+<link rel="stylesheet" type="text/css" href="css/layout.css"/>
+<script src ="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
 
         <style>
@@ -31,7 +38,7 @@
                 height: 100% !important;
             }
         </style>
-        <jsp:include page="import.jsp"></jsp:include>
+        
     </head>
     <body>
         <div class ="container">
@@ -99,7 +106,7 @@
                                     <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("regione")}</strong> </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getRegione()%></p> </div>
+                                    <div class="col-md-9 col-md-push-4"><p><%=processo.getUbicazione().getLocAmm().getNazione()%></p> </div>
                                     <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("nazione")}</strong> </div>
                                 </div>
                                 <div class="row">
@@ -250,15 +257,16 @@
                                 for (i = 0; i < processo.getAttributiProcesso().getAllegati().size(); i++) {
 
                                     if (processo.getAttributiProcesso().getAllegati().get(i).getTipoAllegato().equals("image")) {%>
-                            <ol>
+       
+                         
                                 <div class="col-md-12">
                                     <div class="row" >
-
-                                        <div class="col-md-6 col-md-push-4"><p ></p> </div>
-                                        <div class="col-md-5 col-md-pull-6"><li><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getTitolo()%></strong></li></div>
+                                        
+                                        <div class="col-md-6 col-md-push-4"><p ></p></div>
+                                        <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getTitolo()%></strong></li></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-md-push-4"><p><%=processo.getAttributiProcesso().getAllegati().get(i).getLinkFile()%></p> </div>
+                                        <div class="col-md-6 col-md-push-4"><a href="Servlet?operazione=downloadAllegato&file=<%=processo.getAttributiProcesso().getAllegati().get(i).getLinkFile()%>">Apri</a> </div>
                                         <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getAnno()%></strong> </div>
                                     </div>
                                     <div class="row">
@@ -266,7 +274,7 @@
                                         <div class="col-md-5 col-md-pull-6"><strong><%=processo.getAttributiProcesso().getAllegati().get(i).getFonte()%></strong> </div>
                                     </div>
                                 </div>
-                            </ol>
+                            
                             <%}
                                 } %>
                         </div>
@@ -328,7 +336,7 @@
                             <p><%=processo.getAttributiProcesso().getNote()%>
                             </p>
                         </div>
-
+                            
                     </div>
                     <div class="col-md-5"> 
                         <h3>Map</h3>
@@ -374,7 +382,7 @@
                             position: coord,
                             map: map,
                             title: 'stazione',
-                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
+                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/blue.png")
                         });
                         var contentString = "nome:<%=processo.getNome()%> <br> comune: <%=processo.getUbicazione().getLocAmm().getComune()%> <br> data: <%=processo.getData()%><br><a href="Servlet?operazione=mostraProcesso&idProcesso=<%=processo.getIdProcesso()%>">Report</a>";
                         var infowindow = new google.maps.InfoWindow({

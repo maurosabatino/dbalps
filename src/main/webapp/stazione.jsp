@@ -8,7 +8,21 @@
 <html>
 
     <head>
-        <jsp:include page="import.jsp"></jsp:include>
+       <!--CSS-->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+<link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/selectize.bootstrap3.css"/>
+<link rel="stylesheet" type="text/css" href="css/layout.css"/>
+        <script src ="js/jquery-1.11.1.min.js"></script>
+<script src ="js/jquery-ui.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+<script src="js/bootstrapValidator.min.js"></script>
+<script src="js/validator.js"></script>
+
+        
     </head>
     <body>
         <div class="container">

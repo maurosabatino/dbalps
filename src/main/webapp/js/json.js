@@ -10,7 +10,7 @@ $(document).ready(function () {
     }
     var autocompleti = [];
 
-    autocompleti.push(new Dati('servletJson?op=processi', "#processo", "#idProcesso", 'idProcesso', 'nome', 'nome', 'nome'));
+    autocompleti.push(new Dati('servletJson?op=processi', "#nome", "#nome", 'nome', 'nome', 'nome', 'nome'));
     autocompleti.push(new Dati('servletJson?op=litologia', "#nomeLitologia_IT", "#idLitologia", 'idLitologia', 'nomeLitologia_IT', 'nomeLitologia_IT', 'nomeLitologia_IT'));
     autocompleti.push(new Dati('servletJson?op=litologia', "#nomeLitologia_ENG", "#idLitologia", 'idLitologia', 'nomeLitologia_ENG', 'nomeLitologia_ENG', 'nomeLitologia_ENG'));
     autocompleti.push(new Dati('servletJson?op=statoFratturazione', "#statoFratturazione_IT", "#idStatoFratturazione", 'idStatoFratturazione', 'statoFratturazione_IT', 'statoFratturazione_IT', 'statoFratturazione_IT'));

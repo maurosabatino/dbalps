@@ -1212,6 +1212,8 @@ public class HTMLProcesso {
                 sb.append("<input  type=\"hidden\" id=\"idcomune\" name=\"idcomune\" />");
             } else if (attributiArray[i].equals("idSottobacino")) {
                 sb.append("<input type=\"hidden\" name=\"idSottobacino\" id=\"idSottobacino\">");
+            } else if(attributiArray[i].equals("nome")){
+                    sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"" + attributiArray[i] + "\">" + attributiArray[i] + "</label> <select type=\"text\" name=\"" + attributiArray[i] + "\" id=\"" + attributiArray[i] + "\" class=\"form-control\" placeholder=\"" + attributiArray[i] + "\" ></select></div>");
             } else {
                 sb.append("<div class=\"col-xs-6 col-md-6\"><label for=\"" + attributiArray[i] + "\">" + attributiArray[i] + "</label> <input type=\"text\" name=\"" + attributiArray[i] + "\" id=\"" + attributiArray[i] + "\" class=\"form-control\" placeholder=\"" + attributiArray[i] + "\" ></div>");
             }

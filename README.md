@@ -6,11 +6,11 @@ maven repository of dbalps
 task list
 - [x] mappa processo stazione
 - [ ] pdf
-- [ ] barra laterale
-- [ ] modifica processo\stazione (nuovi campi selected)
+- [x] barra laterale
+- [x] modifica processo\stazione (nuovi campi selected)
 - [ ] ricerche miste
 - [x] elimina stazione
-- [ ] grafica destktop
+- [x] grafica destktop
 - [ ] grafica mobile
 
 

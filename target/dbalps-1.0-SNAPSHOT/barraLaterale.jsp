@@ -1,28 +1,31 @@
 
+<%@page import="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua"%>
+<%@page import="java.util.Locale"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente"%>
 
 
-
-
+<link rel="stylesheet" type="text/css" href="css/flag-icon.min.css"/>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="col-md-2 col-md-offset-1" id=login>
-
+    
     <ul class="nav nav-sidebar">
         <li>
-            <a><img class="" alt="HOME" src="img/home-icon .png"  id="home"></a>
+            <a>
+                <span class="fa fa-home fa-2x" id="home"></span>
+                <span class="flag-icon flag-icon-it" id="buttonIT"> </span>
+                <span class = "flag-icon flag-icon-gb" id="buttonENG" ></span>
+            </a>
         </li>
     </ul>
-    <ul class="nav nav-sidebar">
-        <li>
-            <a><img class="img-circle" id="buttonIT" alt="IT" src="img/italy-icon.png"> 
-
-                <img class = "img-circle" id="buttonENG" alt="ENG" src="img/uk-icon.png"></a>
-        </li>
-    </ul>  
-
+   
 
     <ul class="nav nav-sidebar">
-        <% Utente part = (Utente) session.getAttribute("partecipante");
+        <% if(session.getAttribute("locale")==null){
+        ControllerLingua locale = new ControllerLingua(Locale.forLanguageTag("en-US"));
+            session.setAttribute("locale", locale);
+    }
+            Utente part = (Utente) session.getAttribute("partecipante");
             if (part == null) {
         %>	
         <li><button class="btn btn-info navbar-btn " data-toggle="modal" data-target=".login-form">Login</button></li>
@@ -104,7 +107,7 @@
 <div class="modal login-form" tabindex="-6" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            
+
             <form method="POST" id="login_form" action="Servlet" >
                 <div class="form-group">
                     <br>
@@ -127,9 +130,9 @@
                         </div>
                     </div>
                 </div>
-                
-                    
-                
+
+
+
                 <div class="row">
                     <div class="col-md-10 col-md-offset-4">
                         <button id="loginButton" class="btn btn-default">Login</button>
@@ -137,37 +140,78 @@
                 </div>
                 <br>
                 <br>
-                
+
             </form>
         </div>
     </div>
 </div>
 <script>
     $("#login_form").submit(function () {
-        //remove previous class and add new "myinfo" class
-        $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
+            //remove previous class and add new "myinfo" class
+            $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
 
-        this.timer = setTimeout(function () {
+            this.timer = setTimeout(function () {
+                $.ajax({
+                    url: 'Servlet',
+                    data: 'operazione=login&username=' + $('#username').val() + '&password=' + $('#password').val(),
+                    type: 'post',
+                    success: function (msg) {
+                        if (msg === 'ok') {
+                            $("#msgbox").html('Login Verified, Logging in.....').addClass('text-success').fadeTo(900, 1,
+                                    function () {
+                                        location.reload();
+                                    });
+
+                        } else {
+                            $("#msgbox").fadeTo(200, 0.1,
+                                    function () {
+                                        $(this).html('Sorry, Wrong Combination Of Username And Password.').removeClass().addClass('text-danger').fadeTo(900, 1);
+                                    });
+                        }
+                    }
+                });
+            }, 200);
+            return false;
+        });
+   
+        
+
+        $("#buttonIT").click(function () {
             $.ajax({
                 url: 'Servlet',
-                data: 'operazione=login&username=' + $('#username').val() + '&password=' + $('#password').val(),
-                type: 'post',
-                success: function (msg) {
-                   if(msg==='ok'){
-                       $("#msgbox").html('Login Verified, Logging in.....').addClass('text-success').fadeTo(900,1,
-                       function(){
-                           location.reload();
-                        });
-                       
-                   }else{
-                      $("#msgbox").fadeTo(200,0.1,
-                      function(){
-                        $(this).html('Sorry, Wrong Combination Of Username And Password.').removeClass().addClass('text-danger').fadeTo(900,1);
-                      });
+                type: 'POST',
+                data: {operazione: 'changeLanguage', loc: 'it-IT'},
+                success: function () {
+                    window.location.reload();
                 }
-            }
             });
-        }, 200);
-        return false;
-    });
+        });
+        $("#buttonENG").click(function () {
+            $.ajax({
+                url: 'Servlet',
+                type: 'POST',
+                data: {operazione: 'changeLanguage', loc: 'en-US'},
+                success: function () {
+                    window.location.reload();
+                }
+            });
+        });
+
+        $("#home").click(function () {
+            window.location = 'index.jsp';
+        });
+
+        
+        $("#logout").click(function () {
+            $.ajax({
+                url: 'Servlet',
+                type: 'POST',
+                data: {operazione: 'logout'},
+                success: function () {
+                    window.location = 'index.jsp';
+                }
+            });
+        });
+
+  
 </script>

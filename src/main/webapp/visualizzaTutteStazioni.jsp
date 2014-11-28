@@ -14,18 +14,38 @@
 <html>
 
 <head>
-   <jsp:include page="import.jsp"></jsp:include>
+   <!--CSS-->
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+            <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+            <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css"/>
+            <link rel="stylesheet" type="text/css" href="css/layout.css"/>
 
-    <script type="text/javascript">
-	$(function() {
-		$("table").tablesorter({
-                            debug: true,
-                            sortList: [[0,0]]
-                            });
-                        
-                
-	});
-	</script>
+
+            <!--JAVASCRIPT-->
+
+
+           <script src ="js/jquery-1.11.1.min.js"></script>
+           <script src="js/bootstrap.js"></script>
+            <script src ="js/jquery.dataTables.min.js"></script>
+            <script src ="js/dataTables.bootstrap.js"></script> 
+       
+
+            <script>
+                $(document).ready(function () {
+                    
+                    $('table').dataTable({
+                        "language": {
+                        "lengthMenu": "Display _MENU_ process per page",
+                        "zeroRecords": "Nothing found - sorry",
+                        "info": "Showing page _PAGE_ of _PAGES_",
+                        "infoEmpty": "No process available",
+                        "infoFiltered": "(filtered from _MAX_ total process)"
+        }
+                    });
+                });
+                    
+   
+            </script> 
         <script>
         function elimina(arg) {
             var domanda = confirm("Sei sicuro di voler cancellare?");
@@ -52,7 +72,7 @@
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
      <div class="col-md-8">
-         <table class="table tablesorter" >
+         <table class="table  table-striped table-bordered table-condensed" >
          <thead>
              <%Utente part = (Utente) session.getAttribute("partecipante");
              ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) request.getAttribute("stazione");%>
@@ -71,12 +91,12 @@
         
             <tr> 
                 <td><%=s.getNome()%></td>  <td><%= s.getUbicazione().getLocAmm().getComune() %> </td><td><%= s.getUbicazione().getQuota() %> </td>
-                <td> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><img alt="Brand" class="img-responsive" src="img/search-icon (32).png"></a></td>
+                <td> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-search" ></span></td>
                 
                 <% if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && s.getIdUtente()==part.getIdUtente()) )){%>
-                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><img alt="Brand" class="img-responsive" src="img/edit-validated-icon.png"></a></td>
+                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-wrench"></span></td>
                         <td> <a  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);" role="button">
-                        <img alt="Brand" class="img-responsive" src="img/delete-icon.png">
+                                <span class="fa fa-times"></span>
                         </a></td>
                  <%}%> 
                 
@@ -84,24 +104,8 @@
             <%}%>              
 	</tbody>
      </table>
-        <div class="col-md-offset-2">
-        <div id="pager" class="pager">
-		<img src="img/first.png" class="first"/>
-		<img src="img/prev.png" class="prev"/>
-                
-		<input type="text" class="pagedisplay"/>
-		<img src="img/next.png" class="next"/>
-		<img src="img/last.png" class="last"/>
-		<select class="pagesize">
-			<option selected="selected"  value="10">10</option>
-			<option value="30">25</option>
-			<option  value="40">50</option>
-		</select>
-	
-        </div>
-        </div>
+         </div>
       </div>
-    </div>
     
  
 </div>
