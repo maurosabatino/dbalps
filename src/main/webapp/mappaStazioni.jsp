@@ -100,7 +100,7 @@
                         google.maps.event.addListener(marker, 'click', (function (marker, index) {
                             return function () {
                                 infowindow.setContent("nome: " + value.nome + " <br> comune: " + value.ubicazione.quota + "<br>\n\
-                                                        <br> <a href=\"Servlet?=mostraStazioneMetereologica&idStazioneMetereologica" + value.idSatzioneMetereologica + "\">Report</a>");
+                                                        <br> <a href=\"Servlet?=mostraStazioneMetereologica&idStazioneMetereologica=" + value.idSatzioneMetereologica + "\">Report</a>");
                                 infowindow.open(map, marker);
                             };
                         })(marker, index));

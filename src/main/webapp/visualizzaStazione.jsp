@@ -1,123 +1,25 @@
-<%-- 
-    Document   : visualizzaStazione
-    Created on : 12-nov-2014, 9.33.31
-    Author     : Mauro
---%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html >
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
+<jsp:setProperty  name="HTMLc" property="*"/>
 <jsp:useBean id="stazione" class="it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica" scope="request" />
 <jsp:setProperty  name="stazione" property="*"/>
 <jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
-<!DOCTYPE html>
-<html>   
-    
+<html>
+
     <head>
-        <!--CSS-->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.4.custom.css"/>
-
-        <!--JAVASCRIPT-->
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/jquery.sticky-kit.min.js"></script>
-        <script src="js/globalize.js"></script>
-        <script src="js/globalize.culture.de-DE.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/SeparateDate.js"></script>
-        <!--<script src="js/personalLibrary.js"></script>-->
-        <script src="js/bootstrapValidator.min.js"></script>
-        <script src="js/jquery.stickyfooter.min.js"></script>
-
-        <!--Google Maps-->
+        <link rel="stylesheet" type="text/css" href="css/layout.css"/>
+        <script src ="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
         <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Report Stazione</title>
-    </head>
-    <body>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row">
-                    <div class="col-md-9 col-md-push-2"><h1>${stazione.nome}</h1></div>
-                    <div class="col-md-2 col-md-pull-9"><h1>Stazione</h1> </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9 col-md-push-2"><h1>${stazione.dataInizio}</h1></div>
-                    <div class="col-md-2 col-md-pull-9"><h1>Data inizio attivit√† </h1> </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9 col-md-push-2"><h1>${stazione.dataFine}</h1></div>
-                    <div class="col-md-2 col-md-pull-9"><h1>Data fine attivit√† </h1> </div>
-                </div>
 
-                <div class="row">
-                    <h2>Note</h2>
-                    <p>${stazione.note}</p>
-                </div>
-                <div class="container-fluid">
-
-                    <div class="col-md-5">
-                        <div class="row">
-                            <h2>Ubicazione</h2>
-                            <div class="row">
-                                <div class="col-md-9 col-md-push-4"><p>${ubicazione.locAmm.comune}</p> </div>
-                                <div class="col-md-3 col-md-pull-9"><strong>Comune</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 col-md-push-4"><p>${ubicazione.locAmm.provincia}</p> </div>
-                                <div class="col-md-3 col-md-pull-9"><strong>Provincia</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 col-md-push-4"><p>${ubicazione.locAmm.regione}</p> </div>
-                                <div class="col-md-3 col-md-pull-9"><strong>Regione</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 col-md-push-4"><p>${ubicazione.locAmm.nazione}</p> </div>
-                                <div class="col-md-3 col-md-pull-9"><strong>Stato</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.locIdro.sottobacino}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Sotto bacino</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.locIdro.bacino}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Bacino</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.quota}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Quota</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.esposizione}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Esposizione</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.coordinate.x}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Latitudine</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.coordinate.y}</p> </div>
-                                <div class="col-md-5 col-md-pull-6"><strong>Longitudine</strong> </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p>${ubicazione.attendibilita}</p> </div>
-                                <div class="col-md-4 col-md-pull-6"><strong>Affidabilit√† Coordinate</strong> </div>
-                            </div>    
-                        </div>
-
-                    </div>
-                    <div class="col-md-7"> 
-                        <div class="google-maps">
-                            <div id="map-canvas" class="map-canvas" ></div>
-                        </div>
-
-                    </div>                
-                </div>
-            </div><!--main-->
-        </div> <!--fine-->
 
         <style>
             .google-maps {
@@ -133,27 +35,285 @@
                 width: 100% !important;
                 height: 100% !important;
             }
-        </style>    
-        <script>
-            $(document).ready(function () {
-                var map;
-                function initialize() {
-                    var mapOptions = {
-                        zoom: 11,
-                        center: new google.maps.LatLng(${ubicazione.coordinate.x}, ${ubicazione.coordinate.y}),
-                        panControl: false,
-                        zoomControl: false,
-                        mapTypeControl: false,
-                        scaleControl: false,
-                        streetViewControl: false,
-                        overviewMapControl: false
-                    };
-                    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-                    map.setMapTypeId(google.maps.MapTypeId.HYBRID);
-                }
-                ;
-                google.maps.event.addDomListener(window, 'load', initialize);
-            });
+        </style>
+
+         <script>
+                $(document).ready(function () {
+
+
+                    function initialize() {
+                        var lati = <%=stazione.getUbicazione().getCoordinate().getX()%>;
+                        var long = <%=stazione.getUbicazione().getCoordinate().getY()%>;
+                        var coord = new google.maps.LatLng(lati, long);
+
+                        var mapOptions = {
+                            zoom: 11,
+                            center: coord,
+                            panControl: false,
+                            zoomControl: false,
+                            mapTypeControl: false,
+                            scaleControl: false,
+                            streetViewControl: false,
+                            overviewMapControl: false
+                        };
+                        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+                        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+
+                        var marker = new google.maps.Marker({
+                            position: coord,
+                            map: map,
+                            title: 'stazione',
+                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
+                        });
+                        
+                        var contentString = "nome:<%=stazione.getNome()%> <br> comune: <%=stazione.getUbicazione().getLocAmm().getComune()%>";
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        google.maps.event.addListener(marker, 'click', function () {
+                            infowindow.open(map, marker);
+                        });
+                    }
+                    ;
+                    google.maps.event.addDomListener(window, 'load', initialize);
+                });
         </script>
+        <title>Evento</title>
+    </head>
+    <body>
+        <div class ="container">
+            <jsp:include page="header.jsp"></jsp:include>
+                <div class ="content">
+                    <div class="row">
+                    <jsp:include page="barraLaterale.jsp"></jsp:include>
+                        <div class="col-md-8">
+
+                           
+
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-2"><h1> <%=stazione.getNome()%> </h1></div>
+                                        <div class="col-md-2 col-md-pull-9"><h1>Dettagli stazione meteorologica</h1> </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-push-4"><p>${stazione.aggregazioneGiornaliera}</p> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>aggregazione temporale</strong> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-push-4"><p>${stazione.tipoAggregazione}</p> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>Tipo aggregazione giornaliera</strong> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-push-4"><p><%=stazione.getDataInizio()%></p> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>Data inizio attivit‡</strong> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-push-4"><p><%=stazione.getDataFine()%></p> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>Data fine attivit‡</strong> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-push-4"><p><%=stazione.getEnte().getEnte()%></p> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>Ente</strong> </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="container-fluid">
+
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <h2>Ubicazione</h2>
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getComune()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Comune</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getProvincia()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Provincia</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getRegione()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Regione</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getRegione()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Stato</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getLocIdro().getSottobacino()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Sottobacino</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getLocIdro().getBacino()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Bacino</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getQuota()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Quota</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getEsposizione()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Esposizione</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getCoordinate().getX()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Latitudine</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getCoordinate().getY()%></p> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>Longitudine</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getAttendibilita()%></p> </div>
+                                            <div class="col-md-4 col-md-pull-6"><strong>Affidabilit‡ Coordinate</strong> </div>
+                                        </div>   
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p> <%=stazione.getSito().getCaratteristiche_IT()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Morfologia sito</strong> </div>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="row">
+                                        <h2>Sensori</h2>
+                                        <div class="row">
+                                            <div class="col-md-9 col-md-push-4"><p>
+                                                    <%     StringBuilder sensori = new StringBuilder();
+                                                        if (stazione.getSensori().size() != 0) {
+                                                            sensori.append(stazione.getSensori().get(0).getSensori_IT());
+                                                            for (int i = 1; i < stazione.getSensori().size(); i++) {
+                                                                sensori.append("," + stazione.getSensori().get(i).getSensori_IT());
+                                                            }
+                                                        }
+
+
+                                                    %>
+                                                    <%=sensori.toString()%>            </p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>Danni</strong> </div>
+                                        </div>
+                                        <div class="row">
+                                            <h2>Note</h2>
+                                            <p><%=stazione.getNote()%>
+                                            </p>
+                                        </div>
+                                    </div>
+ </div>
+
+
+                                    <div class="col-md-7"> 
+                                        <div class="google-maps">
+                                            <div id="map-canvas" class="map-canvas" ></div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+                                </div> <!--fine parte centrale-->
+
+                                <div class="container-fluid">
+
+                                    <h2>Allegati</h2>
+                                    <div class="col-md-6"> 
+                                        <h3>Immagini</h3>
+                                        <% int i = 0;
+                                        if( stazione.getAllegati().size()!=0){
+           for (i = 0; i < stazione.getAllegati().size(); i++) {
+
+               if (stazione.getAllegati().get(i).getTipoAllegato().equals("image")) {%>
+                                        <ol>
+                                            <div class="col-md-12">
+                                                <div class="row" >
+
+                                                    <div class="col-md-6 col-md-push-4"><p ></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><li><strong><%=stazione.getAllegati().get(i).getTitolo()%></strong></li></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><p><%=stazione.getAllegati().get(i).getLinkFile()%></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getAnno()%></strong> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><p><%=stazione.getAllegati().get(i).getAutore()%></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getFonte()%></strong> </div>
+                                                </div>
+                                            </div>
+                                        </ol>
+                                        <%}
+            }} %>
+                                    </div>
+
+                                    <div class="col-md-7"> 
+                                        <h3>PDF</h3>
+                                        <%
+                                         if( stazione.getAllegati().size()!=0){
+                                         i = 0;
+       for (i = 0; i < stazione.getAllegati().size(); i++) {
+
+           if (stazione.getAllegati().get(i).getTipoAllegato().equals("document")) {%>
+                                        <ol>
+                                            <div class="col-md-12">
+                                                <div class="row" >
+
+                                                    <div class="col-md-6 col-md-push-4"><p ></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><li><strong><%=stazione.getAllegati().get(i).getTitolo()%></strong></li></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><a href="C:\Users\daler\Desktop\dario" > link </a> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getAnno()%></strong> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><p><%=stazione.getAllegati().get(i).getAutore()%></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getFonte()%></strong> </div>
+                                                </div>
+                                            </div>
+                                        </ol>
+                                        <%}
+            } }%>
+
+                                    </div>
+                                    <div class="col-md-5"> 
+                                        <h3>Link</h3>
+                                        <%
+                                          if( stazione.getAllegati().size()!=0){
+                                         i = 0;
+        for (i = 0; i < stazione.getAllegati().size(); i++) {
+
+            if (stazione.getAllegati().get(i).getTipoAllegato().equals("link")) {%>
+                                        <ol>
+                                            <div class="col-md-12">
+                                                <div class="row" >
+
+                                                    <div class="col-md-6 col-md-push-4"><p ></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><li><strong><%=stazione.getAllegati().get(i).getTitolo()%></strong></li></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><a href="C:\Users\daler\Desktop\dario" > link </a> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getAnno()%></strong> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-push-4"><p><%=stazione.getAllegati().get(i).getAutore()%></p> </div>
+                                                    <div class="col-md-5 col-md-pull-6"><strong><%=stazione.getAllegati().get(i).getFonte()%></strong> </div>
+                                                </div>
+                                            </div>
+                                        </ol>
+                                        <%}
+            }}%>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <jsp:include page="footer.jsp"></jsp:include>
+                </div>
+            
+
     </body>
 </html>

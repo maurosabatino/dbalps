@@ -21,10 +21,7 @@
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-<link rel="stylesheet" href="css/bootstrap-image-gallery.min.css">
-<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-<script src="js/bootstrap-image-gallery.min.js"></script>
+
 
         <style>
             .google-maps {
@@ -41,12 +38,7 @@
                 height: 100% !important;
             }
         </style>
-        <script>
-$( "a" ).click(function( event ) {
-  event.preventDefault();
-  window.location.href = this.href;
-});
-</script>
+        
     </head>
     <body>
         <div class ="container">
@@ -390,7 +382,7 @@ $( "a" ).click(function( event ) {
                             position: coord,
                             map: map,
                             title: 'stazione',
-                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/yellow.png")
+                            icon: new google.maps.MarkerImage("http://maps.google.com/mapfiles/ms/icons/blue.png")
                         });
                         var contentString = "nome:<%=processo.getNome()%> <br> comune: <%=processo.getUbicazione().getLocAmm().getComune()%> <br> data: <%=processo.getData()%><br><a href=\"Servlet?operazione=mostraProcesso&idProcesso=<%=processo.getIdProcesso()%>\">Report</a>";
                         var infowindow = new google.maps.InfoWindow({

@@ -45,7 +45,20 @@
                     
    
             </script> 
-
+ <script>
+        function elimina(arg) {
+            var domanda = confirm("Sei sicuro di voler cancellare?");
+            if (domanda === true) {
+     
+        $.ajax({            
+            url: 'Servlet',
+            type: 'POST',   
+            data: {operazione: 'eliminaStazione', idstazione:arg},
+            success: function () {
+               window.location.reload();
+            }
+        });}}
+    </script>
 
             <title>Visualizza processi</title>
         </head>
@@ -59,7 +72,7 @@
                     <div class="col-md-8"> 
                     
                         
-                        <table id="tabella" class="table table-striped table-bordered">
+                        <table id="tabella" class="table table-striped table-bordered table-condensed">
                             <thead>
                                 <tr> 
                                     <th>Nome</th>
@@ -97,16 +110,16 @@
                                     }
                                 %>
                                 <td><%=tipologia.toString()%></td>
-                                <td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button"><img alt="Brand" class="img-responsive" src="img/search-icon (32).png"></a></td>
+                                <td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button"><span class="fa fa-search" ></span></a></td>
                                         <% 
                                             if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
-                                <td> <a href="Servlet?operazione=mostraModificaProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button" ><img alt="Brand" class="img-responsive" src="img/edit-validated-icon.png"></a></td>
+                                <td> <a href="Servlet?operazione=mostraModificaProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button" ><span class="fa fa-wrench"></span></a></td>
                                         <%}%>
                                         <%
                                             if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
                                 <td> 
                                     <a id="buttonElimina" onclick="elimina(<%=p.getIdProcesso()%>)" role="button">
-                                        <img alt="Brand" class="img-responsive" src="img/delete-icon.png">
+                                        <span class="fa fa-times"></span>
                                     </a></td>
                                     <%}%>
                             </tr>

@@ -72,7 +72,7 @@
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
      <div class="col-md-8">
-         <table class="table  table-striped table-bordered" >
+         <table class="table  table-striped table-bordered table-condensed" >
          <thead>
              <%Utente part = (Utente) session.getAttribute("partecipante");
              ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) request.getAttribute("stazione");%>
@@ -104,9 +104,8 @@
             <%}%>              
 	</tbody>
      </table>
-        
+         </div>
       </div>
-    </div>
     
  
 </div>

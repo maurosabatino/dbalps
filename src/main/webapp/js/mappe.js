@@ -26,7 +26,7 @@ $(document).ready(function () {
     $("#showMap").click(function () {
         $("#map_container").dialog("open");
         map.setCenter(new google.maps.LatLng(coords.lat, coords.lng), 10);
-        google.maps.event.addListener(map, "rightclick", function (event) {
+        google.maps.event.addListener(map, "click", function (event) {
             var lat = event.latLng.lat();
             var lng = event.latLng.lng();
             document.getElementById("lati").value = lat;
