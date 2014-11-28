@@ -100,6 +100,12 @@
                                 <div class="row">
                                     <div class="col-md-9 col-md-push-4"><p>${stazione.aggregazioneGiornaliera}</p> </div>
                                     <div class="col-md-3 col-md-pull-9"><strong>aggregazione temporale</strong> </div>
+                                    
+                                </div>
+                                <div class="row"><a href="Servlet?operazione=mostraDatiClimaticiPrecipitazione&idStazione=<%=stazione.getIdStazioneMetereologica()%>" >${locale.getWord("datiPrecipitazione")}</a>
+                                    <a href="Servlet?operazione=mostraDatiClimaticiAvg&idStazione=<%=stazione.getIdStazioneMetereologica()%>" >${locale.getWord("datiAvg")} </a>
+                                    <a href="Servlet?operazione=mostraDatiClimaticiMin&idStazione=<%=stazione.getIdStazioneMetereologica()%>"  >${locale.getWord("datiMin")}</a>
+                                    <a href="Servlet?operazione=mostraDatiClimaticiMax&idStazione=<%=stazione.getIdStazioneMetereologica()%>"  >${locale.getWord("datiMax")}</a>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9 col-md-push-4"><p>${stazione.tipoAggregazione}</p> </div>

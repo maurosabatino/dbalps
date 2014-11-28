@@ -45,6 +45,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.bean.datoClimatico;
 
 import it.cnr.to.geoclimalp.dbalps.controller.*;
 import static it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso.dataFormattata;
@@ -888,7 +889,6 @@ public class Servlet extends HttpServlet {
             ArrayList<Grafici> g = (ArrayList<Grafici>) session.getAttribute("grafici");
             session.setAttribute("grafici", g);
             String titolo = request.getParameter("titolo");
-            session.removeAttribute("grafici");
             String test = "/" + titolo + ".csv";
             FileWriter outFile = new FileWriter(test, false);
             PrintWriter out = new PrintWriter(outFile);
@@ -1150,6 +1150,101 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         }
+        else if(operazione.equals("mostraDatiClimaticiPrecipitazione")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazione"));
+            ArrayList<datoClimatico> dati=ControllerDatabase.prendiDatiClimaticiPrecipitazioni(idStazione);
+            request.setAttribute("dati",dati);
+            request.setAttribute("id",idStazione);
+            String op="precipitazione";
+            request.setAttribute("op",op);
+            forward(request, response, "/dati.jsp");            
+        }
+        else if(operazione.equals("mostraDatiClimaticiAvg")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazione"));
+            ArrayList<datoClimatico> dati=ControllerDatabase.prendiDatiClimaticiAvg(idStazione);
+            request.setAttribute("dati",dati);
+            request.setAttribute("id",idStazione);
+            String op="avg";
+            request.setAttribute("op",op);
+            forward(request,response,"/dati.jsp");
+            
+        }
+        else if(operazione.equals("mostraDatiClimaticiMin")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazione"));
+            ArrayList<datoClimatico> dati=ControllerDatabase.prendiDatiClimaticiMin(idStazione);
+            request.setAttribute("dati",dati);
+            request.setAttribute("id",idStazione);
+            String op="min";
+            request.setAttribute("op",op);
+            forward(request,response,"/dati.jsp");
+            
+        }
+         else if(operazione.equals("mostraDatiClimaticiMax")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazione"));
+            ArrayList<datoClimatico> dati=ControllerDatabase.prendiDatiClimaticiMax(idStazione);
+            request.setAttribute("dati",dati);
+            request.setAttribute("id",idStazione);
+            String op="max";
+            request.setAttribute("op",op);
+
+            forward(request,response,"/dati.jsp");
+            
+        }else if(operazione.equals("scaricaDatiClimatici")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazione"));
+            String op=request.getParameter("op");
+             ArrayList<datoClimatico> dati=new ArrayList<datoClimatico> ();
+            if(op.equals("min"))    dati=ControllerDatabase.prendiDatiClimaticiMin(idStazione);
+            else if(op.equals("max")) dati=ControllerDatabase.prendiDatiClimaticiMax(idStazione);
+             else if(op.equals("avg")) dati=ControllerDatabase.prendiDatiClimaticiAvg(idStazione);
+             else if(op.equals("precipitazione")) dati=ControllerDatabase.prendiDatiClimaticiPrecipitazioni(idStazione);
+           
+            
+            String test = "/" + op + ".csv";
+            FileWriter outFile = new FileWriter(test, false);
+            PrintWriter out = new PrintWriter(outFile);
+            for (datoClimatico d : dati) {
+                            out.println("" + d.getDato() + ";"+d.getData()+";" );     
+                }
+              
+          
+            out.close();
+
+            File downloadFile = new File(test);
+            FileInputStream inStream = new FileInputStream(downloadFile);
+
+            // obtains ServletContext
+            ServletContext context = getServletContext();
+
+            // gets MIME type of the file
+            String mimeType = context.getMimeType(test);
+            if (mimeType == null) {
+                // set to binary type if MIME mapping not found
+                mimeType = "application/octet-stream";
+            }
+
+            // modifies response
+            response.setContentType(mimeType);
+            response.setContentLength((int) downloadFile.length());
+
+            // forces download
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+            response.setHeader(headerKey, headerValue);
+
+            // obtains response's output stream
+            OutputStream outStream = response.getOutputStream();
+
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = inStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
+
+            inStream.close();
+            outStream.close();
+        }
+
 
     }
 

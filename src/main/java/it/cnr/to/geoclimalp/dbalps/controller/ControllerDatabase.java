@@ -3008,4 +3008,85 @@ public class ControllerDatabase {
         conn.close();
        
     }
+    
+    public static ArrayList<datoClimatico> prendiDatiClimaticiPrecipitazioni(int idStazione) throws SQLException{
+        ArrayList<datoClimatico> dati= new ArrayList<datoClimatico>();
+                Connection conn = DriverManager.getConnection(url, usr, pwd);        
+
+        String query = "select * from precipitazione where idstazionemetereologica ="+idStazione+"";
+        PreparedStatement ps = conn.prepareStatement(query);
+        
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                datoClimatico d=new datoClimatico();
+            d.setDato(rs.getDouble("quantita"));
+            d.setData(rs.getTimestamp("data"));
+                dati.add(d);       
+        }
+        rs.close();
+        conn.close();
+        
+        return dati;
+    }
+     public static ArrayList<datoClimatico> prendiDatiClimaticiAvg(int idStazione) throws SQLException{
+        ArrayList<datoClimatico> dati= new ArrayList<datoClimatico>();
+                Connection conn = DriverManager.getConnection(url, usr, pwd);        
+
+        String query = "select * from temperatura_avg where idstazionemetereologica ="+idStazione+"";
+        PreparedStatement ps = conn.prepareStatement(query);
+        
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                datoClimatico d=new datoClimatico();
+            d.setDato(rs.getDouble("temperaturaavg"));
+            d.setData(rs.getTimestamp("data"));
+                dati.add(d);       
+        }
+        rs.close();
+        conn.close();
+        
+        return dati;
+    }
+     public static ArrayList<datoClimatico> prendiDatiClimaticiMin(int idStazione) throws SQLException{
+        ArrayList<datoClimatico> dati= new ArrayList<datoClimatico>();
+                Connection conn = DriverManager.getConnection(url, usr, pwd);        
+
+        String query = "select * from temperatura_min where idstazionemetereologica ="+idStazione+"";
+        PreparedStatement ps = conn.prepareStatement(query);
+        
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                datoClimatico d=new datoClimatico();
+            d.setDato(rs.getDouble("temperaturamin"));
+            d.setData(rs.getTimestamp("data"));
+                dati.add(d);       
+        }
+        rs.close();
+        conn.close();
+        
+        return dati;
+    }
+     public static ArrayList<datoClimatico> prendiDatiClimaticiMax(int idStazione) throws SQLException{
+        ArrayList<datoClimatico> dati= new ArrayList<datoClimatico>();
+                Connection conn = DriverManager.getConnection(url, usr, pwd);        
+
+        String query = "select * from temperatura_max where idstazionemetereologica ="+idStazione+"";
+        PreparedStatement ps = conn.prepareStatement(query);
+        
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                datoClimatico d=new datoClimatico();
+            d.setDato(rs.getDouble("temperaturamax"));
+            d.setData(rs.getTimestamp("data"));
+                dati.add(d);       
+        }
+        rs.close();
+        conn.close();
+        
+        return dati;
+    }
 }
