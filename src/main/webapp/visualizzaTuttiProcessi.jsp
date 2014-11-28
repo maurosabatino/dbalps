@@ -13,6 +13,8 @@
 <html>
 
     <head>
+        <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
+        <jsp:setProperty  name="locale" property="*"/>
           <!--CSS-->
             <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
             <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
@@ -53,13 +55,13 @@
         $.ajax({            
             url: 'Servlet',
             type: 'POST',   
-            data: {operazione: 'eliminaStazione', idstazione:arg},
+            data: {operazione: 'eliminaProcesso', idProcesso:arg},
             success: function () {
                window.location.reload();
             }
         });}}
     </script>
-
+    
             <title>Visualizza processi</title>
         </head>
         <body>
@@ -70,7 +72,8 @@
             <%Utente part = (Utente) session.getAttribute("partecipante");%>
 
                     <div class="col-md-8"> 
-                    
+                        <%ArrayList<Processo> processo = (ArrayList<Processo>) request.getAttribute("processo");%>
+                    <h2>${locale.getWord("allProcess")} (<%=processo.size()%>)</h2>
                         
                         <table id="tabella" class="table table-striped table-bordered table-condensed">
                             <thead>
@@ -84,13 +87,14 @@
                                     <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO)))){%>
                                     <th> Modifica</th>
                                     <th> Elimina</th>
+                                    <th> Allegati</th>
                                     <%}%>
                                 </tr>
                             </thead>
                             
                             <tbody>
                             <%
-                                ArrayList<Processo> processo = (ArrayList<Processo>) request.getAttribute("processo");
+                                
                                 for (Processo p : processo) {
                                     Calendar cal = Calendar.getInstance();
                                     cal.setTimeInMillis(p.getData().getTime());%>
@@ -110,21 +114,34 @@
                                     }
                                 %>
                                 <td><%=tipologia.toString()%></td>
-                                <td> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button"><span class="fa fa-search" ></span></a></td>
-                                        <% 
-                                            if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
-                                <td> <a href="Servlet?operazione=mostraModificaProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button" ><span class="fa fa-wrench"></span></a></td>
+                                
+                                <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE)))){%>
+                                <td class="text-center"> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button"><span class="fa fa-search" ></span></a></td>
+                                <%}else if(p.getAttributiProcesso().isPubblico()){%>
+                                   <td class="text-center"> <a href="Servlet?operazione=mostraProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button"><span class="fa fa-search" ></span></a></td>
+                                 <%}else{%>
+                                   <td></td>
+                                   <%}%>
+                                <% if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
+                                <td class="text-center"> <a href="Servlet?operazione=mostraModificaProcesso&idProcesso=<%=p.getIdProcesso()%>" role="button" ><span class="fa fa-edit"></span></a></td>
                                         <%}%>
-                                        <%
-                                            if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
-                                <td> 
+                                        <%if (part != null && (part.getRuolo().equals(Role.AMMINISTRATORE) || part.getRuolo().equals(Role.AVANZATO) || (part.getRuolo().equals(Role.BASE) && p.getAttributiProcesso().getIdUtente() == part.getIdUtente()))) {%>
+                                <td class="text-center"> 
                                     <a id="buttonElimina" onclick="elimina(<%=p.getIdProcesso()%>)" role="button">
                                         <span class="fa fa-times"></span>
                                     </a></td>
+                                     <%}%>
+                                    <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE)))){%>
+                                  <td class="text-center">
+                                        <a href="Servlet?operazione=mostraAllegatiProcesso&idProcesso=<%=p.getIdProcesso()%>" >
+                                            <span class="fa fa-paperclip"></span>
+                                        </a>
+                                    </td>
+                                   
                                     <%}%>
-                                <td> <a href="Servlet?operazione=mostraAllegatiProcesso&idProcesso=<%=p.getIdProcesso()%>" >allegati</a></td>
+                                  <%}%>
                             </tr>
-                            <%}%>   
+                              
 
                         </tbody>
                     </table>

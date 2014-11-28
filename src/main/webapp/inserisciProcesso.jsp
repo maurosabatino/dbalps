@@ -259,7 +259,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" name=" ${locale.getWord("tipoDanno")} " value="<%=tipoDanno%> "/>  <%=tipoDanno%>  
+                                            <input type="checkbox" name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/>  <%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
