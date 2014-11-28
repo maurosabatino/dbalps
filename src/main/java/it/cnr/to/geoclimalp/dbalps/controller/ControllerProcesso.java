@@ -319,12 +319,14 @@ public class ControllerProcesso {
     ArrayList<Danni> d = new ArrayList<>();
     String[] dtipo_it;
     String[] dtipo_eng;
+      System.out.println("danni inizio");
     if (loc.getLanguage().equals("it")) {
       if (!(request.getParameterValues("dtipo_IT") == null)) {
         dtipo_it = request.getParameterValues("dtipo_IT");
         for (int i = 0; i < dtipo_it.length; i++) {
           Danni da = new Danni();
           da.setIdDanni(ControllerDatabase.prendiIdDanni(dtipo_it[i], "IT"));
+          System.out.println("danni: "+da.getIdDanni());
           da.setTipo_IT(dtipo_it[i]);
           d.add(da);
         }
@@ -336,6 +338,7 @@ public class ControllerProcesso {
         for (int i = 0; i < dtipo_eng.length; i++) {
           Danni da = new Danni();
           da.setIdDanni(ControllerDatabase.prendiIdDanni(dtipo_eng[i], "ENG"));
+            System.out.println("danni: "+da.getIdDanni());
           da.setTipo_ENG(dtipo_eng[i]);
           d.add(da);
         }

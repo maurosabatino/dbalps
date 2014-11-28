@@ -307,6 +307,8 @@ public class ControllerDatabase {
                 ti.setNome_IT(rs.getString("nome_it"));
                 tipo.add(ti);
                 ap.setTipologiaProcesso(tipo);
+                ap.setPubblico(rs.getBoolean("pubblico"));
+                System.out.println("pubblico?"+ap.isPubblico());
                 p.setUbicazione(u);
                 p.setAttributiProcesso(ap);
                 al.add(p);
@@ -880,7 +882,7 @@ public class ControllerDatabase {
         int i = 0;
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("select iddanno from danno where tipo_" + loc + " = '" + danno + "'");
+        ResultSet rs = st.executeQuery("select iddanno from danno where tipo_"+loc +" = '"+ danno+"'");
         while (rs.next()) {
             i = rs.getInt("iddanno");
         }
