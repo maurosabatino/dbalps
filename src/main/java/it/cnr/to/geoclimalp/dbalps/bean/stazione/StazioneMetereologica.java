@@ -21,7 +21,7 @@ public class StazioneMetereologica {
 	public int idUtente;
         public String tipoAggregazione;
         public ArrayList<Allegato> allegati;
-	
+	public boolean pubblico;
 	public double distanzaProcesso;
 	
 	
@@ -38,6 +38,7 @@ public class StazioneMetereologica {
 		dataFine=null;
 		oraria=false;
 		distanzaProcesso=-1;
+                pubblico=false;
 	}
 	
 	public void setIdStazioneMetereologica(int stazione){
@@ -160,6 +161,14 @@ public class StazioneMetereologica {
     public void setAllegati(ArrayList<Allegato> allegati) {
         this.allegati = allegati;
     }
-        
 
+    public boolean getPubblico() {
+        return pubblico;
+    }
+
+    public void setPubblico(boolean pubblico) {
+        this.pubblico = pubblico;
+    }
+        
+    
 }

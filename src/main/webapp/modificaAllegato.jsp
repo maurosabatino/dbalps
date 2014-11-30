@@ -111,7 +111,7 @@
         <input type="hidden" name="operazione" value="modificaAllegatoSuDB">
         <div class="form-group">
         <div class="col-sm-10">
-         <button type="submit" class="btn btn-default">${locale.getWord("allega")}</button>
+         <button type="submit" class="btn btn-default">${locale.getWord("modifica")}</button>
         </div>
         </div>
 

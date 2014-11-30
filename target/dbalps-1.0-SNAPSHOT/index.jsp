@@ -18,6 +18,7 @@
                         <p id = "loginStatus"></p>
                         
                     </div>
+                    
                 </div>
                 <div class="row">
                 <jsp:include page="footer.jsp"></jsp:include>

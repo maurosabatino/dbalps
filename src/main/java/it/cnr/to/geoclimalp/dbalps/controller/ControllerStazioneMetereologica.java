@@ -35,6 +35,9 @@ public class ControllerStazioneMetereologica {
 		if(!(request.getParameter("tipoaggregazione").equals(""))){
                     s.setTipoAggregazione(request.getParameter("tipoaggregazione"));
                 }
+                if (!(request.getParameterValues("pubblico") == null)) {
+                     s.setPubblico(true);
+                }else s.setPubblico(false);
 		
 		return s;
 	}

@@ -91,8 +91,13 @@
         
             <tr> 
                 <td><%=s.getNome()%></td>  <td><%= s.getUbicazione().getLocAmm().getComune() %> </td><td><%= s.getUbicazione().getQuota() %> </td>
-                <td> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-search" ></span></td>
-                
+                <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO))||(part.getRuolo().equals(Role.BASE)))){%>
+                                <td class="text-center"> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-search" ></span></a></td>
+                                <%}else if(s.getPubblico()){%>
+                                   <td class="text-center"> <a href="Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-search" ></span></a></td>
+                 <%}else{%>
+                                   <td></td>
+                                   <%}%>
                 <% if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && s.getIdUtente()==part.getIdUtente()) )){%>
                         <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-wrench"></span></td>
                         <td> <a  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);" role="button">

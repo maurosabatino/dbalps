@@ -89,7 +89,12 @@
     </ul>
     <div class="divider"></div>
     <ul class="nav nav-sidebar">
-        <li><a href="#"> ${locale.getWord("documentazione")} </a></li>
+        <%if(session.getAttribute("loc").equals("en-US")){%>
+        <li><a href="Servlet?operazione=downloadAllegato&file=C:\glassfish4\glassfish\domains\dbalps\resources\dbalps_note_en.pdf"> ${locale.getWord("documentazione")} </a></li>
+        <%}else{%>
+       <li><a href="Servlet?operazione=downloadAllegato&file=C:\glassfish4\glassfish\domains\dbalps\resources\dbalps_note_it.pdf"> ${locale.getWord("documentazione")} </a></li>
+       <% }%>
+        
         <li><a href="#">Info</a></li>
     </ul>
 

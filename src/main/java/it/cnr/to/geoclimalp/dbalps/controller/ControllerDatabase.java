@@ -1150,7 +1150,7 @@ public class ControllerDatabase {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
 
-        String sql = "insert into stazione_metereologica  (nome,aggregazionegiornaliera,note,datainizio,datafine,idsitostazione,idente,idutentecreatore,tipoaggregazione,idubicazione) values(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into stazione_metereologica  (nome,aggregazionegiornaliera,note,datainizio,datafine,idsitostazione,idente,idutentecreatore,tipoaggregazione,idubicazione,pubblico) values(?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, s.getNome());
         ps.setString(2, s.getAggregazioneGiornaliera());
@@ -1170,6 +1170,7 @@ public class ControllerDatabase {
         ps.setInt(8, s.getIdUtente());
         ps.setString(9, s.getTipoAggregazione());
         ps.setInt(10, s.getUbicazione().getIdUbicazione());
+        ps.setBoolean(11, s.getPubblico());
 
         ps.executeUpdate();
 
@@ -1212,7 +1213,7 @@ public class ControllerDatabase {
             s.setAggregazioneGiornaliera(rs.getString("aggregazioneGiornaliera"));
             s.setNote(rs.getString("note"));
             s.setTipoAggregazione(rs.getString("tipoaggregazione"));
-
+            s.setPubblico(rs.getBoolean("pubblico"));
             //	s.setOraria(rs.getBoolean("oraria"));
             s.setDataInizio(rs.getString("datainizio"));
             s.setDataFine(rs.getString("datafine"));
@@ -1390,6 +1391,7 @@ public class ControllerDatabase {
             sito.setCaratteristiche_IT(rs.getString("caratteristiche_it"));
             sito.setCaratteristiche_ENG(rs.getString("caratteristiche_eng"));
             s.setSito(sito);
+            s.setPubblico(rs.getBoolean("pubblico"));
             s.setIdUtente(rs.getInt("idutentecreatore"));
             System.out.println("prende ente " + rs.getInt("idente"));
         }
@@ -1437,7 +1439,7 @@ public class ControllerDatabase {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
 
-        String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?,tipoaggregazione=? "
+        String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?,tipoaggregazione=?,pubblico=? "
                 + "where idStazioneMetereologica= ?";
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -1465,7 +1467,8 @@ public class ControllerDatabase {
 
         System.out.println("id stazione" + s.getIdStazioneMetereologica());
         ps.setInt(10, s.getIdStazioneMetereologica());
-        System.out.println("query: " + ps.toString());
+        ps.setBoolean(11, s.getPubblico());
+
         ps.executeUpdate();
 
         /*

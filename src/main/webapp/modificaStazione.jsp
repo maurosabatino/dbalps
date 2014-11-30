@@ -22,7 +22,13 @@
         
         <script>
             $("#ente").ready(function(){ 
-                $("#ente idente[1]").prop("selected", "selected"); }); </script>
+                $("#ente idente[1]").prop("selected", "selected");
+                 <%if(stazione.getPubblico()){%>
+                           $("#pubblico").prop('checked', true);
+                          
+                    <%}%>
+    
+    }); </script>
         
         <title>dbalps</title>
     </head>
@@ -184,7 +190,16 @@
                                         </p>
                                         
                                </div>
-                                <br><div class="wrapper">
+                                <br>
+                                 <div class="col-md-4">
+                                                    <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="pubblico" id="pubblico"/>${locale.getWord("pubblico")}
+                                                </label>
+                                            </div>
+                                                </div>
+                                <br>
+                                <div class="wrapper">
                                     <div class="content-main">
                                         <label for="note"> ${locale.getWord("note")} </label>
                                     </div>

@@ -177,7 +177,15 @@
                                                                             </p>
 
                                                                         </div>
-                                                                        <br><div class="wrapper">
+                                                                        <br>
+                                                                         <div class="col-md-4">
+                                                                         <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" name="pubblico"/>${locale.getWord("pubblico")}
+                                                                             </label>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="wrapper">
                                                                             <div class="content-main">
                                                                                 <label for="note"> ${locale.getWord("note")} </label>
                                                                             </div>

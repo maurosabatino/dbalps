@@ -308,10 +308,7 @@ public class Servlet extends HttpServlet {
 
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             //ControllerDatabase.salvaUbicazione(u);
-            System.out.println("id3= " + u.getIdUbicazione());
-
             Utente part = (Utente) session.getAttribute("partecipante");
-
             StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
             s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
             String enteVecchio = request.getParameter("enteVecchio");
@@ -698,7 +695,9 @@ public class Servlet extends HttpServlet {
             response.setHeader("Cache-Control", "no-cache, no-store");
             response.setHeader("Pragma", "no-cache");
             request.getSession().invalidate();
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            if(loc.equals("en-US"))
+            response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
+            else response.sendRedirect(request.getContextPath() + "/indexIT.jsp");
         } else if (operazione.equals("visualizzaTuttiUtenti")) {
             ArrayList<Utente> utenti = ControllerDatabase.PrendiTuttiUtenti();
             request.setAttribute("utenti", utenti);
@@ -1099,7 +1098,9 @@ public class Servlet extends HttpServlet {
 
         }  else if (operazione.equals("ricaricaJson")) {
             ControllerJson.creaJson(path);
-            forward(request, response, "/index.jsp");
+            if(loc.equals("en-US"))
+            forward(request, response, "/indexENG.jsp");
+            else forward(request, response, "/indexIT.jsp");
         } else if (operazione.equals("changeLanguage")) {
             loc = request.getParameter("loc");
             locale = new ControllerLingua(Locale.forLanguageTag(loc));
@@ -1243,6 +1244,7 @@ public class Servlet extends HttpServlet {
 
             inStream.close();
             outStream.close();
+           
         }
 
 

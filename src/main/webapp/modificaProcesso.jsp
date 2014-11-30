@@ -40,8 +40,16 @@
                     %>
                     <script>
                 $(document).ready(function(){
+                    <% 
+                        String f=Integer.toString(p.getFormatoData());
+                   
+                    %>
+                      <%       if(f.charAt(2)=='1'){%>
                     $("#giorno").val(<%=cal.get(Calendar.DAY_OF_MONTH)%>);
+                    <%}%>
+                       <% if(f.charAt(1)=='1'){%>
                     $("#mese").val(<%=cal.get(Calendar.MONTH)+1%>);
+                     <%}%>
                     $("#esposizione").val('${processo.ubicazione.esposizione}');
                     $("#attendibilita").val('${processo.ubicazione.attendibilita}');
                     $("#gradoDanno").val('${processo.attributiProcesso.gradoDanno}');
@@ -57,10 +65,15 @@
                           $("#<%=ef.getTipo_IT()%>").prop('checked', true);
                     <%}%>
                         
+                         <%if(p.getAttributiProcesso().isPubblico()){%>
+                           $("#pubblico").prop('checked', true);
+                          
+                    <%}%>
+                        
                 });
                 
             </script>
-                    <form id="insertProcesso" action="Servlet" id="insertProcesso"  method="POST" role="form">
+                    <form id="insertProcesso" action="Servlet"   method="POST" role="form">
                         <div class="panel panel-default"> 
                             <div class="panel-body"> 
                                 <h4> ${locale.getWord("titoloProcesso")} </h4>
@@ -75,8 +88,14 @@
                                    
                                     <div class="row">
                                         <div class="col-xs-6 col-md-3">
-                                            <label for="anno">Anno</label>
+                                           
+                                             <% if(f.charAt(0)=='1'){ System.out.println("sono entrato");%>
+                                              <label for="anno">Anno</label>
                                             <input type="text" id="anno" name="anno" class="form-control" value="<%=cal.get(Calendar.YEAR)%>">
+                                            <%}else{%>
+                                             <label for="anno">Anno</label>
+                                            <input type="text" id="anno" name="anno" class="form-control" >
+                                            <%}%>
                                         </div>
 
                                         <div class="col-xs-6 col-md-3">
@@ -355,6 +374,19 @@
 
                                         </div>
                                     </div> </div>
+                                            <div class="row">
+                                                    <div class="col-md-8">
+                                                        <label for="fonte"> ${locale.getWord("fonte")} </label>
+                                                        <input type="text" id="fonte" name="fonte" class="form-control" placeholder=" ${locale.getWord("fonte")} " value="${processo.attributiProcesso.fonte}" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="pubblico" id="pubblico"/>${locale.getWord("pubblico")}
+                                                </label>
+                                            </div>
+                                                </div>
+                                                </div>    
 
                                 <br><div class="wrapper">
                                     <div class="content-main">
