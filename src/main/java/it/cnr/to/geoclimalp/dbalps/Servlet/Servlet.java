@@ -1031,7 +1031,7 @@ public class Servlet extends HttpServlet {
                     urlWeb = request.getParameter("urlWeb");
                     note = request.getParameter("note");
                     tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoProcesso(idProcesso, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, f.getAbsolutePath());
+                    ControllerDatabase.salvaAllegatoProcesso(idProcesso, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\" + "allegatiProcesso\\" + "" + p.getNome() + "");
                 }
             }
             String content = "<h5>allegato il file per il proceso: " + p.getNome() + "</h5>";
@@ -1088,7 +1088,7 @@ public class Servlet extends HttpServlet {
                     urlWeb = request.getParameter("urlWeb");
                     note = request.getParameter("note");
                     tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoStazione(idstazione, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, f.getAbsolutePath());
+                    ControllerDatabase.salvaAllegatoStazione(idstazione, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\"+ "allegatiStazione\\" + "" + sm.getNome() + "");
                 }
             }
             String content = "<h5>allegato il file per la stazione: " + sm.getNome() + "</h5>";
