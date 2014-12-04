@@ -6,6 +6,8 @@
 package it.cnr.to.geoclimalp.dbalps.bean;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.sql.Timestamp;
  */
 public class datoClimatico {
 	double dato;
-	Timestamp data;
+	Calendar data;
 
     public double getDato() {
         return dato;
@@ -23,21 +25,18 @@ public class datoClimatico {
         this.dato = dato;
     }
 
-    public Timestamp getData() {
+    public Calendar getData() {
         return data;
     }
 
-    public void setData(Timestamp data) {
+    public void setData(Calendar data) {
         this.data = data;
     }
 
-    public datoClimatico(double dato, Timestamp data) {
-        this.dato = dato;
-        this.data = data;
-    }
+    
      public datoClimatico() {
         this.dato = -9999;
-        this.data = new Timestamp(0);
+        this.data = new GregorianCalendar();
     }
         
 }

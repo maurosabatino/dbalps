@@ -3026,7 +3026,9 @@ public class ControllerDatabase {
         while (rs.next()) {
                 datoClimatico d=new datoClimatico();
             d.setDato(rs.getDouble("quantita"));
-            d.setData(rs.getTimestamp("data"));
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(rs.getTimestamp("data").getTime());
+            d.setData(cal);
                 dati.add(d);       
         }
         rs.close();
@@ -3046,7 +3048,9 @@ public class ControllerDatabase {
         while (rs.next()) {
                 datoClimatico d=new datoClimatico();
             d.setDato(rs.getDouble("temperaturaavg"));
-            d.setData(rs.getTimestamp("data"));
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(rs.getTimestamp("data").getTime());
+            d.setData(cal);
                 dati.add(d);       
         }
         rs.close();
@@ -3066,7 +3070,9 @@ public class ControllerDatabase {
         while (rs.next()) {
                 datoClimatico d=new datoClimatico();
             d.setDato(rs.getDouble("temperaturamin"));
-            d.setData(rs.getTimestamp("data"));
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(rs.getTimestamp("data").getTime());
+            d.setData(cal);
                 dati.add(d);       
         }
         rs.close();
@@ -3086,7 +3092,9 @@ public class ControllerDatabase {
         while (rs.next()) {
                 datoClimatico d=new datoClimatico();
             d.setDato(rs.getDouble("temperaturamax"));
-            d.setData(rs.getTimestamp("data"));
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(rs.getTimestamp("data").getTime());
+            d.setData(cal);
                 dati.add(d);       
         }
         rs.close();
