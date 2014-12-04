@@ -2892,6 +2892,7 @@ public class ControllerDatabase {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         int idAllegato = salvaAllegato(idUtente, autore, anno, titolo, in, fonte, urlWeb, note, tipo, absolutePath);
         String query = "insert into allegati_stazione(idstazione,idallegati) values(?,?)";
+        System.out.println(""+query);
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, idstazione);
         ps.setInt(2, idAllegato);

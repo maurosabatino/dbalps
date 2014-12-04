@@ -802,59 +802,59 @@ public class HTMLStazioneMetereologica {
 		
 		StazioneMetereologica sm = ControllerDatabase.prendiStazioneMetereologica(idstazione);
 		sb.append("<form class=\"form-horizontal\" action=\"Servlet\" name=\"dati\" method=\"POST\" enctype=\"multipart/form-data\" >");
-		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>${locale.getWord(\"allegaFileAStazione\")} "+sm.getNome()+"</h4>");
+		sb.append("<div class=\"panel panel-default\"> <div class=\"panel-body\"> <h4>"+locale.getWord("allegaFileAStazione")+" "+sm.getNome()+"</h4>");
 		sb.append("<br>");
-		 sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"autore\" class=\"col-sm-2 control-label\">${locale.getWord(\"autore\")}</label>");
+sb.append("<div class=\"form-group\">");
+        sb.append("<label for=\"autore\" class=\"col-sm-2 control-label\">"+locale.getWord("autore")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"autore\" id=\"autore\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"anno\" class=\"col-sm-2 control-label\">${locale.getWord(\"anno\")}</label>");
+        sb.append("<label for=\"anno\" class=\"col-sm-2 control-label\">"+locale.getWord("anno")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"anno\" id=\"anno\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"titolo\" class=\"col-sm-2 control-label\">${locale.getWord(\"titolo\")}</label>");
+        sb.append("<label for=\"titolo\" class=\"col-sm-2 control-label\">"+locale.getWord("titolo")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"titolo\" id=\"titolo\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"in\" class=\"col-sm-2 control-label\">${locale.getWord(\"in\")}</label>");
+        sb.append("<label for=\"in\" class=\"col-sm-2 control-label\">"+locale.getWord("in")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"in\" id=\"in\" class=\"form-control\">");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"fonte\" class=\"col-sm-2 control-label\">${locale.getWord(\"fonte\")}</label>");
+        sb.append("<label for=\"fonte\" class=\"col-sm-2 control-label\">"+locale.getWord("fonte")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"fonte\" id=\"fonte\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"urlWeb\" class=\"col-sm-2 control-label\">${locale.getWord(\"urlDelSito\")}</label>");
+        sb.append("<label for=\"urlWeb\" class=\"col-sm-2 control-label\">"+locale.getWord("urlDelSito")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"urlWeb\" id=\"urlWeb\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"note\" class=\"col-sm-2 control-label\">${locale.getWord(\"note\")}</label>");
+        sb.append("<label for=\"note\" class=\"col-sm-2 control-label\">"+locale.getWord("note")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"text\" name=\"note\" id=\"note\" class=\"form-control\" >");
         sb.append("</div>");
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"tipo\" class=\"col-sm-2 control-label\">${locale.getWord(\"tipo\")}</label>");
+        sb.append("<label for=\"tipo\" class=\"col-sm-2 control-label\">"+locale.getWord("tipo")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<select class=\"form-control\" name=\"tipo\" id=\"tipo\">");
         sb.append("<option value=\"document\">Document</option>");
@@ -866,7 +866,7 @@ public class HTMLStazioneMetereologica {
         sb.append("</div>");
 
         sb.append("<div class=\"form-group\">");
-        sb.append("<label for=\"uploadFile\" class=\"col-sm-2 control-label\">${locale.getWord(\"caricaFile\")}</label>");
+        sb.append("<label for=\"uploadFile\" class=\"col-sm-2 control-label\">"+locale.getWord("caricaFile")+"</label>");
         sb.append("<div class=\"col-sm-10\">");
         sb.append("<input type=\"file\" name=\"uploadFile\" id=\"uploadFile\" class=\"form-control\" >");
         sb.append("</div>");
@@ -876,7 +876,7 @@ public class HTMLStazioneMetereologica {
 		sb.append("<input type=\"hidden\" name=\"operazione\" value=\"uploadAllegatoStazione\">");
 		sb.append("<div class=\"form-group\">");
 		sb.append("<div class=\"col-sm-10\">");
-		sb.append(" <button type=\"submit\" class=\"btn btn-default\">${locale.getWord(\"allega\")}</button>");
+		sb.append(" <button type=\"submit\" class=\"btn btn-default\">"+locale.getWord("allega")+"</button>");
 		sb.append("</div>");
 		sb.append("</div>");
 		

@@ -81,7 +81,7 @@
                  <%if(part!=null){
                     if( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)){
                     %>
-                 <th> Modifica</th>   <th> Elimina</th> </tr>
+                 <th> Modifica</th>   <th> Elimina</th> <th> Allega</th> </tr>
              <%}}%>
 	</thead>
        
@@ -102,7 +102,10 @@
                         <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-wrench"></span></td>
                         <td> <a  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);" role="button">
                                 <span class="fa fa-times"></span>
-                        </a></td>
+                        </a> </td>
+
+                        <td> <a href="Servlet?operazione=allegatiStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-paperclip"></span></a></td>
+
                  <%}%> 
                 
            </tr>

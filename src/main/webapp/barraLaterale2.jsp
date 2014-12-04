@@ -1,4 +1,3 @@
-
 <%@page import="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua"%>
 <%@page import="java.util.Locale"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
@@ -89,12 +88,11 @@
     </ul>
     <div class="divider"></div>
     <ul class="nav nav-sidebar">
-        <%if(session.getAttribute("loc")!=null && session.getAttribute("loc").equals("en-US")){%>
+         <%if(session.getAttribute("loc")!=null && session.getAttribute("loc").equals("en-US")){%>
         <li><a href="Servlet?operazione=downloadAllegato&file=C:\glassfish4\glassfish\domains\dbalps\resources\dbalps_note_en.pdf"> ${locale.getWord("documentazione")} </a></li>
         <%}else{%>
        <li><a href="Servlet?operazione=downloadAllegato&file=C:\glassfish4\glassfish\domains\dbalps\resources\dbalps_note_it.pdf"> ${locale.getWord("documentazione")} </a></li>
        <% }%>
-        
         <li><a href="#">Info</a></li>
     </ul>
 
@@ -154,7 +152,6 @@
     $("#login_form").submit(function () {
             //remove previous class and add new "myinfo" class
             $("#msgbox").removeClass().addClass('text-info').text('Validating Your Login ').fadeIn(1000);
-
             this.timer = setTimeout(function () {
                 $.ajax({
                     url: 'Servlet',
@@ -166,7 +163,6 @@
                                     function () {
                                         location.reload();
                                     });
-
                         } else {
                             $("#msgbox").fadeTo(200, 0.1,
                                     function () {
@@ -180,7 +176,6 @@
         });
    
         
-
         $("#buttonIT").click(function () {
             $.ajax({
                 url: 'Servlet',
@@ -201,11 +196,9 @@
                 }
             });
         });
-
         $("#home").click(function () {
             window.location = 'index.jsp';
         });
-
         
         $("#logout").click(function () {
             $.ajax({
@@ -217,6 +210,5 @@
                 }
             });
         });
-
   
 </script>
