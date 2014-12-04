@@ -991,7 +991,7 @@ public class Servlet extends HttpServlet {
             int idprocesso = Integer.parseInt(request.getParameter("idprocesso"));
             Utente part = (Utente) session.getAttribute("partecipante");
 
-            String content = HTMLProcesso.formAllegatoProcesso(idprocesso, part);
+            String content = HTMLProcesso.formAllegatoProcesso(idprocesso, part,locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -1245,6 +1245,16 @@ public class Servlet extends HttpServlet {
             inStream.close();
             outStream.close();
            
+        }else if(operazione.equals("allegatiStazione")){
+            int idStazione=Integer.parseInt(request.getParameter("idStazioneMetereologica"));
+            ArrayList<Allegato> allegati=ControllerDatabase.cercaAllegatoStazione(idStazione);
+            request.setAttribute("allegati",allegati);
+             forward(request, response, "/allegatiProcesso.jsp");
+        }else if(operazione.equals("visualizzaAllegato")){
+              int idAllegato=Integer.parseInt(request.getParameter("idAllegato"));
+               Allegato allegato=ControllerDatabase.cercaAllegato(idAllegato);
+               request.setAttribute("allegato",allegato);
+             forward(request, response, "/allegato.jsp");
         }
 
 

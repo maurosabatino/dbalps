@@ -15,18 +15,38 @@
 <html>
 
 <head>
-   <jsp:include page="import.jsp"></jsp:include>
+   <!--CSS-->
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+            <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+            <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css"/>
+            <link rel="stylesheet" type="text/css" href="css/layout.css"/>
 
-    <script type="text/javascript">
-	$(function() {
-		$("table").tablesorter({
-                            debug: true,
-                            sortList: [[0,0]]
-                            });
-                        
-                
-	});
-	</script>
+
+            <!--JAVASCRIPT-->
+
+
+           <script src ="js/jquery-1.11.1.min.js"></script>
+           <script src="js/bootstrap.js"></script>
+            <script src ="js/jquery.dataTables.min.js"></script>
+            <script src ="js/dataTables.bootstrap.js"></script> 
+       
+
+       <script>
+                $(document).ready(function () {
+                    
+                    $('#tabella').dataTable({
+                        "language": {
+                        "lengthMenu": "Display _MENU_ process per page",
+                        "zeroRecords": "Nothing found - sorry",
+                        "info": "Showing page _PAGE_ of _PAGES_ ",
+                        "infoEmpty": "No process available",
+                        "infoFiltered": "(filtered from _MAX_ total process)"
+                    }
+                    });
+                });
+                    
+   
+            </script>
         <script>
         function elimina(arg) {
             var domanda = confirm("Sei sicuro di voler cancellare?");
@@ -44,7 +64,7 @@
        
    
     
-<title>Visualizza stazioni</title>
+<title>dbalps</title>
 </head>
 <body>
   <div class ="container">
@@ -53,11 +73,12 @@
        <div class="row">
       <jsp:include page="barraLaterale.jsp"></jsp:include>
      <div class="col-md-8">
-         <table class="table tablesorter" >
+       
+             <table id="tabella" class="table table-striped table-bordered table-condensed">
          <thead>
             
              
-             <tr> <th>Titolo </th><th>Tipo </th> <th>Dettagli </th> <th> Modifica</th> 
+             <tr> <th>Titolo </th><th>Tipo </th> <th>Dettagli </th> <th> Modifica</th>  </tr>
                 
 	</thead>
        
@@ -68,11 +89,11 @@
 
         
             <tr> 
-                 <tr> 
+                 
                                 <td><%=a.getTitolo()%> </td>
                                 <td><%=a.getTipoAllegato()%></td>
-                               <td> <a href="Servlet?operazione=visualizzaAllegato&idAllegato=<%=a.getId()%>" >dettagli</a></td>
-                               <td> <a href="Servlet?operazione=modificaAllegato&idAllegato=<%=a.getId()%>" >modifica</a></td>
+                               <td> <a href="Servlet?operazione=visualizzaAllegato&idAllegato=<%=a.getId()%>" ><span class="fa fa-search" ></span></a></td>
+                               <td> <a href="Servlet?operazione=modificaAllegato&idAllegato=<%=a.getId()%>" ><span class="fa fa-edit"></span></a></td>
                              
                                 
                             </tr>
@@ -80,22 +101,7 @@
                         
 	</tbody>
      </table>
-        <div class="col-md-offset-2">
-        <div id="pager" class="pager">
-		<img src="img/first.png" class="first"/>
-		<img src="img/prev.png" class="prev"/>
-                
-		<input type="text" class="pagedisplay"/>
-		<img src="img/next.png" class="next"/>
-		<img src="img/last.png" class="last"/>
-		<select class="pagesize">
-			<option selected="selected"  value="10">10</option>
-			<option value="30">25</option>
-			<option  value="40">50</option>
-		</select>
-	
-        </div>
-        </div>
+        
       </div>
     </div>
     
