@@ -67,7 +67,6 @@
                         
                          <%if(p.getAttributiProcesso().isPubblico()){%>
                            $("#pubblico").prop('checked', true);
-                          
                     <%}%>
                         
                 });
@@ -329,7 +328,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" id="<%=tipoDanno%> " name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/><%=tipoDanno%>  
+                                            <input type="checkbox" id="<%=tipoDanno%>" name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/><%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
@@ -342,7 +341,7 @@
                                                     } else {
                                                         effMorfologici = em.getTipo_ENG();
                                                     }%>
-                                            <input type="checkbox" id="<%=effMorfologici%>" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
+                                            <input type="checkbox" id="<%=effMorfologici%>" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/><%=effMorfologici%>  
                                             <%}%>
                                         </p>
                                         <br><div class="row">
@@ -351,9 +350,9 @@
                                                 <select class="form-control" name="gradoDanno" id="gradoDanno">
                                                     <option value=""></option>
                                                     
-                                                    <option value=" ${locale.getWord("danneggiato")} "> ${locale.getWord("danneggiato")} </option>
-                                                    <option value=" ${locale.getWord("distrutto")} "> ${locale.getWord("distrutto")} </option>
-                                                    <option value=" ${locale.getWord("minacciato")} "> ${locale.getWord("minacciato")} </option>
+                                                    <option value=danneggiato"> ${locale.getWord("danneggiato")} </option>
+                                                    <option value="distrutto"> ${locale.getWord("distrutto")} </option>
+                                                    <option value="minacciato"> ${locale.getWord("minacciato")} </option>
                                                 </select>
                                             </div>
                                         </div>

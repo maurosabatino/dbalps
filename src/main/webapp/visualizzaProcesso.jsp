@@ -45,7 +45,7 @@
 
             <div class="row">
             <jsp:include page="barraLaterale.jsp"></jsp:include>
-                <div class="col-md-8 ">
+                <div class="col-md-8 ">  
 
 
 

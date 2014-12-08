@@ -37,7 +37,7 @@
 
                 <div class="row"> 
                 <jsp:include page="barraLaterale.jsp"></jsp:include>
-                  
+                  <div class="col-md-8 ">
                      <form class="form-horizontal" action="Servlet" name="dati" method="POST" enctype="multipart/form-data" >
         <div class="panel panel-default"> <div class="panel-body"> <h4>allegato</h4></div>
         <br>
@@ -117,7 +117,7 @@
 
         </div>
         </form>
-                      
+                </div>     
                 </div>
             </div>
             <div class="row">
