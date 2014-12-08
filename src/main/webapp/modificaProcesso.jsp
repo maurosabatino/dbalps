@@ -89,7 +89,7 @@
                                     <div class="row">
                                         <div class="col-xs-6 col-md-3">
                                            
-                                             <% if(f.charAt(0)=='1'){ System.out.println("sono entrato");%>
+                                             <% if(f.charAt(0)=='1'){%>
                                               <label for="anno">Anno</label>
                                             <input type="text" id="anno" name="anno" class="form-control" value="<%=cal.get(Calendar.YEAR)%>">
                                             <%}else{%>
@@ -121,6 +121,21 @@
                                                 <input type="text" id="ora" name="ora"  class="form-control" placeholder=" ${locale.getWord("ora")} " value="<%=cal.get(Calendar.HOUR_OF_DAY)%>:<%=cal.get(Calendar.MINUTE)%>"/>
                                             </div> 
                                        
+                                    </div>
+                                            <br>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-4">
+                                            <label for="supeficieaccumulo">${locale.getWord("superficieaccumulo")}</label>
+                                            <input type="text" name="superficieaccumulo" id="superficieaccumulo" class="form-control" placeholder="${locale.getWord("superficieaccumulo")}" value="${processo.attributiProcesso.superficieAccumulo}"/>
+                                        </div>
+                                        <div class="col-xs-6 col-md-4">
+                                            <label for="volumeaccumulo"> ${locale.getWord("volumeaccumulo")}</label>
+                                            <input type="text" name="volumeaccumulo" id="volumeaccumulo" class="form-control" placeholder="${locale.getWord("volumeaccumulo")}" value="${processo.attributiProcesso.volumeAccumulo}">
+                                        </div>
+                                        <div class="col-xs-6 col-md-4">
+                                            <label for="runout">${locale.getWord("runout")}</label>
+                                            <input type="text" name="runout" id="runout" class="form-control" placeholder="${locale.getWord("runout")}" value="${processo.attributiProcesso.runout  }">
+                                        </div>
                                     </div>
                                     <br>
                                     <div class="row">
@@ -271,14 +286,14 @@
                                                 <label for="esposizione"> ${locale.getWord("esposizione")} </label> 
                                                 <select class="form-control" name="esposizione" id="esposizione">
                                                     <option value=""></option>
-                                                    <option value=" ${locale.getWord("n")} "> ${locale.getWord("n")} </option>
-                                                    <option value=" ${locale.getWord("ne")} "> ${locale.getWord("ne")} </option>
-                                                    <option value=" ${locale.getWord("e")} "> ${locale.getWord("e")} </option>
-                                                    <option value=" ${locale.getWord("se")} "> ${locale.getWord("se")} </option>
-                                                    <option value=" ${locale.getWord("s")} "> ${locale.getWord("s")} </option>
-                                                    <option value=" ${locale.getWord("so")} "> ${locale.getWord("so")} </option>
-                                                    <option value=" ${locale.getWord("o")} "> ${locale.getWord("o")} </option>
-                                                    <option value=" ${locale.getWord("no")} "> ${locale.getWord("no")} </option>
+                                                    <option value="n"> ${locale.getWord("n")} </option>
+                                                    <option value="ne"> ${locale.getWord("ne")} </option>
+                                                    <option value="e"> ${locale.getWord("e")} </option>
+                                                    <option value="se"> ${locale.getWord("se")} </option>
+                                                    <option value="s"> ${locale.getWord("s")} </option>
+                                                    <option value="so"> ${locale.getWord("so")} </option>
+                                                    <option value="o"> ${locale.getWord("o")} </option>
+                                                    <option value="no"> ${locale.getWord("no")} </option>
                                                     
                                                 </select>
                                             </div>
@@ -288,9 +303,9 @@
                                                 <label for="attendibilita"> ${locale.getWord("attendibilita")} </label> 
                                                 <select class="form-control" name="attendibilita" id="attendibilita">
                                                     <option value=""></option>
-                                                    <option value=" ${locale.getWord("puntuale")} "> ${locale.getWord("puntuale")} </option>
-                                                    <option value=" ${locale.getWord("areale")} "> ${locale.getWord("areale")} </option>
-                                                    <option value=" ${locale.getWord("indicativa")} "> ${locale.getWord("indicativa")} </option>
+                                                    <option value="puntuale"> ${locale.getWord("puntuale")} </option>
+                                                    <option value="areale"> ${locale.getWord("areale")} </option>
+                                                    <option value="indicativa"> ${locale.getWord("indicativa")} </option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
@@ -314,7 +329,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" id="<%=tipoDanno%> " name=" ${locale.getWord("tipoDanno")} " value="<%=tipoDanno%> "/>  <%=tipoDanno%>  
+                                            <input type="checkbox" id="<%=tipoDanno%> " name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/><%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
@@ -393,7 +408,7 @@
                                         <label for="note"> ${locale.getWord("note")} </label>
                                     </div>
                                     <div class="content-secondary">
-                                        <textarea rows="5" cols="100" name="note" id="note" class="textarea" placeholder="Note">${processo.attributiProcesso.descrizione}</textarea>
+                                        <textarea rows="5" cols="100" name="note" id="note" class="textarea" placeholder="Note">${processo.attributiProcesso.note}</textarea>
                                     </div>
                                 </div>
                                 <input type="hidden" name="idProcesso" value="${processo.idProcesso}"/>

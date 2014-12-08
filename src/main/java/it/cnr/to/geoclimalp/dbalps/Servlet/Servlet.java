@@ -1,12 +1,8 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
 import com.google.gson.Gson;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
-
 import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +20,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,9 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-
 import org.jasypt.util.password.StrongPasswordEncryptor;
-
 import it.cnr.to.geoclimalp.dbalps.bean.Dati;
 import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
 import it.cnr.to.geoclimalp.dbalps.bean.HTMLContent;
@@ -46,13 +39,8 @@ import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
 import it.cnr.to.geoclimalp.dbalps.bean.datoClimatico;
-
 import it.cnr.to.geoclimalp.dbalps.controller.*;
-import static it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso.dataFormattata;
-import static it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso.shortenUrl;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
 import static java.lang.Integer.parseInt;
 import javax.servlet.ServletOutputStream;
 
@@ -60,18 +48,16 @@ import javax.servlet.ServletOutputStream;
  * Servlet implementation class Servlet
  */
 @MultipartConfig
-@WebServlet(name = "Servlet", urlPatterns = {"/Servlet"})
 public class Servlet extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
-    static StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+    static StrongPasswordEncryptor passwordEncryptor; 
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Servlet() {
         super();
-        // TODO Auto-generated constructor stub
+        passwordEncryptor = new StrongPasswordEncryptor();
     }
 
     /**
@@ -79,16 +65,11 @@ public class Servlet extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+       try {
             processRequest(request, response);
         } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -100,21 +81,14 @@ public class Servlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException e) {
-            e.printStackTrace();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         String operazione = request.getParameter("operazione");
         String path = System.getProperty("catalina.base") + "\\resources\\";
-        System.out.println(path);
         String loc;
         ControllerLingua locale;
         HttpSession session = request.getSession();
@@ -125,11 +99,9 @@ public class Servlet extends HttpServlet {
             session.setAttribute("loc", loc);
         } else {
             loc = (String) session.getAttribute("loc");
-
             locale = new ControllerLingua(Locale.forLanguageTag(loc));
             session.setAttribute("locale", locale);
         }
-
         System.out.println("operazione eseguita: " + operazione);
         /*
          * Processo
@@ -137,44 +109,16 @@ public class Servlet extends HttpServlet {
         if (operazione.equals("formInserisciProcesso")) {
             forward(request, response, "/inserisciProcesso.jsp");
         } else if (operazione.equals("inserisciProcesso")) {
-
-            Utente user = (Utente) session.getAttribute("partecipante");
-            Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
-            String op = "inserito processo";
-            ControllerUtente.aggiornaTracciaProcesso(user, p, op);
-
-            String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            inserisciProcesso(request,response,session,locale);
         } else if (operazione.equals("mostraProcesso")) {
             int idProcesso = Integer.parseInt(request.getParameter("idProcesso"));
-            Processo processo = ControllerDatabase.prendiProcesso(idProcesso);
-            Ubicazione ubicazione = processo.getUbicazione();
-            System.out.println(" pre allegati");
-
-            ArrayList<Allegato> allegati = ControllerDatabase.cercaAllegatoProcesso(idProcesso);
-            System.out.println("allegati");
-
-            request.setAttribute("ubicazione", ubicazione);
-            System.out.println("ubicazione");
-            processo.getAttributiProcesso().setAllegati(allegati);
-            request.setAttribute("processo", processo);
-            System.out.println("processo");
-
-            forward(request, response, "/visualizzaProcesso.jsp");
-
+            mostraProcesso(request,response,idProcesso);
         } else if (operazione.equals("mostraTuttiProcessi")) {
             ArrayList<Processo> processo = ControllerDatabase.prendiTuttiProcessi();
             request.setAttribute("processo", processo);
             forward(request, response, "/visualizzaTuttiProcessi.jsp");
-
         } else if (operazione.equals("mostraTuttiProcessiModifica")) {
-            Utente part = (Utente) session.getAttribute("partecipante");
-            ArrayList<Processo> processo = ControllerDatabase.prendiTuttiProcessi();
-            request.setAttribute("processo", processo);
-            forward(request, response, "/visualizzaTuttiProcessi.jsp");
+            mostraTuttiProcessi(request,response,session);
         } else if (operazione.equals("queryProcesso")) {
             String content = HTMLProcesso.listaQueryProcesso();
             HTMLContent c = new HTMLContent();
@@ -182,14 +126,12 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("formCercaProcessi")) {
-
             String content = HTMLProcesso.formCercaProcessi(path, loc);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("cercaProcesso")) {
-
             Processo p = ControllerProcesso.inputProcesso(request, locale);
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             System.out.println("id ubicazione servlet" + u.getLocAmm().getIdComune());
@@ -206,11 +148,7 @@ public class Servlet extends HttpServlet {
         } else if (operazione.equals("modificaProcesso")) {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
-            String content = HTMLProcesso.mostraProcesso(p.getIdProcesso(), locale);
-            HTMLContent c = new HTMLContent();
-            c.setContent(content);
-            request.setAttribute("HTMLc", c);
-            forward(request, response, "/processo.jsp");
+            mostraProcesso(request, response,p.getIdProcesso());
         } else if (operazione.equals("eliminaProcesso")) {
             ControllerProcesso.eliminaProcesso(request);
         } else if (operazione.equals("mostraProcessiMaps")) {
@@ -260,7 +198,6 @@ public class Servlet extends HttpServlet {
             forward(request, response, "/stazione.jsp");
 
         } else if (operazione.equals("mostraStazioneMetereologica")) {
-
             int idStazioneMetereologica = Integer.parseInt(request.getParameter("idStazioneMetereologica"));
             StazioneMetereologica stazione = ControllerDatabase.prendiStazioneMetereologica(idStazioneMetereologica);
             Ubicazione ubicazione = stazione.getUbicazione();
@@ -1307,6 +1244,30 @@ public class Servlet extends HttpServlet {
             }
         }
         return null;
+    }
+
+    private void inserisciProcesso(HttpServletRequest request, HttpServletResponse response, HttpSession session,ControllerLingua locale) throws ServletException, IOException, ParseException, SQLException {
+        Utente user = (Utente) session.getAttribute("partecipante");
+        Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
+        String op = "inserito processo";
+        ControllerUtente.aggiornaTracciaProcesso(user, p, op);
+        mostraProcesso(request, response, p.getIdProcesso());
+    }
+    private void mostraProcesso(HttpServletRequest request, HttpServletResponse response, int idProcesso) throws SQLException, ServletException, IOException {
+        Processo processo = ControllerDatabase.prendiProcesso(idProcesso);
+        Ubicazione ubicazione = processo.getUbicazione();
+        ArrayList<Allegato> allegati = ControllerDatabase.cercaAllegatoProcesso(idProcesso);
+        request.setAttribute("ubicazione", ubicazione);
+        processo.getAttributiProcesso().setAllegati(allegati);
+        request.setAttribute("processo", processo);
+        forward(request, response, "/visualizzaProcesso.jsp");
+    }
+
+    private void mostraTuttiProcessi(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws SQLException, ServletException, IOException {
+        Utente part = (Utente) session.getAttribute("partecipante");
+        ArrayList<Processo> processo = ControllerDatabase.prendiTuttiProcessi();
+        request.setAttribute("processo", processo);
+        forward(request, response, "/visualizzaTuttiProcessi.jsp");
     }
 
 }
