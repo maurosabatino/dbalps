@@ -2994,8 +2994,7 @@ public class ControllerDatabase {
     
     public static void modificaAllegato(Allegato a) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);        
-        
-            String sql = "update allegati set anno=?,fonte=?,linkfile=?,nella=?,note=?,tipoallegato=?,titolo=?,urlweb=?, autore=? where idallegati="+a.getId()+"";
+        String sql = "update allegati set anno=?,fonte=?,linkfile=?,nella=?,note=?,tipoallegato=?,titolo=?,urlweb=?, autore=? where idallegati="+a.getId()+"";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,a.getAnno());
         ps.setString(2,a.getFonte());
@@ -3006,13 +3005,9 @@ public class ControllerDatabase {
         ps.setString(7,a.getTitolo());
         ps.setString(8,a.getUrlWeb());
         ps.setString(9,a.getAutore());
-
-           
         ps.executeUpdate();
         ps.close();
-        
-        conn.close();
-       
+        conn.close();       
     }
     
     public static ArrayList<datoClimatico> prendiDatiClimaticiPrecipitazioni(int idStazione) throws SQLException{

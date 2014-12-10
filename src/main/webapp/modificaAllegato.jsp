@@ -94,7 +94,7 @@
         <label for="tipo" class="col-sm-2 control-label">${locale.getWord("tipo")}</label>
         <div class="col-sm-10">
         <select class="form-control" name="tipo" id="tipo">
-        <option value="document"  >Document</option>
+        <option value="document">Document</option>
        
      
         <option value="map">Map </option> 
@@ -107,7 +107,7 @@
         </div>
 
        
-        <input type="hidden" name="idAllegato" value="<%=a.getId() %>">
+        <input type="hidden" name="idAllegato" value="<%=a.getId()%>">
         <input type="hidden" name="operazione" value="modificaAllegatoSuDB">
         <div class="form-group">
         <div class="col-sm-10">

@@ -1065,23 +1065,21 @@ public class Servlet extends HttpServlet {
             int idAllegato=Integer.parseInt(request.getParameter("idAllegato"));
             Allegato allegato=ControllerDatabase.cercaAllegato(idAllegato);
             request.setAttribute("allegato",allegato);
-             forward(request, response, "/modificaAllegato.jsp");
+            forward(request, response, "/modificaAllegato.jsp");
         }
         else if(operazione.equals("modificaAllegatoSuDB")){
-            int idAllegato=Integer.parseInt(request.getParameter("idAllegato"));
-            Allegato a=new Allegato();
-                a.setAutore(request.getParameter("autore")); 
-                 a.setAnno(request.getParameter("anno"));
-                a.setTitolo(request.getParameter("titolo"));  
-                 a.setNella(request.getParameter("in")) ;
-                a.setFonte(request.getParameter("fonte"));
-               a.setUrlWeb(request.getParameter("urlWeb"));
-                a.setNote(request.getParameter("note")); 
-                a.setTipoAllegato(request.getParameter("tipo"));   
-                a.setId(idAllegato);
-                    ControllerDatabase.modificaAllegato(a);
-                
-           
+            int idAllegato = Integer.parseInt(request.getParameter("idAllegato"));
+            Allegato a = new Allegato();
+            a.setAutore(request.getParameter("autore"));
+            a.setAnno(request.getParameter("anno"));
+            a.setTitolo(request.getParameter("titolo"));
+            a.setNella(request.getParameter("in"));
+            a.setFonte(request.getParameter("fonte"));
+            a.setUrlWeb(request.getParameter("urlWeb"));
+            a.setNote(request.getParameter("note"));
+            a.setTipoAllegato(request.getParameter("tipo"));
+            a.setId(idAllegato);
+            ControllerDatabase.modificaAllegato(a);
             String content = "<h5> modificato allegato </h5>";
             HTMLContent c = new HTMLContent();
             c.setContent(content);
