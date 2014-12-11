@@ -149,8 +149,13 @@ public class Servlet extends HttpServlet {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
             mostraProcesso(request, response,p.getIdProcesso());
+            ControllerUtente.aggiornaTracciaProcesso(user, p, "modifica processo");
+
         } else if (operazione.equals("eliminaProcesso")) {
-            ControllerProcesso.eliminaProcesso(request);
+            Processo p=ControllerProcesso.eliminaProcesso(request);
+            Utente user=(Utente)session.getAttribute("partecipante");
+            ControllerUtente.aggiornaTracciaProcesso(user, p, "elimina processo");
+
         } else if (operazione.equals("mostraProcessiMaps")) {
             forward(request, response, "/mappaProcessi.jsp");
         } else if (operazione.equals("formRicercaSingola")) {
@@ -260,6 +265,8 @@ public class Servlet extends HttpServlet {
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
+            ControllerUtente.aggiornaTracciaStazione(part, s, "modifica stazione");
+
             forward(request, response, "/stazione.jsp");
         } else if (operazione.equals("queryStazione")) {
             String content = HTMLStazioneMetereologica.listaQueryStazione();
@@ -271,11 +278,13 @@ public class Servlet extends HttpServlet {
 
             forward(request, response, "/mappaStazioni.jsp");
         } else if (operazione.equals("eliminaStazione")) {
-
+            Utente user=(Utente) session.getAttribute("partecipante");
             int id = Integer.parseInt(request.getParameter("idstazione"));
             System.out.println(request.getParameter("idstazione"));
             StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(id);
             ControllerDatabase.eliminaStazione(id, s.getUbicazione().getIdUbicazione());
+           ControllerUtente.aggiornaTracciaStazione(user, s, "elimina stazione");
+
 
         } //elaborazioni
         else if (operazione.equals("scegliRaggio")) {
@@ -623,20 +632,25 @@ public class Servlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().print(new Gson().toJson("ok"));
+               ControllerUtente.tracciaUtenteLogin(utente,"login");
+
             } else {
-                String content = "<h2>spiacente, il login non  Ã¨ corretto</h2>";
+                String content = "<h2>spiacente, il login non  è corretto</h2>";
                 HTMLContent c = new HTMLContent();
                 c.setContent(content);
                 request.setAttribute("HTMLc", c);
                 forward(request, response, "/utente.jsp");
             }
         } else if (operazione.equals("logout")) {
+            Utente u=(Utente)session.getAttribute("partecipante");
+            ControllerUtente.tracciaUtenteLogin(u,"logout");
             response.setHeader("Cache-Control", "no-cache, no-store");
             response.setHeader("Pragma", "no-cache");
             request.getSession().invalidate();
             if(loc.equals("en-US"))
             response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
             else response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
+           
         } else if (operazione.equals("visualizzaTuttiUtenti")) {
             ArrayList<Utente> utenti = ControllerDatabase.PrendiTuttiUtenti();
             request.setAttribute("utenti", utenti);
