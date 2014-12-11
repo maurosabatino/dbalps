@@ -246,11 +246,13 @@ public class Servlet extends HttpServlet {
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             //ControllerDatabase.salvaUbicazione(u);
             Utente part = (Utente) session.getAttribute("partecipante");
-            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
-            s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
-            String enteVecchio = request.getParameter("enteVecchio");
             int idStazione = Integer.parseInt(request.getParameter("idStazione"));
-            System.out.println("id5= " + s.getUbicazione().getIdUbicazione());
+            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
+            s.setIdStazioneMetereologica(idStazione);
+            System.out.println("id:"+idStazione);
+            String enteVecchio = request.getParameter("enteVecchio");
+                        System.out.println("ente:"+enteVecchio);
+
             s.getUbicazione().setIdUbicazione(ControllerDatabase.getIdUbicazioneStazione(idStazione));
 
             ControllerDatabase.modificaStazioneMetereologica(s, enteVecchio, idStazione);
@@ -634,7 +636,7 @@ public class Servlet extends HttpServlet {
             request.getSession().invalidate();
             if(loc.equals("en-US"))
             response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
-            else response.sendRedirect(request.getContextPath() + "/indexIT.jsp");
+            else response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
         } else if (operazione.equals("visualizzaTuttiUtenti")) {
             ArrayList<Utente> utenti = ControllerDatabase.PrendiTuttiUtenti();
             request.setAttribute("utenti", utenti);
@@ -1037,7 +1039,7 @@ public class Servlet extends HttpServlet {
             ControllerJson.creaJson(path);
             if(loc.equals("en-US"))
             forward(request, response, "/indexENG.jsp");
-            else forward(request, response, "/indexIT.jsp");
+            else forward(request, response, "/indexENG.jsp");
         } else if (operazione.equals("changeLanguage")) {
             loc = request.getParameter("loc");
             locale = new ControllerLingua(Locale.forLanguageTag(loc));

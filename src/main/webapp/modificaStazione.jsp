@@ -27,6 +27,9 @@
                            $("#pubblico").prop('checked', true);
                           
                     <%}%>
+                 <%for(Sensori  se: stazione.getSensori()){%>
+                          $("#<%=se.getIdsensori()%>_sensore").prop('checked', true);
+                    <%}%>        
     
     }); </script>
         
@@ -63,7 +66,10 @@
 		<div class="row">
                      <div class="col-xs-6 col-md-6">
                                             <label for="ente">${locale.getWord("ente")}</label>
-                                            <select id="ente" name="ente" class="form-control">
+                                           <select type="text" id="ente" name="ente" class="form-control" placeholder=" ${locale.getWord("ente")}">
+                                               <option value="<%=stazione.ente.idEnte%>" selected></option>
+                                                    </select>
+                                            
                                             <input type="hidden" id="idEnte" name="idEnte" />                                           
                                         </div>
 		</div>
@@ -78,13 +84,15 @@
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="sottobacino">${locale.getWord("sottobacino")}</label>
                                                   
-                                                 <select  id="sottobacino" name="sottobacino"  class="form-control" ></select>
+                                                 <select type="text" id="sottobacino" name="sottobacino" class="form-control" placeholder=" ${locale.getWord("sottobacino")}">
+                                                        <option value="${stazione.ubicazione.locIdro.idSottobacino}" selected></option>
+                                                    </select>
 
                                                 </div>
                                                 <div class="col-xs-6 col-md-6">
                                                     <label for="bacino">${locale.getWord("bacino")}</label>
-                                                    <input readonly="readonly" type="text" id="bacino" name="bacino" class="form-control" placeholder=" ${locale.getWord("bacino")} ">
-                                                    <input type="hidden" id="idSottobacino" name="idSottobacino"/>
+                                                   <input readonly="readonly" type="text" id="bacino" name="bacino" class="form-control" placeholder=" ${locale.getWord("bacino")} " value="${stazione.ubicazione.locIdro.bacino}">
+                                                    <input type="hidden" id="idSottobacino" name="idSottobacino" value="${stazione.ubicazione.locIdro.idSottobacino}"/>
                                                 </div> 
                                             </div>
                                         </div>
@@ -92,21 +100,23 @@
                                             <div class="row">
                                                 <div class="col-xs-6 col-md-3">
                                                     <label for="comune">${locale.getWord("comune")}</label>
-                                                    <select id="comune" name="comune" value="${ubicazione.locAmm.comune}" class="form-control" placeholder=" ${locale.getWord("comune")}"></select>
-                                                    <input type="hidden" id="idcomune" name="idcomune" />
+                                                    <select id="comune" name="comune" class="form-control">
+                                                    <option  value="${stazione.ubicazione.locAmm.idComune}" selected></option>
+                                                </select>
+                                                <input type="hidden" id="idcomune" name="idcomune"  value="${stazione.ubicazione.locAmm.idComune}"/>
                                                 </div>
 
                                                 <div class="col-xs-6 col-md-3">
-                                                    <label for="provincia"> ${locale.getWord("provincia")} </label>
-                                                    <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} "/>
-                                                </div>
-                                                <div class="col-xs-6 col-md-3">
-                                                    <label for="regione"> ${locale.getWord("regione")} </label>
-                                                    <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " />
-                                                </div>
-                                                <div class="col-xs-6 col-md-3"><label for="nazione"> ${locale.getWord("nazione")} </label>
-                                                    <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " />
-                                                </div>
+                                                <label for="provincia"> ${locale.getWord("provincia")} </label>
+                                                <input readonly="readonly" type="text" id="provincia" name="provincia" class="form-control" placeholder=" ${locale.getWord("provincia")} " value="${stazione.ubicazione.locAmm.provincia}"/>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <label for="regione"> ${locale.getWord("regione")} </label>
+                                                <input readonly="readonly" type="text" id="regione" name="regione" class="form-control" placeholder=" ${locale.getWord("regione")} " value="${stazione.ubicazione.locAmm.regione}" />
+                                            </div>
+                                            <div class="col-xs-6 col-md-3"><label for="nazione"> ${locale.getWord("nazione")} </label>
+                                                <input readonly="readonly" type="text" id="nazione" name="nazione" class="form-control" placeholder=" ${locale.getWord("nazione")} " value="${stazione.ubicazione.locAmm.nazione}"/>
+                                            </div>
                                             </div>
 
                                             <div id="controls">
@@ -173,7 +183,7 @@
                                         </div>
                                     </div> </div>
 
-                                <div class="panel panel-default"> <div class="panel-body">
+                                <div class="panel panel-default"> <div class="panel-body" >
                                         <h4> ${locale.getWord("sensori")} </h4>
                                         <p>
                                             <% for (Sensori s : ControllerDatabase.prendiTuttiSensori()) {
@@ -185,7 +195,8 @@
                                                         sensore = s.getSensori_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" name="sensori" value="<%=id%> "/>  <%=sensore%>  
+                                             <input type="checkbox" id="<%=id%>_sensore" name="sensori" value="<%=id%>"/><%=sensore%>  
+
                                             <% } %>
                                         </p>
                                         
@@ -207,8 +218,11 @@
                                         <textarea rows="5" cols="100" name="note" id="note"  class="textarea" placeholder="Note">${stazione.note}</textarea>
                                     </div>
                                 </div>
+                                        <input type="hidden" name="enteVecchio" value="${stazione.ente.ente }">
 
-                                <input type="hidden" name="operazione" value="inserisciStazione">
+                                <input type="hidden" name="operazione" value="inserisciStazioneModificata">
+                                <input type="hidden" name="idStazione" value="${stazione.idStazioneMetereologica}"/>
+
                                 <button type="submit" class="btn btn-default">${locale.getWord("inserisciStazione")}</button>
                                 </div> </div></div>
                     </form>

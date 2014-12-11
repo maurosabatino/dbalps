@@ -101,7 +101,7 @@
                         
 	</tbody>
      </table>
-        
+                            <a href="Servlet?operazione=allegaStazioneEProcesso&op=<%=request.getAttribute("op")%>&id=<%=request.getAttribute("id")%>" >allega</a>
       </div>
     </div>
     

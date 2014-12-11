@@ -783,7 +783,7 @@ public class HTMLStazioneMetereologica {
 		StringBuilder sb = new StringBuilder();
 		sb.append(HTMLScript.scriptFilter()); 
 		sb.append("<h3>Scegli una stazione a cui allegare un file</h3>");
-		sb.append("<div class=\"table-responsive\"><table class=\"table\"> ");
+        sb.append("<table id=\"tabella\" class=\"table table-striped table-bordered table-condensed\">");
 		sb.append("<tr> <th>Nome</th>  <th>comune</th> <th> dettagli</th> ");
 		sb.append("<th>Allega</th>");
 		sb.append("</tr>");
@@ -794,7 +794,7 @@ public class HTMLStazioneMetereologica {
 		}
 			sb.append("</tr>");
 		
-		sb.append("</table></div>");
+		sb.append("</table>");
 		return sb.toString();
 	}
 	public static String formAllegatoStazione(int idstazione,Utente part,ControllerLingua locale) throws SQLException{

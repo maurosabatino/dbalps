@@ -13,7 +13,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
 import static java.lang.Integer.parseInt;
 
-// modificato
+
 public class ControllerStazioneMetereologica {
 	
 	public static StazioneMetereologica creaStazioneMetereologica(HttpServletRequest request) throws ParseException{

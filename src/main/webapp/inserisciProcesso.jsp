@@ -219,14 +219,14 @@
                                                 <label for="esposizione"> ${locale.getWord("esposizione")} </label> 
                                                 <select class="form-control" name="esposizione" id="esposizione">
                                                     <option value=""></option>
-                                                    <option value=" ${locale.getWord("n")} "> ${locale.getWord("n")} </option>
-                                                    <option value=" ${locale.getWord("ne")} "> ${locale.getWord("ne")} </option>
-                                                    <option value=" ${locale.getWord("e")} "> ${locale.getWord("e")} </option>
-                                                    <option value=" ${locale.getWord("se")} "> ${locale.getWord("se")} </option>
-                                                    <option value=" ${locale.getWord("s")} "> ${locale.getWord("s")} </option>
-                                                    <option value=" ${locale.getWord("so")} "> ${locale.getWord("so")} </option>
-                                                    <option value=" ${locale.getWord("o")} "> ${locale.getWord("o")} </option>
-                                                    <option value=" ${locale.getWord("no")} "> ${locale.getWord("no")} </option>
+                                                    <option value="NORD"> ${locale.getWord("n")} </option>
+                                                    <option value="ne"> ${locale.getWord("ne")} </option>
+                                                    <option value="e"> ${locale.getWord("e")} </option>
+                                                    <option value="se"> ${locale.getWord("se")} </option>
+                                                    <option value= "s" > ${locale.getWord("s")} </option>
+                                                    <option value="so" > ${locale.getWord("so")} </option>
+                                                    <option value="o" > ${locale.getWord("o")} </option>
+                                                    <option value="no"> ${locale.getWord("no")} </option>
                                                 </select>
                                             </div>
                                         </div>

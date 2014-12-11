@@ -21,8 +21,24 @@
 
 <script src="js/bootstrapValidator.min.js"></script>
 <script src="js/validator.js"></script>
-
-        
+ <script src ="js/jquery.dataTables.min.js"></script>
+            <script src ="js/dataTables.bootstrap.js"></script> 
+<script>
+                $(document).ready(function () {
+                    
+                    $('#tabella').dataTable({
+                        "language": {
+                        "lengthMenu": "Display _MENU_ process per page",
+                        "zeroRecords": "Nothing found - sorry",
+                        "info": "Showing page _PAGE_ of _PAGES_ ",
+                        "infoEmpty": "No process available",
+                        "infoFiltered": "(filtered from _MAX_ total process)"
+                    }
+                    });
+                });
+                    
+   
+            </script>     
     </head>
     <body>
         <div class="container">
