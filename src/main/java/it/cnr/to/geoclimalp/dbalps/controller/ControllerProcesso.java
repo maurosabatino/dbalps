@@ -152,8 +152,7 @@ public class ControllerProcesso {
     
     SitoProcesso sp = creaSito(request, loc);
     ClasseVolume cv = creaClasseVolume(request);
-    System.out.println("id classe volume da controller: "+cv.getIdClasseVolume());
-    ArrayList<EffettiMorfologici> em = creaEffettiMorfologici(request, loc);
+    ArrayList<EffettiMorfologici> em = creaEffettiMorfologici(request);
     ArrayList<Danni> d = creaDanni(request, loc);
     ArrayList<TipologiaProcesso> tp = creaTipologiaProcesso(request, loc);
     Litologia l = creaLitologia(request, loc);
@@ -280,103 +279,44 @@ public class ControllerProcesso {
     return pt;
   }
 
-  public static ArrayList<EffettiMorfologici> creaEffettiMorfologici(HttpServletRequest request, ControllerLingua loc) throws SQLException {
+  public static ArrayList<EffettiMorfologici> creaEffettiMorfologici(HttpServletRequest request) throws SQLException {
     ArrayList<EffettiMorfologici> em = new ArrayList<>();
-    String[] emtipo_it;
-    String[] emtipo_eng;
-
-    if (loc.getLanguage().equals("it")) {
-      if (!(request.getParameter("emtipo_IT") == null)) {
-        if (!(request.getParameter("emtipo_IT") == null)) {
-          emtipo_it = request.getParameterValues("emtipo_IT");
-          for (int i = 0; i < emtipo_it.length; i++) {
-            EffettiMorfologici e = new EffettiMorfologici();
-            e.setIdEffettiMOrfologici(ControllerDatabase.prendiIdEffettiMorfologici(emtipo_it[i], "IT"));
-            e.setTipo_IT(emtipo_it[i]);
-            em.add(e);
+    String[] emId;
+      if (!(request.getParameter("emId") == null)) {
+          emId = request.getParameterValues("emId");
+          for (int i = 0; i < emId.length; i++) {
+             EffettiMorfologici e = ControllerDatabase.prendiEffettoMorfologico(Integer.parseInt(emId[i]));
+             em.add(e);
           }
-        }
       }
-    }
-    if (loc.getLanguage().equals("en")) {
-      if (!(request.getParameter("emtipo_ENG") == null)) {
-        if (!(request.getParameter("emtipo_ENG") == null)) {
-          emtipo_eng = request.getParameterValues("emtipo_ENG");
-          for (int i = 0; i < emtipo_eng.length; i++) {
-            EffettiMorfologici e = new EffettiMorfologici();
-            e.setIdEffettiMOrfologici(ControllerDatabase.prendiIdEffettiMorfologici(emtipo_eng[i], "ENG"));
-            e.setTipo_ENG(emtipo_eng[i]);
-            em.add(e);
-          }
-        }
-      }
-    }
-
     return em;
   }
 
-  public static ArrayList<Danni> creaDanni(HttpServletRequest request, ControllerLingua loc) throws SQLException {
-    ArrayList<Danni> d = new ArrayList<>();
-    String[] dtipo_it;
-    String[] dtipo_eng;
-      System.out.println("danni inizio");
-    if (loc.getLanguage().equals("it")) {
-      if (!(request.getParameterValues("dtipo_IT") == null)) {
-        dtipo_it = request.getParameterValues("dtipo_IT");
-        for (int i = 0; i < dtipo_it.length; i++) {
-          Danni da = new Danni();
-          da.setIdDanni(ControllerDatabase.prendiIdDanni(dtipo_it[i], "IT"));
-          System.out.println("danni: "+da.getIdDanni());
-          da.setTipo_IT(dtipo_it[i]);
-          d.add(da);
+    public static ArrayList<Danni> creaDanni(HttpServletRequest request, ControllerLingua loc) throws SQLException {
+        ArrayList<Danni> da = new ArrayList<>();
+        String[] danniId;
+        if (!(request.getParameter("danniId") == null)) {
+            danniId = request.getParameterValues("danniId");
+            for (int i = 0; i < danniId.length; i++) {
+                Danni d = ControllerDatabase.prendiDanno(Integer.parseInt(danniId[i]));
+                da.add(d);
+            }
         }
-      }
+        return da;
     }
-    if (loc.getLanguage().equals("en")) {
-      if (!(request.getParameter("dtipo_ENG") == null)) {
-        dtipo_eng = request.getParameterValues("dtipo_ENG");
-        for (int i = 0; i < dtipo_eng.length; i++) {
-          Danni da = new Danni();
-          da.setIdDanni(ControllerDatabase.prendiIdDanni(dtipo_eng[i], "ENG"));
-            System.out.println("danni: "+da.getIdDanni());
-          da.setTipo_ENG(dtipo_eng[i]);
-          d.add(da);
-        }
-      }
-    }
-    return d;
-  }
 
   public static ArrayList<TipologiaProcesso> creaTipologiaProcesso(HttpServletRequest request, ControllerLingua loc) throws SQLException {
     ArrayList<TipologiaProcesso> t = new ArrayList<>();
-    String[] tpnome_it;
-    String[] tpnome_eng;
-    if (loc.getLanguage().equals("it")) {
-      if (!(request.getParameterValues("tpnome_IT") == null)) {
-        tpnome_it = request.getParameterValues("tpnome_IT");
-        for (String tpnome_it1 : tpnome_it) {
-          TipologiaProcesso tp = new TipologiaProcesso();
-          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_it1,"IT"));
-          System.out.println("idTipologia: "+tp.getIdTipologiaProcesso());
-          tp.setNome_IT(tpnome_it1);
-          t.add(tp);
+        String[] tipoId;
+        if (!(request.getParameter("tipoId") == null)) {
+            tipoId = request.getParameterValues("tipoId");
+            for (int i = 0; i < tipoId.length; i++) {
+                TipologiaProcesso tipo = ControllerDatabase.prendiTipologiaProcesso(Integer.parseInt(tipoId[i]));
+                t.add(tipo);
+            }
         }
-      }
+        return t;
     }
-    if (loc.getLanguage().equals("en")) {
-      if (!(request.getParameterValues("tpnome_ENG") == null)) {
-        tpnome_eng = request.getParameterValues("tpnome_ENG");
-        for (String tpnome_eng1 : tpnome_eng) {
-          TipologiaProcesso tp = new TipologiaProcesso();
-          tp.setIdTipologiaProcesso(ControllerDatabase.prendiIdTipologiaProcesso(tpnome_eng1,"ENG"));
-          tp.setNome_ENG(tpnome_eng1);
-          t.add(tp);
-        }
-      }
-    }
-      System.out.println("tipologia: "+t.toString());
-    return t;
-  }
 
   public static void fileInput(HttpServletRequest request, String path) throws IllegalStateException, IOException, ServletException {
     final Part filePart = request.getPart("file");
@@ -385,7 +325,6 @@ public class ControllerProcesso {
     InputStream filecontent = null;
 
     try {
-      System.out.println(path);
       File file = new File(path + File.separator + fileName);
       out = new FileOutputStream(file);
       filecontent = filePart.getInputStream();
@@ -435,7 +374,6 @@ public class ControllerProcesso {
           jsono.addProperty("delete_url", "UploadServlet?delfile=" + item.getName());
           jsono.addProperty("delete_type", "GET");
           json.add(jsono);
-          System.out.println(json.toString());
         }
       }
     } catch (FileUploadException e) {

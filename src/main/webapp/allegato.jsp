@@ -80,7 +80,10 @@
                             <div class="col-md-9 col-md-push-3"><h2><%= allegato.getTipoAllegato() %></h2></div>
                             <div class="col-md-2 col-md-pull-9"><h2>${locale.getWord("tipo")} </h2> </div>
                         </div> 
-                   
+                   <div class="row">
+                            <div class="col-md-9 col-md-push-3"><h2><a href="Servlet?operazione=downloadAllegato&file=<%=allegato.getLinkFile()%>"><%=allegato.getLinkFile().substring(allegato.getLinkFile().lastIndexOf("\\") + 1)%></a></h2></div>
+                            <div class="col-md-2 col-md-pull-9"><h2>${locale.getWord("nomeFile")} </h2> </div>
+                        </div> 
                 </div>
 
 

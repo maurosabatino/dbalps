@@ -109,8 +109,9 @@
                                     for (TipologiaProcesso t : p.getAttributiProcesso().getTipologiaProcesso()) {
                                         if (!tipologia.toString().equals("")) {
                                             tipologia.append(" ,");
-                                        }
+                                        }if(locale.getLanguage().equals("it"))
                                         tipologia.append(t.getNome_IT());
+                                        else tipologia.append(t.getNome_ENG());
                                     }
                                 %>
                                 <td><%=tipologia.toString()%></td>

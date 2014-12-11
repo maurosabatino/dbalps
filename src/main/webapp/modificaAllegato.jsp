@@ -105,7 +105,7 @@
         </select>
         </div>
         </div>
-
+       
        
         <input type="hidden" name="idAllegato" value="<%=a.getId()%>">
         <input type="hidden" name="operazione" value="modificaAllegatoSuDB">
@@ -114,6 +114,7 @@
          <button type="submit" class="btn btn-default">${locale.getWord("modifica")}</button>
         </div>
         </div>
+        
 
         </div>
         </form>

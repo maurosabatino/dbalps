@@ -126,15 +126,21 @@ public class ControllerDatabase {
 
     public static void salvaEffetti(int idProcesso, ArrayList<EffettiMorfologici> em, ArrayList<Danni> d) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
-        Statement st = conn.createStatement();
+        PreparedStatement st = null;
         for (EffettiMorfologici eff : em) {
-            st.executeUpdate("insert into effetti_processo(idprocesso,ideffettimorfologici) values(" + idProcesso + "," + eff.getIdEffettiMorfoligici() + ")");
+            st = conn.prepareStatement("insert into effetti_processo(idprocesso,ideffettimorfologici) values(?,?)");
+            st.setInt(1, idProcesso);
+            st.setInt(2, eff.getIdEffettiMorfoligici());
+            st.executeUpdate();
         }
+       
         for (Danni da : d) {
-            System.out.println("danni:" + da.getTipo_IT());
-            st.executeUpdate("insert into danni_processo(idprocesso,iddanno) values(" + idProcesso + "," + da.getIdDanni() + ")");
-
+            st=conn.prepareStatement("insert into danni_processo(idprocesso,iddanno) values(?,?)");
+            st.setInt(1, idProcesso);
+            st.setInt(2, da.getIdDanni());
+            st.executeUpdate();
         }
+        st.executeBatch();
         st.close();
         conn.close();
     }
@@ -308,7 +314,6 @@ public class ControllerDatabase {
                 tipo.add(ti);
                 ap.setTipologiaProcesso(tipo);
                 ap.setPubblico(rs.getBoolean("pubblico"));
-                System.out.println("pubblico?"+ap.isPubblico());
                 p.setUbicazione(u);
                 p.setAttributiProcesso(ap);
                 al.add(p);
@@ -722,7 +727,7 @@ public class ControllerDatabase {
         System.out.println("query Processo: " + ps.toString());
         ps.executeUpdate();
 
-        if (!(p.getAttributiProcesso().getEffetti().isEmpty() || p.getAttributiProcesso().getDanni().isEmpty() || p.getAttributiProcesso().getEffetti().size() == 0 || p.getAttributiProcesso().getDanni().size() == 0)) {
+        if (!(p.getAttributiProcesso().getEffetti().isEmpty()) ||!(p.getAttributiProcesso().getDanni().isEmpty()) || !(p.getAttributiProcesso().getEffetti().size() == 0) || !(p.getAttributiProcesso().getDanni().size() == 0)) {
             st.executeUpdate("delete from danni_processo where idprocesso =" + p.getIdProcesso() + "");
             st.executeUpdate("delete from effetti_processo where idprocesso = " + p.getIdProcesso() + "");
             salvaEffetti(p.getIdProcesso(), p.getAttributiProcesso().getEffetti(), p.getAttributiProcesso().getDanni());
@@ -2964,7 +2969,6 @@ public class ControllerDatabase {
     public static Allegato cercaAllegato(int idAllegato) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Allegato a = new Allegato();
-        System.out.println("select * from allegati where idallegati ="+idAllegato+"");
         String query = "select * from allegati where idallegati ="+idAllegato+"";
         PreparedStatement ps = conn.prepareStatement(query);
         
@@ -2994,17 +2998,17 @@ public class ControllerDatabase {
     
     public static void modificaAllegato(Allegato a) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);        
-        String sql = "update allegati set anno=?,fonte=?,linkfile=?,nella=?,note=?,tipoallegato=?,titolo=?,urlweb=?, autore=? where idallegati="+a.getId()+"";
+        String sql = "update allegati set anno=?,fonte=?,nella=?,note=?,tipoallegato=?,titolo=?,urlweb=?, autore=? where idallegati=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1,a.getAnno());
         ps.setString(2,a.getFonte());
-        ps.setString(3,a.getLinkFile());
-        ps.setString(4,a.getNella());
-        ps.setString(5,a.getNote());
-        ps.setString(6,a.getTipoAllegato());
-        ps.setString(7,a.getTitolo());
-        ps.setString(8,a.getUrlWeb());
-        ps.setString(9,a.getAutore());
+        ps.setString(3,a.getNella());
+        ps.setString(4,a.getNote());
+        ps.setString(5,a.getTipoAllegato());
+        ps.setString(6,a.getTitolo());
+        ps.setString(7,a.getUrlWeb());
+        ps.setString(8,a.getAutore());
+        ps.setInt(9, a.getId());
         ps.executeUpdate();
         ps.close();
         conn.close();       

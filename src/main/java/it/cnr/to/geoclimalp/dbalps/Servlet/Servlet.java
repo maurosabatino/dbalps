@@ -24,7 +24,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -967,7 +966,7 @@ public class Servlet extends HttpServlet {
                     urlWeb = request.getParameter("urlWeb");
                     note = request.getParameter("note");
                     tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoProcesso(idProcesso, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\" + "allegatiProcesso\\" + "" + p.getNome() + "");
+                    ControllerDatabase.salvaAllegatoProcesso(idProcesso, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\" + "allegatiProcesso\\" + "" + p.getNome()+"\\"+f.getName());
                 }
             }
             String content = "<h5>allegato il file per il proceso: " + p.getNome() + "</h5>";
@@ -1024,7 +1023,7 @@ public class Servlet extends HttpServlet {
                     urlWeb = request.getParameter("urlWeb");
                     note = request.getParameter("note");
                     tipo = request.getParameter("tipo");
-                    ControllerDatabase.salvaAllegatoStazione(idstazione, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\"+ "allegatiStazione\\" + "" + sm.getNome() + "");
+                    ControllerDatabase.salvaAllegatoStazione(idstazione, part.getIdUtente(), autore, anno, titolo, in, fonte, urlWeb, note, tipo, "\\resources\\"+ "allegatiStazione\\" + ""+sm.getNome()+"\\"+f.getName());
                 }
             }
             String content = "<h5>allegato il file per la stazione: " + sm.getNome() + "</h5>";
@@ -1046,7 +1045,8 @@ public class Servlet extends HttpServlet {
         } else if (operazione.equals("downloadAllegato")) {
             OutputStream out = response.getOutputStream();
             String file = request.getParameter("file");
-            FileInputStream in = new FileInputStream(file);
+            System.out.println("path file: "+System.getProperty("catalina.base")+""+file);
+            FileInputStream in = new FileInputStream(System.getProperty("catalina.base")+""+file);
             byte[] buffer = new byte[4096];
             int length;
             while ((length = in.read(buffer)) > 0) {
@@ -1069,7 +1069,7 @@ public class Servlet extends HttpServlet {
         }
         else if(operazione.equals("modificaAllegatoSuDB")){
             int idAllegato = Integer.parseInt(request.getParameter("idAllegato"));
-            Allegato a = new Allegato();
+            Allegato a = ControllerDatabase.cercaAllegato(idAllegato);
             a.setAutore(request.getParameter("autore"));
             a.setAnno(request.getParameter("anno"));
             a.setTitolo(request.getParameter("titolo"));

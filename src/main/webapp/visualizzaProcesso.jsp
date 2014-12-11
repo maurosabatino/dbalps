@@ -144,7 +144,10 @@
                                 <div class="col-md-4 col-md-pull-6"><strong>${locale.getWord("affidabilitaCoordinate")}</strong> </div>
                             </div>   
                             <div class="row">
-                                <div class="col-md-9 col-md-push-4"><p> <%=processo.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_IT()%></p> </div>
+                                <% String morfologia="";
+                                if(locale.getLanguage().equals("it")) morfologia = processo.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_IT();
+                                else morfologia = processo.getAttributiProcesso().getSitoProcesso().getCaratteristicaSito_ENG();%>
+                                <div class="col-md-9 col-md-push-4"><p> <%=morfologia%></p> </div>
                                 <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("morfologiaSito")}</strong> </div>
                             </div>
                         </div>
@@ -213,9 +216,13 @@
                                 <div class="col-md-9 col-md-push-4"><p>
                                         <%     StringBuilder danni = new StringBuilder();
                                             if (processo.getAttributiProcesso().getDanni().size() != 0) {
-                                                danni.append(processo.getAttributiProcesso().getDanni().get(0).getTipo_IT());
+                                                if(locale.getLanguage().equals("it")) danni.append(processo.getAttributiProcesso().getDanni().get(0).getTipo_IT());
+                                                else danni.append(processo.getAttributiProcesso().getDanni().get(0).getTipo_ENG());
                                                 for (int i = 1; i < processo.getAttributiProcesso().getDanni().size(); i++) {
+                                                    if(locale.getLanguage().equals("it"))
                                                     danni.append("," + processo.getAttributiProcesso().getDanni().get(i).getTipo_IT());
+                                                    else danni.append("," + processo.getAttributiProcesso().getDanni().get(i).getTipo_ENG());
+                                                        
                                                 }
                                             }
 
@@ -227,9 +234,11 @@
                                 <div class="col-md-6 col-md-push-4"><p>
                                         <%        StringBuilder effetti = new StringBuilder();
                                             if (processo.getAttributiProcesso().getEffetti().size() != 0) {
-                                                effetti.append(processo.getAttributiProcesso().getEffetti().get(0).getTipo_IT());
+                                                if(locale.getLanguage().equals("it")) effetti.append(processo.getAttributiProcesso().getEffetti().get(0).getTipo_IT());
+                                                else effetti.append(processo.getAttributiProcesso().getEffetti().get(0).getTipo_ENG());
                                                 for (int i = 1; i < processo.getAttributiProcesso().getEffetti().size(); i++) {
-                                                    danni.append("," + processo.getAttributiProcesso().getEffetti().get(i).getTipo_IT());
+                                                    if(locale.getLanguage().equals("it")) effetti.append("," + processo.getAttributiProcesso().getEffetti().get(i).getTipo_IT());
+                                                    else effetti.append("," + processo.getAttributiProcesso().getEffetti().get(i).getTipo_ENG());
                                                 }
                                             }%>
                                         <%=effetti.toString()%>         

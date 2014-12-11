@@ -53,16 +53,17 @@
                     $("#esposizione").val('${processo.ubicazione.esposizione}');
                     $("#attendibilita").val('${processo.ubicazione.attendibilita}');
                     $("#gradoDanno").val('${processo.attributiProcesso.gradoDanno}');
+                    $("#intervallo").val('${processo.attributiProcesso.classeVolume.getIdClasseVolume()}');
                     
                     <%for(TipologiaProcesso tpp : p.getAttributiProcesso().getTipologiaProcesso()){%>
-                           $("#<%=tpp.getNome_IT()%>").prop('checked', true);
+                           $("#<%=tpp.getIdTipologiaProcesso()%>_tpp").prop('checked', true);
                           
                     <%}%>
                      <%for(Danni  danni: p.getAttributiProcesso().getDanni()){%>
-                          $("#<%=danni.getTipo_IT()%>").prop('checked', true);
+                          $("#<%=danni.getIdDanni()%>_da").prop('checked', true);
                     <%}%>
                         <%for(EffettiMorfologici  ef: p.getAttributiProcesso().getEffetti()){%>
-                          $("#<%=ef.getTipo_IT()%>").prop('checked', true);
+                          $("#<%=ef.getIdEffettiMorfoligici()%>_eff").prop('checked', true);
                     <%}%>
                         
                          <%if(p.getAttributiProcesso().isPubblico()){%>
@@ -75,8 +76,8 @@
                     <form id="insertProcesso" action="Servlet"   method="POST" role="form">
                         <div class="panel panel-default"> 
                             <div class="panel-body"> 
-                                <h4> ${locale.getWord("titoloProcesso")} </h4>
-                                    <div class="form-group" >
+                                <h4> ${locale.getWord("titoloProcesso")}</h4>
+                                <div class="form-group" >
                                     <div class="row">
                                         <div class="col-xs-6 col-md-6">
                                             <label for="nome"> ${locale.getWord("nome")}</label>
@@ -162,7 +163,7 @@
                                             <select id="intervallo" name=intervallo class="form-control">
                                                 <option value="${processo.attributiProcesso.classeVolume.idClasseVolume}" selected></option>
                                             </select>
-                                                <input type="hidden" id="idclasseVolume" name="idclasseVolume"/>
+                                                <input type="hidden" id="idclasseVolume" name="idclasseVolume" value="${processo.attributiProcesso.classeVolume.idClasseVolume}"/>
                                         </div>
 
                                     </div>
@@ -188,7 +189,7 @@
                                                         } else {
                                                             tipoProc = tp.getNome_ENG();
                                                         }%>
-                                                <input type="checkbox" id="<%=tp.getNome_IT()%>"  name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>"
+                                                <input type="checkbox" id="<%=tp.getIdTipologiaProcesso()%>_tpp"  name="tipoId" value="<%=tp.getIdTipologiaProcesso()%>"
                                                        data-bv-choice="true"
                                                        data-bv-choice-min="1"
                                                        data-bv-choice-max="10"
@@ -312,7 +313,7 @@
                                                 <select id="${locale.getWord("caratteristicaSito")}" name="${locale.getWord("caratteristicaSito")}" class="form-control" placeholder="${locale.getWord("sito")}">
                                                     <option value="${processo.attributiProcesso.sitoProcesso.idSito}" selected></option>
                                                 </select>
-                                                <input type="hidden" id="idsito" name="idsito"/>
+                                                <input type="hidden" id="idsito" name="idsito" value="${processo.attributiProcesso.sitoProcesso.idSito}"/>
                                             </div>
                                         </div>
                                     </div> </div>
@@ -328,7 +329,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" id="<%=tipoDanno%>" name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/><%=tipoDanno%>  
+                                            <input type="checkbox" id="<%=d.getIdDanni()%>_da" name="danniId" value="<%=d.getIdDanni()%>"/><%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
@@ -341,7 +342,7 @@
                                                     } else {
                                                         effMorfologici = em.getTipo_ENG();
                                                     }%>
-                                            <input type="checkbox" id="<%=effMorfologici%>" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/><%=effMorfologici%>  
+                                            <input type="checkbox" id="<%=em.getIdEffettiMorfoligici()%>_eff" name="emId" value="<%=em.getIdEffettiMorfoligici()%>"/><%=effMorfologici%>  
                                             <%}%>
                                         </p>
                                         <br><div class="row">
