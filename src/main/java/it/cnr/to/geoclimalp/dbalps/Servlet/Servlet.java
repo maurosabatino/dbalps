@@ -921,7 +921,7 @@ public class Servlet extends HttpServlet {
         
         
         else if (operazione.equals("scegliProcessoAllegato")) {
-            String content = HTMLProcesso.mostraTuttiProcessiAllega();
+            String content = HTMLProcesso.mostraTuttiProcessiAllega(locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -978,7 +978,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("scegliStazioneAllegato")) {
-            String content = HTMLStazioneMetereologica.scegliStazioneAllegati();
+            String content = HTMLStazioneMetereologica.scegliStazioneAllegati(locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);

@@ -778,19 +778,19 @@ public class HTMLStazioneMetereologica {
 		return sb.toString();
 	}
 
-	public static String scegliStazioneAllegati() throws SQLException {
+	public static String scegliStazioneAllegati(ControllerLingua l) throws SQLException {
 		ArrayList<StazioneMetereologica>  ap = ControllerDatabase.prendiTutteStazioniMetereologiche(); 
 		StringBuilder sb = new StringBuilder();
 		sb.append(HTMLScript.scriptFilter()); 
-		sb.append("<h3>Scegli una stazione a cui allegare un file</h3>");
+		sb.append("<h3>"+l.getWord("ScegliStazioneAllegato")+"</h3>");
         sb.append("<table id=\"tabella\" class=\"table table-striped table-bordered table-condensed\">");
-		sb.append("<tr> <th>Nome</th>  <th>comune</th> <th> dettagli</th> ");
-		sb.append("<th>Allega</th>");
+		sb.append("<tr> <th>"+l.getWord("nome")+"</th>  <th>"+l.getWord("comune")+"</th> <th> "+l.getWord("dettagli")+"</th> ");
+		sb.append("<th>"+l.getWord("allega")+"</th>");
 		sb.append("</tr>");
 		for(StazioneMetereologica s: ap){
 			sb.append(" <tr> <td>"+s.getNome()+" </td>  <td> "+s.getUbicazione().getLocAmm().getComune()+"</td>  ");
-			sb.append("<td><a href=\"Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica="+s.getIdStazioneMetereologica()+"\">dettagli</a></td>");
-			sb.append("<td><a href=\"Servlet?operazione=formAllegatoStazione&idstazione="+s.getIdStazioneMetereologica()+"\">Allega</a></td>");
+			sb.append("<td><a href=\"Servlet?operazione=mostraStazioneMetereologica&idStazioneMetereologica="+s.getIdStazioneMetereologica()+"\"><span class=\"fa fa-search\" ></span></a></td>");
+			sb.append("<td><a href=\"Servlet?operazione=formAllegatoStazione&idstazione="+s.getIdStazioneMetereologica()+"\"><span class=\"fa fa-paperclip\"></span></a></td>");
 		}
 			sb.append("</tr>");
 		

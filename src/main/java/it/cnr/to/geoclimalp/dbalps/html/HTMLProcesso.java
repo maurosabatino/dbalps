@@ -666,21 +666,21 @@ public class HTMLProcesso {
         return sb.toString();
     }
 
-    public static String mostraTuttiProcessiAllega() throws SQLException {
+    public static String mostraTuttiProcessiAllega(ControllerLingua l) throws SQLException {
         ArrayList<Processo> ap = ControllerDatabase.prendiTuttiProcessi();
         StringBuilder sb = new StringBuilder();
 
         /* script per google maps */// centrerei la mappa al centro delle alpi
         sb.append(HTMLScript.scriptFilter());
-        sb.append("<h3>Scegli un Processo a cui allegare un file</h3>");
-        sb.append("<div class=\"table-responsive\"><table class=\"table\"> <tr> <th>Nome</th> <th>data</th> <th>comune</th> <th>nazione</th> <th> Report </th> <th> Allega</th></tr>");
+        sb.append("<h3>"+l.getWord("ScegliProcessoAllegato")+"</h3>");
+        sb.append("<table id=\"tabella\" class=\"table table-striped table-bordered table-condensed\">");
+          sb.append(" <tr> <th>"+l.getWord("nome")+"</th> <th>"+l.getWord("data")+"</th> <th>"+l.getWord("comune")+"</th>  <th> Report </th> <th> "+l.getWord("allega")+"</th></tr>");
         for (Processo p : ap) {
             sb.append("<tr> <td>" + p.getNome() + " </td> ");
             sb.append("	<td>" + dataFormattata(p.getFormatoData(), p.getData()) + "</td>");
             sb.append("	<td>" + p.getUbicazione().getLocAmm().getComune() + "</td>");
-            sb.append("<td>" + p.getUbicazione().getLocAmm().getNazione() + "</td> ");
-            sb.append("<td><a href=\"Servlet?operazione=mostraProcesso&idProcesso=" + p.getIdProcesso() + "\">dettagli</a></td>");
-            sb.append("<td><a href=\"Servlet?operazione=formAllegatoProcesso&idprocesso=" + p.getIdProcesso() + "\">Allega</a> </td>");
+            sb.append("<td><a href=\"Servlet?operazione=mostraProcesso&idProcesso=" + p.getIdProcesso() + "\"><span class=\"fa fa-search\" ></span></a></td>");
+            sb.append("<td><a href=\"Servlet?operazione=formAllegatoProcesso&idprocesso=" + p.getIdProcesso() + "\"><span class=\"fa fa-paperclip\"></span></a> </td>");
             sb.append("</tr>");
         }
         sb.append("</table></div>");

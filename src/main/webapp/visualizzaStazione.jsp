@@ -78,7 +78,7 @@
                     google.maps.event.addDomListener(window, 'load', initialize);
                 });
         </script>
-        <title>Evento</title>
+        <title>dbalps</title>
     </head>
     <body>
         <div class ="container">
@@ -94,12 +94,12 @@
                                     <div class="row">
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-2"><h1> <%=stazione.getNome()%> </h1></div>
-                                        <div class="col-md-2 col-md-pull-9"><h1>Dettagli stazione meteorologica</h1> </div>
+                                        <div class="col-md-2 col-md-pull-9"><h1>${locale.getWord("dettagliStazione")}</h1> </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9 col-md-push-4"><p>${stazione.aggregazioneGiornaliera}</p> </div>
-                                    <div class="col-md-3 col-md-pull-9"><strong>aggregazione temporale</strong> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("aggregazioneTemporale")}</strong> </div>
                                     
                                 </div>
                                 <div class="row"><a href="Servlet?operazione=mostraDatiClimaticiPrecipitazione&idStazione=<%=stazione.getIdStazioneMetereologica()%>" >${locale.getWord("datiPrecipitazione")}</a>
@@ -109,19 +109,28 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9 col-md-push-4"><p>${stazione.tipoAggregazione}</p> </div>
-                                    <div class="col-md-3 col-md-pull-9"><strong>Tipo aggregazione giornaliera</strong> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("tipoDiAggregazioneGiornaliera")}</strong> </div>
                                 </div>
                                 <div class="row">
+                                     <%if(stazione.getDataInizio()!=null){%>
                                     <div class="col-md-9 col-md-push-4"><p><%=stazione.getDataInizio()%></p> </div>
-                                    <div class="col-md-3 col-md-pull-9"><strong>Data inizio attività</strong> </div>
+                                     <%}else{%>
+                                      <div class="col-md-9 col-md-push-4"><p></p> </div> <%}%>
+                                    <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("dataInizio")}</strong> </div>
                                 </div>
                                 <div class="row">
+                                       <%if(stazione.getDataFine()!=null){%>
                                     <div class="col-md-9 col-md-push-4"><p><%=stazione.getDataFine()%></p> </div>
-                                    <div class="col-md-3 col-md-pull-9"><strong>Data fine attività</strong> </div>
+                                    <%}else{%>
+                                    <div class="col-md-9 col-md-push-4"><p></p> </div>
+                                    <%}%>
+                                    <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("dataFine")}</strong> </div>
+                       
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-9 col-md-push-4"><p><%=stazione.getEnte().getEnte()%></p> </div>
-                                    <div class="col-md-3 col-md-pull-9"><strong>Ente</strong> </div>
+                                    <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("ente")}</strong> </div>
                                 </div>
                             </div>
 
@@ -135,56 +144,57 @@
                                         <h2>Ubicazione</h2>
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getComune()%></p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Comune</strong> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("comune")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getProvincia()%></p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Provincia</strong> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("provincia")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getRegione()%></p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Regione</strong> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("regione")}</strong> </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getRegione()%></p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Stato</strong> </div>
+                                            <div class="col-md-9 col-md-push-4"><p><%=stazione.getUbicazione().getLocAmm().getNazione()%></p> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("nazione")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getLocIdro().getSottobacino()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Sottobacino</strong> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("sottobacino")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getLocIdro().getBacino()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Bacino</strong> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("bacino")}</strong> </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getQuota()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Quota</strong> </div>
+                                            <%if(stazione.getUbicazione().getQuota()==0.0){%>
+                                            <div class="col-md-6 col-md-push-4"><p></p> </div>
+                                           <%}else{%>
+                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getQuota()%></p> </div>
+                                            <%}%>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("quota")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getEsposizione()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Esposizione</strong> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("esposizione")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getCoordinate().getX()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Latitudine</strong> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("latitudine")}</strong> </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getCoordinate().getY()%></p> </div>
-                                            <div class="col-md-5 col-md-pull-6"><strong>Longitudine</strong> </div>
+                                            <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("longitudine")}</strong> </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6 col-md-push-4"><p><%=stazione.getUbicazione().getAttendibilita()%></p> </div>
-                                            <div class="col-md-4 col-md-pull-6"><strong>Affidabilità Coordinate</strong> </div>
-                                        </div>   
+                                         
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-4"><p> <%=stazione.getSito().getCaratteristiche_IT()%></p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Morfologia sito</strong> </div>
+                                            <div class="col-md-3 col-md-pull-9"><strong>${locale.getWord("morfologiaSito")}</strong> </div>
                                         </div>
                                     </div>
                                
                                     <div class="row">
-                                        <h2>Sensori</h2>
+                                        <h2>${locale.getWord("sensori")}</h2>
                                         <div class="row">
                                             <div class="col-md-9 col-md-push-4"><p>
                                                     <%     StringBuilder sensori = new StringBuilder();
@@ -198,7 +208,7 @@
 
                                                     %>
                                                     <%=sensori.toString()%>            </p> </div>
-                                            <div class="col-md-3 col-md-pull-9"><strong>Danni</strong> </div>
+                                            
                                         </div>
                                         <div class="row">
                                             <h2>Note</h2>
@@ -224,9 +234,9 @@
 
                                 <div class="container-fluid">
 
-                                    <h2>Allegati</h2>
+                                    <h2>${locale.getWord("allegati")}</h2>
                                     <div class="col-md-6"> 
-                                        <h3>Immagini</h3>
+                                        <h3>${locale.getWord("immagini")}</h3>
                                         <% int i = 0;
                                         if( stazione.getAllegati().size()!=0){
            for (i = 0; i < stazione.getAllegati().size(); i++) {
