@@ -27,6 +27,7 @@ import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
 import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
 import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso;
+import javax.faces.bean.ManagedProperty;
 
 public class ControllerDatabase {
 

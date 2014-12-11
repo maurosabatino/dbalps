@@ -1,6 +1,5 @@
 package it.cnr.to.geoclimalp.dbalps.bean.ubicazione;
 
-
 public class Ubicazione {
 	int idUbicazione;
 	LocazioneIdrologica locIdr;

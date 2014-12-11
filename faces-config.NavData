@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="barraLaterale.jsp" x="1650" y="300" zoom="true"/>
+        <Node id="inserisciStazione.jsp" x="150" y="450" zoom="true"/>
+        <Node id="prove/visualizzaProcesso.jsp" x="900" y="600" zoom="true"/>
+        <Node id="ricercaStagione.jsp" x="650" y="450" zoom="true"/>
+        <Node id="prove/download.jsp" x="1900" y="300" zoom="true"/>
+        <Node id="dati.jsp" x="650" y="600" zoom="true"/>
+        <Node id="prove/navbar.jsp" x="150" y="900" zoom="true"/>
+        <Node id="provaJson.jsp" x="1150" y="450" zoom="true"/>
+        <Node id="prove/queryStazione.jsp" x="150" y="150" zoom="true"/>
+        <Node id="inserisciProcesso.jsp" x="400" y="450" zoom="true"/>
+        <Node id="visualizzaProcesso.jsp" x="1400" y="150" zoom="true"/>
+        <Node id="provatab.jsp" x="150" y="750" zoom="true"/>
+        <Node id="prove/provaControllo2.jsp" x="1150" y="750" zoom="true"/>
+        <Node id="modificaStazione.jsp" x="400" y="1050" zoom="true"/>
+        <Node id="visualizzaStazione.jsp" x="400" y="600" zoom="true"/>
+        <Node id="layout.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="prove/queryProcesso.jsp" x="650" y="750" zoom="true"/>
+        <Node id="prove/layout.html" x="1150" y="300" zoom="true"/>
+        <Node id="prove/Upload.jsp" x="400" y="750" zoom="true"/>
+        <Node id="mappaProcessiStazioni.jsp" x="1650" y="150" zoom="true"/>
+        <Node id="import.jsp" x="1400" y="600" zoom="true"/>
+        <Node id="visualizzaTutteStazioni.jsp" x="150" y="300" zoom="true"/>
+        <Node id="index.jsp" x="1400" y="450" zoom="true"/>
+        <Node id="download.jsp" x="400" y="150" zoom="true"/>
+        <Node id="header.jsp" x="900" y="300" zoom="true"/>
+        <Node id="processo.jsp" x="1150" y="600" zoom="true"/>
+        <Node id="visualizzaTuttiProcessi.jsp" x="900" y="150" zoom="true"/>
+        <Node id="mappaProcessi.jsp" x="2150" y="150" zoom="true"/>
+        <Node id="footer.jsp" x="1650" y="450" zoom="true"/>
+        <Node id="visualizzaTuttiUtenti.jsp" x="650" y="300" zoom="true"/>
+        <Node id="mappaStazioni.jsp" x="400" y="900" zoom="true"/>
+        <Node id="ricercaMese.jsp" x="900" y="750" zoom="true"/>
+        <Node id="prove/combobox.jsp" x="900" y="900" zoom="true"/>
+        <Node id="modificaProcesso.jsp" x="650" y="900" zoom="true"/>
+        <Node id="prove/newLayout.html" x="400" y="300" zoom="true"/>
+        <Node id="stazione.jsp" x="1150" y="150" zoom="true"/>
+        <Node id="prove/message.jsp" x="1400" y="300" zoom="true"/>
+        <Node id="visualizzaUtente.jsp" x="150" y="1200" zoom="true"/>
+        <Node id="allegatiProcesso.jsp" x="900" y="450" zoom="true"/>
+        <Node id="utente.jsp" x="150" y="1050" zoom="true"/>
+        <Node id="modificaAllegato.jsp" x="150" y="600" zoom="true"/>
+        <Node id="elaborazioni.jsp" x="1900" y="150" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>
