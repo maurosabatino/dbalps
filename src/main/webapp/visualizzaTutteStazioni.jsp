@@ -63,7 +63,7 @@
        
    
     
-<title>Visualizza stazioni</title>
+<title>dbalps</title>
 </head>
 <body>
   <div class ="container">
@@ -77,11 +77,11 @@
              <%Utente part = (Utente) session.getAttribute("partecipante");
              ArrayList<StazioneMetereologica> stazione = (ArrayList<StazioneMetereologica>) request.getAttribute("stazione");%>
              
-             <tr> <th>Nome </th><th>Comune </th> <th>Quota </th> <th> Dettagli</th> 
+             <tr> <th>${locale.getWord("nome")} </th><th>${locale.getWord("comune")} </th> <th>${locale.getWord("quota")} </th> <th> ${locale.getWord("dettagli")}</th> 
                  <%if(part!=null){
                     if( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)){
                     %>
-                 <th> Modifica</th>   <th> Elimina</th> <th> Allega</th> </tr>
+                 <th> ${locale.getWord("modifica")}</th>   <th> ${locale.getWord("elimina")}</th> <th> ${locale.getWord("allega")}</th> </tr>
              <%}}%>
 	</thead>
        
@@ -99,7 +99,7 @@
                                    <td></td>
                                    <%}%>
                 <% if(part!=null &&( part.getRuolo().equals(Role.AMMINISTRATORE)||part.getRuolo().equals(Role.AVANZATO)||(part.getRuolo().equals(Role.BASE) && s.getIdUtente()==part.getIdUtente()) )){%>
-                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-wrench"></span></td>
+                        <td> <a href="Servlet?operazione=modificaStazione&idStazioneMetereologica=<%=s.getIdStazioneMetereologica()%>" role="button"><span class="fa fa-edit"></span></td>
                         <td> <a  id="buttonElimina" onclick="elimina(<%=s.getIdStazioneMetereologica()%>);" role="button">
                                 <span class="fa fa-times"></span>
                         </a> </td>
