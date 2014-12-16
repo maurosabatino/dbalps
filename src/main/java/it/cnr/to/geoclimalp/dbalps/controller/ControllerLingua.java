@@ -1,6 +1,7 @@
 package it.cnr.to.geoclimalp.dbalps.controller;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -20,24 +21,28 @@ public class ControllerLingua {
     }
 
     public String getWord(String keyword) {
-        return translation.getString(keyword);
+
+        String word = "empty";
+        try {
+            if (!(keyword.equals(" "))) {
+                word = translation.getString(keyword);
+                return word;
+            }
+
+        } finally {
+            return word;
+        }
+
     }
 
     public String getLanguage() {
-        String word = "";
-        try {
-            word = translation.getLocale().getLanguage();
-        } catch (Error mre) {
-            System.err.println("string not found");
-        }
-        return word;
-    }
 
-    public static void main(String[] args) {
-        ControllerLingua cl = new ControllerLingua((Locale.forLanguageTag("it-IT")));
-        System.out.println("ita: " + cl.getLanguage());
-        cl = new ControllerLingua((Locale.forLanguageTag("en-US")));
-        System.out.println("eng: " + cl.getLanguage());
+        try {
+            return translation.getLocale().getLanguage();
+        } catch (MissingResourceException mre) {
+            System.err.println("no language");
+        }
+        return null;
     }
 
 }

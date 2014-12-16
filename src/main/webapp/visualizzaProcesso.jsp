@@ -128,7 +128,7 @@
                                 <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("quota")}</strong> </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getEsposizione()%></p> </div>
+                                <div class="col-md-6 col-md-push-4"><p>${locale.getWord(processo.getUbicazione().getEsposizione())}</p> </div>
                                 <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("esposizione")}</strong> </div>
                             </div>
                             <div class="row">
@@ -140,7 +140,7 @@
                                 <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("longitudine")}</strong> </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-md-push-4"><p><%=processo.getUbicazione().getAttendibilita()%></p> </div>
+                                <div class="col-md-6 col-md-push-4"><p>${locale.getWord(processo.getUbicazione().getAttendibilita())}</p> </div>
                                 <div class="col-md-4 col-md-pull-6"><strong>${locale.getWord("affidabilitaCoordinate")}</strong> </div>
                             </div>   
                             <div class="row">
@@ -245,6 +245,12 @@
 
                                     </p> </div>
                                 <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("effettiMorfologici")}</strong> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-md-push-4">
+                                    <p><%=locale.getWord(processo.getAttributiProcesso().getGradoDanno())%></p>
+                                </div>    
+                                <div class="col-md-5 col-md-pull-6"><strong>${locale.getWord("gradoDanno")}</strong> </div>
                             </div>
                         </div>
 

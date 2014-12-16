@@ -1246,6 +1246,7 @@ public class Servlet extends HttpServlet {
 
     private void inserisciProcesso(HttpServletRequest request, HttpServletResponse response, HttpSession session,ControllerLingua locale) throws ServletException, IOException, ParseException, SQLException {
         Utente user = (Utente) session.getAttribute("partecipante");
+        System.out.println("Sono nell'operazione schifosa");
         Processo p = ControllerProcesso.nuovoProcesso(request, locale, user);
         String op = "inserito processo";
         ControllerUtente.aggiornaTracciaProcesso(user, p, op);

@@ -124,7 +124,7 @@
                                                     }%>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="${locale.getWord("tipoProcesso")}" value="<%=tipoProc%>" 
+                                                    <input type="checkbox" name="tipoId" value="<%=tp.getIdTipologiaProcesso()%>" 
                                                             data-bv-choice="true"
                                                             data-bv-choice-min="1"
                                                             data-bv-choice-max="10"
@@ -259,7 +259,7 @@
                                                         tipoDanno = d.getTipo_ENG();
                                                     }
                                             %>
-                                            <input type="checkbox" name="${locale.getWord("tipoDanno")}" value="<%=tipoDanno%>"/>  <%=tipoDanno%>  
+                                            <input type="checkbox" name="danniId" value="<%=d.getIdDanni()%>"/>  <%=tipoDanno%>  
                                             <% } %>
                                         </p>
 
@@ -272,7 +272,7 @@
                                                     } else {
                                                         effMorfologici = em.getTipo_ENG();
                                                     }%>
-                                            <input type="checkbox" name="${locale.getWord("effMorfologici")}" value="<%=effMorfologici%>"/>  <%=effMorfologici%>  
+                                            <input type="checkbox" name="emId" value="<%=em.getIdEffettiMorfoligici()%>"/>  <%=effMorfologici%>  
                                             <%}%>
                                         </p>
                                         <br><div class="row">
