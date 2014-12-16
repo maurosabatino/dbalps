@@ -62,7 +62,7 @@
         });}}
     </script>
     
-            <title>Visualizza processi</title>
+            <title>dbalps</title>
         </head>
         <body>
             <div class ="container">
@@ -78,16 +78,16 @@
                         <table id="tabella" class="table table-striped table-bordered table-condensed">
                             <thead>
                                 <tr> 
-                                    <th>Nome</th>
-                                    <th>Data</th>
-                                    <th>Ora</th> 
-                                    <th>Comune</th>
-                                    <th>Tipologia</th>
-                                    <th> Dettagli</th>
+                                    <th>${locale.getWord("nome")}</th>
+                                    <th>${locale.getWord("data")}</th>
+                                    <th>${locale.getWord("ora")}</th> 
+                                    <th>${locale.getWord("comune")}</th>
+                                    <th>${locale.getWord("tipologia")}</th>
+                                    <th> ${locale.getWord("dettagli")}</th>
                                     <%if(part!=null && ((part.getRuolo().equals(Role.AMMINISTRATORE))||(part.getRuolo().equals(Role.AVANZATO)))){%>
-                                    <th> Modifica</th>
-                                    <th> Elimina</th>
-                                    <th> Allegati</th>
+                                    <th> ${locale.getWord("modifica")}</th>
+                                    <th> ${locale.getWord("elimina")}</th>
+                                    <th> ${locale.getWord("allegati")}</th>
                                     <%}%>
                                 </tr>
                             </thead>

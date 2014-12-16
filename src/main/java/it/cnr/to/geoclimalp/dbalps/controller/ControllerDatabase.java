@@ -1443,16 +1443,18 @@ public class ControllerDatabase {
     public static void modificaStazioneMetereologica(StazioneMetereologica s, String enteVecchio, int idStazione) throws SQLException {
         Connection conn = DriverManager.getConnection(url, usr, pwd);
         Statement st = conn.createStatement();
-
+System.out.println("controller db");
         String sql = "update stazione_metereologica set nome=?,aggregazionegiornaliera=?,note=?,datainizio=?,datafine=?,idsitostazione=?,idente=?,idutentecreatore=?,tipoaggregazione=?,pubblico=? "
                 + "where idStazioneMetereologica= ?";
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setString(1, s.getNome());
         ps.setString(2, s.getAggregazioneGiornaliera());
-        if (!(enteVecchio.equals(s.getEnte().getEnte())) && !(enteVecchio.equals("null"))) {
+        if( !(enteVecchio.equals(""))) {
+        if (!(enteVecchio.equals(s.getEnte().getEnte()))){
+    
             ps.setString(3, " stazione passata da " + enteVecchio + "a " + s.ente.getEnte() + ". " + s.getNote() + " ");
-        } else {
+        } }else {
             ps.setString(3, "" + s.getNote() + "");
         }
         ps.setString(4, s.getDataInizio());
@@ -1470,11 +1472,13 @@ public class ControllerDatabase {
         ps.setInt(8, s.getIdUtente());
         ps.setString(9, s.getTipoAggregazione());
 
-        System.out.println("id stazione" + s.getIdStazioneMetereologica());
-        ps.setInt(10, s.getIdStazioneMetereologica());
-        ps.setBoolean(11, s.getPubblico());
+        ps.setInt(11, s.getIdStazioneMetereologica());
+        
+        
+        ps.setBoolean(10, s.getPubblico());
 
         ps.executeUpdate();
+        
 
         /*
          * modifica sensori
@@ -1489,6 +1493,8 @@ public class ControllerDatabase {
                 }
             }
         }
+                System.out.println("id stazione 2 " + s.getIdStazioneMetereologica());
+
         st.close();
         conn.close();
         /*
@@ -1497,6 +1503,7 @@ public class ControllerDatabase {
         if (s.getUbicazione() != null) {
             modificaUbicazione(s.getUbicazione());
         }
+System.out.println("fine db");
 
     }
 

@@ -80,4 +80,17 @@ public class ControllerUtente {
             op.setOperazione(operazione);
             int ok=ControllerDatabase.aggiornaTracciaUtente(op);
     }
+    
+    public static void tracciaUtenteLogin(Utente u,String log) throws SQLException{
+        OperazioneUtente op=new OperazioneUtente();
+              Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime(); 
+        Timestamp t = new Timestamp(now.getTime());
+            op.setData(t);
+            int idutente=u.getIdUtente();
+            op.setIdUtente(idutente);
+            op.setOperazione(log);
+            int ok=ControllerDatabase.aggiornaTracciaUtente(op);
+    }
+    
 }

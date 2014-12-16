@@ -148,8 +148,13 @@ public class Servlet extends HttpServlet {
             Utente user = (Utente) session.getAttribute("partecipante");
             Processo p = ControllerProcesso.modificaProcesso(request, locale, user);
             mostraProcesso(request, response,p.getIdProcesso());
+            ControllerUtente.aggiornaTracciaProcesso(user, p, "modifica processo");
+
         } else if (operazione.equals("eliminaProcesso")) {
-            ControllerProcesso.eliminaProcesso(request);
+            Processo p=ControllerProcesso.eliminaProcesso(request);
+            Utente user=(Utente)session.getAttribute("partecipante");
+            ControllerUtente.aggiornaTracciaProcesso(user, p, "elimina processo");
+
         } else if (operazione.equals("mostraProcessiMaps")) {
             forward(request, response, "/mappaProcessi.jsp");
         } else if (operazione.equals("formRicercaSingola")) {
@@ -245,11 +250,13 @@ public class Servlet extends HttpServlet {
             Ubicazione u = ControllerUbicazione.inputUbicazione(request);
             //ControllerDatabase.salvaUbicazione(u);
             Utente part = (Utente) session.getAttribute("partecipante");
-            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
-            s.setIdStazioneMetereologica(parseInt(request.getParameter("idstazionemetereologica")));
-            String enteVecchio = request.getParameter("enteVecchio");
             int idStazione = Integer.parseInt(request.getParameter("idStazione"));
-            System.out.println("id5= " + s.getUbicazione().getIdUbicazione());
+            StazioneMetereologica s = ControllerStazioneMetereologica.nuovaStazioneMetereologica(request, loc, u, part);
+            s.setIdStazioneMetereologica(idStazione);
+            System.out.println("id:"+idStazione);
+            String enteVecchio = request.getParameter("enteVecchio");
+                        System.out.println("ente:"+enteVecchio);
+
             s.getUbicazione().setIdUbicazione(ControllerDatabase.getIdUbicazioneStazione(idStazione));
 
             ControllerDatabase.modificaStazioneMetereologica(s, enteVecchio, idStazione);
@@ -257,6 +264,8 @@ public class Servlet extends HttpServlet {
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
+            ControllerUtente.aggiornaTracciaStazione(part, s, "modifica stazione");
+
             forward(request, response, "/stazione.jsp");
         } else if (operazione.equals("queryStazione")) {
             String content = HTMLStazioneMetereologica.listaQueryStazione();
@@ -268,11 +277,13 @@ public class Servlet extends HttpServlet {
 
             forward(request, response, "/mappaStazioni.jsp");
         } else if (operazione.equals("eliminaStazione")) {
-
+            Utente user=(Utente) session.getAttribute("partecipante");
             int id = Integer.parseInt(request.getParameter("idstazione"));
             System.out.println(request.getParameter("idstazione"));
             StazioneMetereologica s = ControllerDatabase.prendiStazioneMetereologica(id);
             ControllerDatabase.eliminaStazione(id, s.getUbicazione().getIdUbicazione());
+           ControllerUtente.aggiornaTracciaStazione(user, s, "elimina stazione");
+
 
         } //elaborazioni
         else if (operazione.equals("scegliRaggio")) {
@@ -620,20 +631,25 @@ public class Servlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().print(new Gson().toJson("ok"));
+               ControllerUtente.tracciaUtenteLogin(utente,"login");
+
             } else {
-                String content = "<h2>spiacente, il login non  Ã¨ corretto</h2>";
+                String content = "<h2>spiacente, il login non  è corretto</h2>";
                 HTMLContent c = new HTMLContent();
                 c.setContent(content);
                 request.setAttribute("HTMLc", c);
                 forward(request, response, "/utente.jsp");
             }
         } else if (operazione.equals("logout")) {
+            Utente u=(Utente)session.getAttribute("partecipante");
+            ControllerUtente.tracciaUtenteLogin(u,"logout");
             response.setHeader("Cache-Control", "no-cache, no-store");
             response.setHeader("Pragma", "no-cache");
             request.getSession().invalidate();
             if(loc.equals("en-US"))
             response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
-            else response.sendRedirect(request.getContextPath() + "/indexIT.jsp");
+            else response.sendRedirect(request.getContextPath() + "/indexENG.jsp");
+           
         } else if (operazione.equals("visualizzaTuttiUtenti")) {
             ArrayList<Utente> utenti = ControllerDatabase.PrendiTuttiUtenti();
             request.setAttribute("utenti", utenti);
@@ -918,7 +934,7 @@ public class Servlet extends HttpServlet {
         
         
         else if (operazione.equals("scegliProcessoAllegato")) {
-            String content = HTMLProcesso.mostraTuttiProcessiAllega();
+            String content = HTMLProcesso.mostraTuttiProcessiAllega(locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -975,7 +991,7 @@ public class Servlet extends HttpServlet {
             request.setAttribute("HTMLc", c);
             forward(request, response, "/processo.jsp");
         } else if (operazione.equals("scegliStazioneAllegato")) {
-            String content = HTMLStazioneMetereologica.scegliStazioneAllegati();
+            String content = HTMLStazioneMetereologica.scegliStazioneAllegati(locale);
             HTMLContent c = new HTMLContent();
             c.setContent(content);
             request.setAttribute("HTMLc", c);
@@ -1036,7 +1052,7 @@ public class Servlet extends HttpServlet {
             ControllerJson.creaJson(path);
             if(loc.equals("en-US"))
             forward(request, response, "/indexENG.jsp");
-            else forward(request, response, "/indexIT.jsp");
+            else forward(request, response, "/indexENG.jsp");
         } else if (operazione.equals("changeLanguage")) {
             loc = request.getParameter("loc");
             locale = new ControllerLingua(Locale.forLanguageTag(loc));

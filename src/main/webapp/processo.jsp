@@ -26,7 +26,8 @@
 <script src="js/selectize.js"></script>
 
 
-
+   <script src ="js/jquery.dataTables.min.js"></script>
+            <script src ="js/dataTables.bootstrap.js"></script> 
 
 
 
@@ -34,7 +35,9 @@
 <!--Google Maps-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2ZrcNbP1btezQE5gYgeA7_1IY0J8odCQ&sensor=false"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-       <script>
+  
+
+<script>
        $(document).ready(function () {
     function Dati(url, input, target, value, label, search, sort) {
         this.url = url;
@@ -156,8 +159,24 @@
     ;
     locazioneAmministrativa();
     locazioneIdrologica();
-});
-</script>
+});</script>
+
+ <script>
+                $(document).ready(function () {
+                    
+                    $('#tabella').dataTable({
+                        "language": {
+                        "lengthMenu": "Display _MENU_ process per page",
+                        "zeroRecords": "Nothing found - sorry",
+                        "info": "Showing page _PAGE_ of _PAGES_ ",
+                        "infoEmpty": "No process available",
+                        "infoFiltered": "(filtered from _MAX_ total process)"
+                    }
+                    });
+                });
+                    
+   
+            </script>
     </head>
     <body>
         <div class ="container">
