@@ -1,6 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.controller;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;

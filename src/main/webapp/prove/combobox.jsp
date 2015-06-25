@@ -7,7 +7,7 @@
 
         <link rel="stylesheet" href="../css/bootstrap.css" media="screen">
         <link rel="stylesheet" href="../css/nihilo.css" media="screen">
-        <jsp:useBean id="json" class="it.cnr.to.geoclimalp.dbalps.bean.json" scope="request" />
+        <jsp:useBean id="json" class="it.cnr.to.geoclimalp.dbalps.entity.json" scope="request" />
         <jsp:setProperty  name="json" property="*"/>
     </head>
     <body>

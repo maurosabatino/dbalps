@@ -11,9 +11,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Dati;
-import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Dati;
+import it.cnr.to.geoclimalp.dbalps.entity.Grafici;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
 
 public class ProvaController {
 	

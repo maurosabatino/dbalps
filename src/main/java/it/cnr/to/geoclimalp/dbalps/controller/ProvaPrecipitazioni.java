@@ -11,8 +11,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Dati;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Dati;
 
 public class ProvaPrecipitazioni {
 	static String url = "jdbc:postgresql://localhost:5432/dbalps";

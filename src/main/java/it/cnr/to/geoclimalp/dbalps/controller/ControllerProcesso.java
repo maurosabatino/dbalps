@@ -22,9 +22,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 
-import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.*;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.Utente;
 
 
 

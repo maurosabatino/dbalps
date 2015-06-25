@@ -2,10 +2,9 @@ package it.cnr.to.geoclimalp.dbalps.Servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

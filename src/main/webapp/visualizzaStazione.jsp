@@ -5,9 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="stazione" class="it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica" scope="request" />
+<jsp:useBean id="stazione" class="it.cnr.to.geoclimalp.dbalps.entity.stazione.StazioneMetereologica" scope="request" />
 <jsp:setProperty  name="stazione" property="*"/>
-<jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
+<jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.entity.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
 <!DOCTYPE html>
 <html>   

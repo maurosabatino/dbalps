@@ -1,7 +1,5 @@
 package it.cnr.to.geoclimalp.dbalps.html;
 
-import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
-
 public class HTMLScript {
 	public static String dialogMaps(){
 		StringBuilder sb = new StringBuilder();

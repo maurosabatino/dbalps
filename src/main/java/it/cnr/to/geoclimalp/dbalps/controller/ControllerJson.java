@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.*;
 
 
 import com.google.gson.Gson;

@@ -2,7 +2,7 @@
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 
-<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
+<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.entity.HTMLContent" scope="request" />
 <jsp:setProperty  name="HTMLc" property="*"/>
 
 <html>

@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.*;
 import it.cnr.to.geoclimalp.dbalps.controller.*;
 
 public class HTMLStazioneMetereologica {

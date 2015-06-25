@@ -20,12 +20,12 @@ import java.util.GregorianCalendar;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import it.cnr.to.geoclimalp.dbalps.bean.*;
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.*;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.*;
 import it.cnr.to.geoclimalp.dbalps.html.HTMLProcesso;
 
 public class ControllerDatabase {

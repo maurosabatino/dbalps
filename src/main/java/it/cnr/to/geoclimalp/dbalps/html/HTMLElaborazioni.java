@@ -3,9 +3,9 @@ package it.cnr.to.geoclimalp.dbalps.html;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Dati;
-import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Dati;
+import it.cnr.to.geoclimalp.dbalps.entity.Grafici;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
 
 
 public class HTMLElaborazioni {

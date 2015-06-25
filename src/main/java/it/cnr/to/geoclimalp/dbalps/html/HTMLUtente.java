@@ -1,6 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.html;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.Utente;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

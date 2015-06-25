@@ -1,9 +1,9 @@
 package it.cnr.to.geoclimalp.dbalps.controller;
 
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Coordinate;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.LocazioneIdrologica;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.LocazioneAmministrativa;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.Ubicazione;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.Coordinate;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.LocazioneIdrologica;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.LocazioneAmministrativa;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;

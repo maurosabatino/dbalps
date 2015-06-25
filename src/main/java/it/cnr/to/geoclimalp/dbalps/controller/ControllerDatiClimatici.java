@@ -11,9 +11,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.*;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Dati;
-import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Dati;
+import it.cnr.to.geoclimalp.dbalps.entity.Grafici;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
 
 
 public class ControllerDatiClimatici {

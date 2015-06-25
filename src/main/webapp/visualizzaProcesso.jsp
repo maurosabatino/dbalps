@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
  
-<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
+<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.entity.HTMLContent" scope="request" />
 <jsp:setProperty  name="HTMLc" property="*"/>
-<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.ProcessoCompleto" scope="request" />
+<jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.entity.processo.ProcessoCompleto" scope="request" />
 <jsp:setProperty  name="processo" property="*"/>
-<jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.bean.ubicazione.Ubicazione" scope="request" />
+<jsp:useBean id="ubicazione" class="it.cnr.to.geoclimalp.dbalps.entity.ubicazione.Ubicazione" scope="request" />
 <jsp:setProperty  name="ubicazione" property="*"/>
 <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
  <jsp:setProperty  name="locale" property="*"/>

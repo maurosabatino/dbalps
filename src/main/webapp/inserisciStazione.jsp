@@ -1,16 +1,16 @@
 
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.stazione.Sensori"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.stazione.Sensori"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica.*"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.stazione.StazioneMetereologica.*"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.Utente.Role"%>
 <!DOCTYPE html>
 <html>
     <head>
         <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
         <jsp:setProperty  name="locale" property="*"/>
-        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
+        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.entity.Utente.Utente" scope="session" />
         <jsp:setProperty  name="partecipante" property="*"/>
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>

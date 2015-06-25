@@ -1,6 +1,6 @@
 
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.Utente.Role"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.Utente.Utente"%>
 
 
        

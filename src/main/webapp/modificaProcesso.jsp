@@ -9,17 +9,17 @@
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*"%>
 <%@page import="it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.Role"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.Utente.Role"%>
 <!DOCTYPE html>
 <html>
     <head>
         <jsp:useBean id="locale" class="it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua" scope="session" />
         <jsp:setProperty  name="locale" property="*"/>
-        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.bean.Utente.Utente" scope="session" />
+        <jsp:useBean id="partecipante" class="it.cnr.to.geoclimalp.dbalps.entity.Utente.Utente" scope="session" />
         <jsp:setProperty  name="partecipante" property="*"/>
-        <jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.bean.processo.ProcessoCompleto" scope="session" />
+        <jsp:useBean id="processo" class="it.cnr.to.geoclimalp.dbalps.entity.processo.ProcessoCompleto" scope="session" />
         <jsp:setProperty  name="processo" property="*"/>
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>

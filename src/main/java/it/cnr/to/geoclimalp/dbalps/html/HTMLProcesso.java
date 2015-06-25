@@ -21,10 +21,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import it.cnr.to.geoclimalp.dbalps.bean.processo.Processo;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.StazioneMetereologica;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.*;
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.StazioneMetereologica;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.*;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerDatabase;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerJson;
 import it.cnr.to.geoclimalp.dbalps.controller.ControllerLingua;

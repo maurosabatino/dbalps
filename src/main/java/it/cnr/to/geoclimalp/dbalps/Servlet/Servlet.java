@@ -1,6 +1,6 @@
 package it.cnr.to.geoclimalp.dbalps.Servlet;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Allegato;
+import it.cnr.to.geoclimalp.dbalps.entity.Allegato;
 import it.cnr.to.geoclimalp.dbalps.html.*;
 
 import java.io.File;
@@ -34,13 +34,13 @@ import javax.servlet.http.Part;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import it.cnr.to.geoclimalp.dbalps.bean.Dati;
-import it.cnr.to.geoclimalp.dbalps.bean.Grafici;
-import it.cnr.to.geoclimalp.dbalps.bean.HTMLContent;
-import it.cnr.to.geoclimalp.dbalps.bean.processo.*;
-import it.cnr.to.geoclimalp.dbalps.bean.stazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.ubicazione.*;
-import it.cnr.to.geoclimalp.dbalps.bean.Utente.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Dati;
+import it.cnr.to.geoclimalp.dbalps.entity.Grafici;
+import it.cnr.to.geoclimalp.dbalps.entity.HTMLContent;
+import it.cnr.to.geoclimalp.dbalps.entity.processo.*;
+import it.cnr.to.geoclimalp.dbalps.entity.stazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.ubicazione.*;
+import it.cnr.to.geoclimalp.dbalps.entity.Utente.*;
 
 import it.cnr.to.geoclimalp.dbalps.controller.*;
 import static java.lang.Integer.parseInt;

@@ -1,13 +1,13 @@
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.attributiProcesso.TipologiaProcesso"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.processo.Processo"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.processo.attributiProcesso.TipologiaProcesso"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.processo.Processo"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="it.cnr.to.geoclimalp.dbalps.bean.Utente.*"%>
+<%@page import="it.cnr.to.geoclimalp.dbalps.entity.Utente.*"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
  
-<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.bean.HTMLContent" scope="request" />
+<jsp:useBean id="HTMLc" class="it.cnr.to.geoclimalp.dbalps.entity.HTMLContent" scope="request" />
 <jsp:setProperty  name="HTMLc" property="*"/>
 <jsp:setProperty  name="HTMLc" property="*"/>
 
